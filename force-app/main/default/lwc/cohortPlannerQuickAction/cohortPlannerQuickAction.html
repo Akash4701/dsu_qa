@@ -1,0 +1,573 @@
+<!-- cohortPlannerQuickAction.html -->
+<template>
+    <!-- Only show component if shouldShowComponent is true -->
+    <template if:true={shouldShowComponent}>
+        <div class="slds-card">
+            <div style="min-height: 60vh;">
+                <!-- Enhanced Header with SLDS -->
+                <div class="slds-card__header slds-grid slds-p-around_large" style="background: linear-gradient(135deg, #0176d3 0%, #014486 100%); color: white; border-radius: 0.75rem 0.75rem 0 0;">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-education" style="background-color: rgba(255,255,255,0.2); border-radius: 50%;">
+                                <lightning-icon icon-name="standard:education" size="large" variant="inverse"></lightning-icon>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <h1 class="slds-card__header-title slds-text-heading_large" style="color: white; font-weight: 700;">
+                                Cohort Capacity Planner
+                            </h1>
+                            <p class="slds-text-body_regular" style="color: rgba(255,255,255,0.9); margin-top: 0.25rem;">
+                                Search and manage course offerings by course code
+                            </p>
+                        </div>
+                    </header>
+                </div>
+
+                <div class="slds-card__body slds-card__body_inner">
+                    <template if:true={isLoading}>
+                        <div class="slds-align_absolute-center slds-p-around_xx-large">
+                            <div class="slds-text-align_center">
+                                <lightning-spinner alternative-text="Loading..." size="large"></lightning-spinner>
+                                <p class="slds-text-body_regular slds-m-top_medium slds-text-color_weak">
+                                    Searching course offerings...
+                                </p>
+                            </div>
+                        </div>
+                    </template>
+                    
+                    <template if:false={isLoading}>
+                        <!-- Enhanced Info Cards Section -->
+                        <div class="slds-grid slds-gutters slds-wrap slds-m-bottom_large">
+                            <!-- Cohort Type Card -->
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                <div class="slds-box slds-box_small slds-theme_default" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e5e5e5; border-radius: 0.5rem; height: 100%;">
+                                    <div class="slds-media slds-media_small">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-standard-groups slds-icon_small" style="background-color: #0176d3;">
+                                                <lightning-icon icon-name="standard:groups" size="small" variant="inverse"></lightning-icon>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <lightning-combobox
+                                                name="cohortType"
+                                                label="Cohort Type"
+                                                value={selectedCohortType}
+                                                placeholder="Select Cohort Type"
+                                                options={cohortTypeOptions}
+                                                onchange={handleCohortTypeChange}
+                                                disabled={isCohortTypeDisabled}
+                                                class="slds-form-element_small">
+                                            </lightning-combobox>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Current Course Code Card -->
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                <div class="slds-box slds-box_small slds-theme_default" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e5e5e5; border-radius: 0.5rem; height: 100%;">
+                                    <div class="slds-media slds-media_small">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-standard-task slds-icon_small" style="background-color: #0176d3;">
+                                                <lightning-icon icon-name="standard:task" size="small" variant="inverse"></lightning-icon>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h3 class="slds-text-heading_x-small slds-text-color_weak slds-m-bottom_xx-small">
+                                                CURRENT COURSE CODE
+                                            </h3>
+                                            <p class="slds-text-body_regular slds-text-color_default" style="color: #0176d3; font-weight: 600;">
+                                                {currentCourseCode}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Total Course Offerings Card -->
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                <div class="slds-box slds-box_small slds-theme_default" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e5e5e5; border-radius: 0.5rem; height: 100%;">
+                                    <div class="slds-media slds-media_small">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-standard-connected-apps slds-icon_small" style="background-color: #0176d3;">
+                                                <lightning-icon icon-name="standard:connected_apps" size="small" variant="inverse"></lightning-icon>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h3 class="slds-text-heading_x-small slds-text-color_weak slds-m-bottom_xx-small">
+                                                TOTAL OFFERINGS
+                                            </h3>
+                                            <p class="slds-text-body_regular slds-text-color_default" style="color: #0176d3; font-weight: 600;">
+                                                {totalCourseOfferings}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Show locked record count info banner (if any locked records exist) -->
+                        <template if:true={hasFrozenRecords}>
+                            <div class="slds-box slds-theme_info slds-m-bottom_medium" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border: 1px solid #3b82f6; border-radius: 0.5rem;">
+                                <div class="slds-media slds-media_small">
+                                    <div class="slds-media__figure">
+                                        <span class="slds-icon_container slds-icon_small" style="background-color: #3b82f6; border-radius: 50%;">
+                                            <lightning-icon icon-name="utility:info" size="x-small" variant="inverse"></lightning-icon>
+                                        </span>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <p class="slds-text-body_small slds-text-color_default">
+                                            <strong>{frozenRecordCount}</strong> of <strong>{totalCourseOfferings}</strong> course offerings are locked (cohorts already created). 
+                                            Locked offerings appear with a <lightning-icon icon-name="utility:lock" size="xx-small" class="slds-m-horizontal_xx-small"></lightning-icon> icon and cannot be selected.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Enhanced Search Section -->
+                        <div class="slds-box slds-theme_shade slds-m-bottom_medium" style="border-radius: 0.5rem;">
+                            <div class="slds-grid slds-gutters slds-wrap">
+                                <!-- Search Input with Icon -->
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12">
+                                    <div class="slds-form-element slds-has-divider_bottom-space">
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                                            <lightning-icon icon-name="utility:search" size="x-small" class="slds-input__icon slds-input__icon_left slds-icon-text-default"></lightning-icon>
+                                            <input
+                                                type="text"
+                                                class="slds-input"
+                                                placeholder={searchPlaceholder}
+                                                value={searchTerm}
+                                                oninput={handleSearchInputChange}
+                                                onkeydown={handleSearchKeyDown}
+                                                disabled={isSearchDisabled}
+                                                style="padding-left: 2.25rem; border-radius: 0.375rem; border: 2px solid #e5e5e5;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Action Buttons -->
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12">
+                                    <div class="slds-grid slds-gutters slds-grid_align-end">
+                                        <div class="slds-col">
+                                            <lightning-button
+                                                variant="brand"
+                                                label="Search"
+                                                onclick={handleSearchButtonClick}
+                                                disabled={isSearchDisabled}
+                                                class="slds-button_stretch">
+                                            </lightning-button>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-button
+                                                variant="neutral"
+                                                label="Clear"
+                                                onclick={handleCancelSearch}
+                                                disabled={isCancelDisabled}
+                                                class="slds-button_stretch">
+                                            </lightning-button>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-button
+                                                variant="success"
+                                                label="Create Planner"
+                                                onclick={handleCreateCohort}
+                                                disabled={disableCreateButton}
+                                                class="slds-button_stretch">
+                                            </lightning-button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Enhanced Selection Summary -->
+                            <template if:true={selectedCount}>
+                                <div class="slds-box slds-theme_success slds-m-bottom_medium" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 1px solid #a7f3d0; border-radius: 0.5rem;">
+                                    <div class="slds-grid slds-gutters slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                            <div class="slds-media slds-media_small">
+                                                <div class="slds-media__figure">
+                                                    <span class="slds-icon_container slds-icon_small" style="background-color: #059669; border-radius: 50%;">
+                                                        <lightning-icon icon-name="utility:multi_select_checkbox" size="x-small" variant="inverse"></lightning-icon>
+                                                    </span>
+                                                </div>
+                                                <div class="slds-media__body">
+                                                    <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_none">SELECTED OFFERINGS</p>
+                                                    <p class="slds-text-heading_small slds-text-color_default">{selectedCount}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                            <div class="slds-media slds-media_small">
+                                                <div class="slds-media__figure">
+                                                    <span class="slds-icon_container slds-icon_small" style="background-color: #059669; border-radius: 50%;">
+                                                        <lightning-icon icon-name="utility:connected_apps" size="x-small" variant="inverse"></lightning-icon>
+                                                    </span>
+                                                </div>
+                                                <div class="slds-media__body">
+                                                    <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_none">TOTAL STUDENTS</p>
+                                                    <p class="slds-text-heading_small slds-text-color_default">{totalStudentConnections}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- Enhanced Course Offerings Table -->
+                            <template if:true={isTableVisible}>
+                                <div class="slds-box slds-box_small slds-m-bottom_medium" style="border-radius: 0.5rem; padding: 0; overflow: hidden;">
+                                    <lightning-datatable
+                                        key-field="Id"
+                                        data={allCourseOfferings}
+                                        columns={columns}
+                                        selected-rows={selectedRowIds}
+                                        onrowselection={handleRowSelection}
+                                        max-row-selection={maxRowSelection}>
+                                    </lightning-datatable>
+                                </div>
+                            </template>
+
+                            <!-- Enhanced Empty States -->
+                            <template if:false={isTableVisible}>
+                                <div class="slds-illustration slds-illustration_large slds-p-around_xx-large">
+                                    <template if:true={selectedCohortType}>
+                                        <div class="slds-text-align_center">
+                                            <span class="slds-icon_container slds-icon_large" style="background-color: #f3f4f6;">
+                                                <lightning-icon icon-name="utility:search" size="large" class="slds-icon-text-light"></lightning-icon>
+                                            </span>
+                                            <h3 class="slds-illustration__header slds-text-heading_medium">Ready to Search</h3>
+                                            <p class="slds-text-body_regular">Enter a course code (e.g., "MBAG LSC 113") to find available offerings</p>
+                                        </div>
+                                    </template>
+                                    <template if:false={selectedCohortType}>
+                                        <div class="slds-text-align_center">
+                                            <span class="slds-icon_container slds-icon_large" style="background-color: #f3f4f6;">
+                                                <lightning-icon icon-name="utility:groups" size="large" class="slds-icon-text-light"></lightning-icon>
+                                            </span>
+                                            <h3 class="slds-illustration__header slds-text-heading_medium">Select Cohort Type</h3>
+                                            <p class="slds-text-body_regular">Choose a cohort type to begin searching for course offerings</p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Enhanced Capacity Input Modal -->
+            <template if:true={showModal}>
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" style="z-index: 9999;">
+                    <div class="slds-modal__container" style="width: 90vw; max-width: 1200px; max-height: 100vh;">
+                        <!-- Enhanced Modal Header -->
+                        <header class="slds-modal__header slds-p-around_large" style="background: linear-gradient(135deg, #0176d3 0%, #014486 100%); color: white; border-radius: 0.75rem 0.75rem 0 0;">
+                            <div class="slds-media slds-media_center">
+                                <div class="slds-media__figure">
+                                    <span class="slds-icon_container slds-icon_large" style=" border-radius: 50%;">
+                                        <lightning-icon icon-name="standard:planning" size="medium" variant="inverse"></lightning-icon>
+                                    </span>
+                                </div>
+                                <div class="slds-media__body">
+                                    <h2 class="slds-modal__title slds-text-heading_large" style="color: white; font-weight: 700;">
+                                        Create Cohort Capacity Planner
+                                    </h2>
+                                    <p class="slds-text-body_regular" style="color: rgba(255,255,255,0.9); margin-top: 0.25rem;">
+                                        Configure your cohort settings and capacity
+                                    </p>
+                                </div>
+                            </div>
+                            <lightning-button-icon 
+                                icon-name="utility:close" 
+                                onclick={closeModal} 
+                                alternative-text="close"
+                                variant="bare-inverse" 
+                                class="slds-modal__close"
+                                style="background-color: rgba(255,255,255,0.2); border-radius: 50%;">
+                            </lightning-button-icon>
+                        </header>
+
+                        <div class="slds-modal__content slds-p-around_large" style="background: #fafbfc;">
+                            <!-- Enhanced Summary Information -->
+                            <div class="slds-box slds-box_small slds-m-bottom_large" style="background: white; border-radius: 0.75rem; border: 1px solid #e5e5e5;">
+                                <div class="slds-grid slds-gutters slds-wrap">
+                                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                                        <div class="slds-media slds-media_small">
+                                            <div class="slds-media__figure">
+                                                <span class="slds-icon_container slds-icon_small" style="background-color: #0176d3; border-radius: 50%;">
+                                                    <lightning-icon icon-name="utility:multi_select_checkbox" size="x-small" variant="inverse"></lightning-icon>
+                                                </span>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <p class="slds-text-body_x-small slds-text-color_weak slds-m-bottom_none">COURSE OFFERINGS</p>
+                                                <p class="slds-text-heading_small slds-text-color_default">{selectedCount}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                                        <div class="slds-media slds-media_small">
+                                            <div class="slds-media__figure">
+                                                <span class="slds-icon_container slds-icon_small" style="background-color: #0176d3; border-radius: 50%;">
+                                                    <lightning-icon icon-name="utility:connected_apps" size="x-small" variant="inverse"></lightning-icon>
+                                                </span>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <p class="slds-text-body_x-small slds-text-color_weak slds-m-bottom_none">CONNECTIONS</p>
+                                                <p class="slds-text-heading_small slds-text-color_default">{totalStudentConnections}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                                        <div class="slds-media slds-media_small">
+                                            <div class="slds-media__figure">
+                                                <span class="slds-icon_container slds-icon_small" style="background-color: #0176d3; border-radius: 50%;">
+                                                    <lightning-icon icon-name="utility:groups" size="x-small" variant="inverse"></lightning-icon>
+                                                </span>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <p class="slds-text-body_x-small slds-text-color_weak slds-m-bottom_none">COHORT TYPE</p>
+                                                <p class="slds-text-heading_small slds-text-color_default">{selectedCohortType}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                                        <div class="slds-media slds-media_small">
+                                            <div class="slds-media__figure">
+                                                <span class="slds-icon_container slds-icon_small" style="background-color: #0176d3; border-radius: 50%;">
+                                                    <lightning-icon icon-name="utility:connected_apps" size="x-small" variant="inverse"></lightning-icon>
+                                                </span>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <p class="slds-text-body_x-small slds-text-color_weak slds-m-bottom_none">TOTAL SECTIONS</p>
+                                                <p class="slds-text-heading_small slds-text-color_default">{totalSections}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced Validation Error -->
+                            <template if:true={validationError}>
+                                <div class="slds-notify slds-notify_alert slds-theme_error slds-m-bottom_medium" role="alert" style="border-radius: 0.5rem;">
+                                    <span class="slds-assistive-text">Error</span>
+                                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                                    <h2 class="slds-text-heading_x-small">{validationError}</h2>
+                                </div>
+                            </template>
+
+                            <!-- Section-wise Configuration for Section cohort type -->
+                            <template if:true={isSectionCohortType}>
+                                <div class="slds-box slds-box_small" style="background: white; border-radius: 0.75rem; border: 1px solid #e5e5e5;">
+                                    <div class="slds-text-align_center slds-m-bottom_medium">
+                                        <h3 class="slds-text-heading_medium slds-text-color_default">Section Configuration</h3>
+                                        <p class="slds-text-body_regular slds-text-color_weak">Configure cohorts and capacity for each section</p>
+                                    </div>
+                                    
+                                    <!-- Loading sections indicator -->
+                                    <template if:true={isLoadingSections}>
+                                        <div class="slds-text-align_center slds-p-around_large">
+                                            <lightning-spinner alternative-text="Loading sections..." size="medium"></lightning-spinner>
+                                            <p class="slds-text-body_regular slds-m-top_small">Loading section data...</p>
+                                        </div>
+                                    </template>
+                                    
+                                    <!-- Section configuration table -->
+                                    <template if:true={hasSectionData}>
+                                        <template if:false={isLoadingSections}>
+                                            <div class="slds-scrollable_y" style="max-height: 300px;">
+                                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                                                    <thead>
+                                                        <tr class="slds-line-height_reset">
+                                                            <th class="slds-text-title_caps" scope="col">
+                                                                <div class="slds-truncate" title="Section">Section</div>
+                                                            </th>
+                                                            <th class="slds-text-title_caps" scope="col">
+                                                                <div class="slds-truncate" title="Students">Students</div>
+                                                            </th>
+                                                            <th class="slds-text-title_caps" scope="col">
+                                                                <div class="slds-truncate" title="Cohorts">Cohorts</div>
+                                                            </th>
+                                                            <th class="slds-text-title_caps" scope="col">
+                                                                <div class="slds-truncate" title="Capacity Per Cohort">Capacity Per Cohort</div>
+                                                            </th>
+                                                            <th class="slds-text-title_caps" scope="col">
+                                                                <div class="slds-truncate" title="Total Capacity">Total Capacity</div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <template for:each={sectionData} for:item="section">
+                                                            <tr key={section.name}>
+                                                                <td>
+                                                                    <div class="slds-truncate" title={section.name}>
+                                                                        <strong>{section.name}</strong>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="slds-text-align_center">
+                                                                        <span class="slds-badge slds-theme_info">{section.studentCount}</span>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="slds-form-element slds-form-element_small">
+                                                                        <input
+                                                                            type="number"
+                                                                            class="slds-input slds-input_small"
+                                                                            value={section.cohorts}
+                                                                            data-section={section.name}
+                                                                            onchange={handleSectionCohortsChange}
+                                                                            min="1"
+                                                                            step="1"
+                                                                            style="text-align: center; width: 80px;" />
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="slds-form-element slds-form-element_small">
+                                                                        <input
+                                                                            type="number"
+                                                                            class="slds-input slds-input_small"
+                                                                            value={section.capacityPerCohort}
+                                                                            data-section={section.name}
+                                                                            onchange={handleSectionCapacityChange}
+                                                                            min="0"
+                                                                            step="1"
+                                                                            style="text-align: center; width: 80px;" />
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="slds-text-align_center">
+                                                                        <span class="slds-badge slds-theme_success">{section.totalCapacity}</span>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            
+                                            <!-- Summary Section -->
+                                            <div class="slds-box slds-theme_success slds-m-top_medium" style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border: 1px solid #6ee7b7; border-radius: 0.5rem;">
+                                                <div class="slds-grid slds-gutters slds-wrap">
+                                                    <div class="slds-col slds-size_1-of-2">
+                                                        <div class="slds-text-align_center">
+                                                            <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_none">RECORDS TO CREATE</p>
+                                                            <p class="slds-text-heading_large" style="color: #059669; font-weight: 800;">{totalRecordsToCreate}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-col slds-size_1-of-2">
+                                                        <div class="slds-text-align_center">
+                                                            <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_none">TOTAL CAPACITY</p>
+                                                            <p class="slds-text-heading_large" style="color: #059669; font-weight: 800;">{totalCapacityAllSections}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    
+                                    <!-- No section data message -->
+                                    <template if:false={hasSectionData}>
+                                        <template if:false={isLoadingSections}>
+                                            <div class="slds-text-align_center slds-p-around_large">
+                                                <lightning-icon icon-name="utility:info" size="large" class="slds-icon-text-light"></lightning-icon>
+                                                <h3 class="slds-text-heading_small slds-m-top_medium">No Section Data Available</h3>
+                                                <p class="slds-text-body_regular slds-text-color_weak">
+                                                    Please ensure the selected course offerings have students with section assignments.
+                                                </p>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <!-- Enhanced Combined Cohort Configuration -->
+                            <template if:true={isCombinedCohortType}>
+                                <div class="slds-box slds-box_small" style="background: white; border-radius: 0.75rem; border: 1px solid #e5e5e5;">
+                                    <div class="slds-text-align_center slds-m-bottom_medium">
+                                        <h3 class="slds-text-heading_medium slds-text-color_default">Combined Cohort Configuration</h3>
+                                        <p class="slds-text-body_regular slds-text-color_weak">Set the number of cohorts and capacity per cohort</p>
+                                    </div>
+                                    
+                                    <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                            <div class="slds-form-element">
+                                                <lightning-input
+                                                    type="number"
+                                                    label="Number of Cohorts"
+                                                    value={cohorts}
+                                                    onchange={handleCohortsChange}
+                                                    step="1"
+                                                    min="1"
+                                                    required
+                                                    class="slds-input_medium">
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                            <div class="slds-form-element">
+                                                <lightning-input
+                                                    type="number"
+                                                    label="Capacity Per Cohort"
+                                                    value={capacityPerCohort}
+                                                    onchange={handleCapacityPerCohortChange}
+                                                    step="1"
+                                                    min="1"
+                                                    required
+                                                    class="slds-input_medium">
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Summary Section for Combined Type -->
+                                    <template if:true={showCapacityCalculation}>
+                                        <div class="slds-box slds-theme_success slds-m-top_medium" style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border: 1px solid #6ee7b7; border-radius: 0.5rem;">
+                                            <div class="slds-grid slds-gutters slds-wrap">
+                                                <div class="slds-col slds-size_1-of-2">
+                                                    <div class="slds-text-align_center">
+                                                        <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_none">RECORDS TO CREATE</p>
+                                                        <p class="slds-text-heading_large" style="color: #059669; font-weight: 800;">{cohorts}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-2">
+                                                    <div class="slds-text-align_center">
+                                                        <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_none">TOTAL CAPACITY</p>
+                                                        <p class="slds-text-heading_large" style="color: #059669; font-weight: 800;">{totalCapacityCalculated}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Enhanced Modal Footer -->
+                        <footer class="slds-modal__footer slds-p-around_large" style="background: white; border-top: 1px solid #e5e5e5;">
+                            <div class="slds-grid slds-grid_align-end slds-gutters">
+                                <div class="slds-col slds-no-flex">
+                                    <lightning-button 
+                                        variant="neutral" 
+                                        label="Cancel" 
+                                        onclick={closeModal}
+                                        class="slds-button_neutral">
+                                    </lightning-button>
+                                </div>
+                                <div class="slds-col slds-no-flex">
+                                    <lightning-button 
+                                        variant="brand" 
+                                        label="Create Cohort Planner" 
+                                        onclick={confirmCreate} 
+                                        disabled={disableCreateModalButton}
+                                        class="slds-button_brand">
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"></div>
+            </template>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,226 @@
+<apex:page standardController="Contact"
+           extensions="StudentHallTicketController"
+           renderAs="pdf"
+           applyHtmlTag="false"
+           showHeader="false"
+           sidebar="false">
+
+<html>
+<head>
+    <style>
+        @page { size: A4; margin: 12mm; }
+
+        body {
+            font-family: Times New Roman, serif;
+            font-size: 11pt;
+            color: #000;
+        }
+
+        /* Header */
+        table.headerTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 3mm;
+        }
+        .logoCell { width: 25%; vertical-align: middle; }
+        .titleCell { width: 50%; text-align: center; font-weight: bold; vertical-align: middle; }
+        .genCell { width: 25%; text-align: right; font-size: 9pt; vertical-align: middle; }
+
+        .topRule { border-top: 1px solid #000; margin: 3mm 0; }
+
+        .mainTitle { font-size: 14pt; font-weight: bold; }
+
+        /* Candidate block */
+        table.infoTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2mm 0 6mm 0;
+        }
+        .infoLeft { width: 75%; vertical-align: top; }
+        .infoRight { width: 25%; vertical-align: top; text-align: right; }
+
+        /* Label/Value table prevents overlap in PDF */
+        table.kv {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table.kv td {
+            padding: 2mm 0;
+            vertical-align: top;
+        }
+        td.kLabel {
+            width: 95px;              /* enough for PROGRAMME */
+            font-weight: bold;
+            white-space: nowrap;      /* keep label in one line */
+        }
+        td.kColon {
+            width: 8px;
+            white-space: nowrap;
+        }
+        td.kValue {
+            word-wrap: break-word;
+        }
+
+        .photoBox {
+            width: 120px;
+            height: 140px;
+            border: 1px solid #000;
+            display: block;
+        }
+
+        /* Exam table */
+        table.exam {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10pt;
+            margin: 2mm 0 3mm 0;
+        }
+        table.exam th, table.exam td {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+            vertical-align: top;
+        }
+        table.exam th { font-weight: bold; }
+        .leftAlign { text-align: left !important; }
+
+        .note { font-size: 9pt; margin-top: 2mm; }
+
+        .sectionTitle { font-weight: bold; margin-top: 6mm; margin-bottom: 2mm; }
+        .instructions ol { margin: 0; padding-left: 18px; font-size: 9.5pt; }
+        .instructions li { margin: 2mm 0; text-align: justify; }
+
+        .footerLine { border-top: 1px solid #000; margin-top: 6mm; margin-bottom: 3mm; }
+        .footerText { font-size: 9pt; text-align: center; }
+        .generatedFooter { font-size: 9pt; text-align: right; margin-top: 3mm; }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <table class="headerTable">
+        <tr>
+            <td class="logoCell">
+                <!-- If Static Resource is a direct image -->
+                <apex:image url="{!URLFOR($Resource.DSU_Updated_Logo)}" height="45" />
+
+                <!-- If Static Resource is a ZIP, use:
+                     <apex:image url="{!URLFOR($Resource.DSU_Updated_Logo, 'logo.png')}" height="45"/>
+                -->
+            </td>
+            <div class="topRule"></div>
+
+            <td class="titleCell">
+                <div class="mainTitle">Online Degree Programme E-Admit Card</div>
+            </td>
+
+           
+        </tr>
+    </table>
+
+    <div class="topRule"></div>
+
+    <!-- Candidate info + photo -->
+    <table class="infoTable">
+        <tr>
+            <td class="infoLeft">
+                <table class="kv">
+                    <tr>
+                        <td class="kLabel">ROLL NO.</td><td class="kColon">:</td><td class="kValue">{!rollNo}</td>
+                    </tr>
+                    <tr>
+                        <td class="kLabel">NAME</td><td class="kColon">:</td><td class="kValue">{!studentName}</td>
+                    </tr>
+                    <tr>
+                        <td class="kLabel">PROGRAMME</td><td class="kColon">:</td><td class="kValue">{!programName}</td>
+                    </tr>
+                </table>
+            </td>
+
+            <td class="infoRight">
+                <apex:outputPanel rendered="{!hasPhoto}">
+                    <apex:image url="{!studentPhotoUrl}" styleClass="photoBox"/>
+                </apex:outputPanel>
+
+                <apex:outputPanel rendered="{!!hasPhoto}">
+                    <span class="photoBox"></span>
+                </apex:outputPanel>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Exam schedule table -->
+    <table class="exam">
+        <thead>
+            <tr>
+                <th style="width:6%;">S.No.</th>
+                <th style="width:6%;">Sem</th>
+                <th style="width:34%;">Subject Name</th>
+                <th style="width:13%;">Subject Code</th>
+                <th style="width:11%;">Exam Type</th>
+                <th style="width:14%;">Date</th>
+                <th style="width:16%;">Timing (IST)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <apex:repeat value="{!rows}" var="r">
+                <tr>
+                    <td>{!r.sno}</td>
+                    <td>{!r.sem}</td>
+                    <td class="leftAlign">{!r.subjectName}</td>
+                    <td>{!r.subjectCode}</td>
+                    <td>{!r.examType}</td>
+                    <td>{!r.dateStr}<br/>({!r.dayStr})</td>
+                    <td>{!r.timeStr}</td>
+                </tr>
+            </apex:repeat>
+        </tbody>
+    </table>
+
+   
+
+    <div class="sectionTitle">Important instructions</div>
+    <div class="instructions">
+        <ol>
+            <li>You are advised to verify your name and photograph carefully.</li>
+            <li>You are allowed to appear only in those papers which are shown above.</li>
+            <li>You should contact the DSU helpdesk if there is a mismatch in the subjects or electives printed on the e-admit card.</li>
+            <li>Please follow the steps below to access the Examination Portal:
+                <ol>
+                    <li>Log in to the Student Portal using your credentials.</li>
+                    <li>Navigate to the Examination section.</li>
+                    <li>Click on Take Exams.</li>
+                    <li>Click on Access Code Tantra button.</li>
+                </ol>
+            </li>
+            <li>All the examinations will be remotely monitored by the University and proctored for the duration of the examination.</li>
+            <li>Use a high-speed Internet-connected Windows OS-supported Desktop/Laptop, which is equipped with a webcam &amp; microphone, to take the online proctored examination.</li>
+            <li>Ensure that both webcam and microphone are always ON. At any point, if your webcam or microphone is not connected or functional, the learner will be booked for unfair means/malpractice.</li>
+            <li>Learners should not move from their place once the examination has commenced. Learners who violate this will be booked under unfair means/malpractice, and their examination will get auto-submitted.</li>
+            <li>You are not allowed to use external calculators, statistical tables, scientific tables, mobile phones, tablets, search engines, AI tools, or other laptops/devices/gadgets as that would be considered unfair assistance and learners would be booked for unfair means/malpractice.</li>
+          
+            <li>In all MCQs, each question will have only one correct answer. The answer must be indicated by selecting the appropriate option.</li>
+            <li>Descriptive answers must be typed directly into the examination tool.</li>
+            <li>Your examination will end once you click submit and exit the examination.</li>
+            <li>Students should be dressed decently in formal/smart casuals /semi-formals while appearing for examinations.</li>
+            <li>Please go through all the important instructions given at the start of the examinations.</li>
+ </ol>
+           
+    </div>
+
+    <div class="footerLine"></div>
+    <div class="footerText">
+        Please reach us at helpdesk@dsuonline.com or call us at +91 9880148004 for general queries or technical queries.
+        <br/><br/>
+        Wishing you all the best for the examinations!
+    </div>
+
+    <!-- Footer Generated On (matches your sample layout) -->
+    <div class="generatedFooter">
+        Generated On: {!generatedOn}
+    </div>
+
+</body>
+</html>
+</apex:page>

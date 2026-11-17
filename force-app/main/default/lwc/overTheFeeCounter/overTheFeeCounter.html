@@ -1,0 +1,380 @@
+<template>
+    <lightning-card title="Fees">
+
+
+<!-- SEARCH BAR -->
+<div class="slds-var-p-horizontal_medium slds-var-p-vertical_small">
+    <div class="slds-grid slds-gutters slds-grid_vertical-align-end">
+        <div class="slds-col slds-size_8-of-12">
+            <lightning-input name="usn" label="Enter Student's USN Number"
+                value={usnNumber} onchange={handleChange} placeholder="Enter USN Number">
+            </lightning-input>
+        </div>
+        <div class="slds-col slds-grow-none">
+            <lightning-button label="Search" variant="brand" onclick={handleSearch} disabled={isLoading}>
+            </lightning-button>
+            <lightning-button label="Bulk Import" variant="brand" onclick={handleBulkImport}
+                class="slds-var-m-left_small">
+            </lightning-button>
+        </div>
+    </div>
+</div>
+
+        <!-- LOADING SPINNER -->
+        <template if:true={isLoading}>
+            <div class="slds-var-p-around_medium slds-align_absolute-center">
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- STUDENT INFO & FEE DATATABLE -->
+        <template if:true={studentData}>
+            <div class="slds-var-p-around_medium">
+                <!-- Student Info -->
+                <div class="slds-var-p-bottom_medium">
+                    <h3 class="slds-text-heading_small">Student Information</h3>
+                    <p style="font-size: 1.1em;"><strong>Name:</strong> {studentData.studentName}</p>
+                    <p style="font-size: 1.1em;"><strong>Fee Preference:</strong> {studentData.feePreference}</p>
+                    <p style="font-size: 1.1em;"><strong>CRM Receipt Number:</strong> {studentData.crmReceiptNumber}</p>
+                    <p style="font-size: 1.1em;"><strong>Transaction ID:</strong> {studentData.transactionId}</p>
+                </div>
+
+
+
+                <!-- Payment Details Section -->
+                <div class="slds-var-p-bottom_medium">
+                    <h3 class="slds-text-heading_small slds-var-p-bottom_small">Payment Details</h3>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <!-- Payment Date -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                            <lightning-input type="date" name="paymentDate" label="Payment Date" value={paymentDate}
+                                onchange={handlePaymentDateChange} disabled={isPaymentFieldsDisabled} required>
+                            </lightning-input>
+                        </div>
+
+                        <!-- Payment Option -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                            <lightning-combobox name="paymentOption" label="Payment Option"
+                                value={selectedPaymentOption} placeholder="Select Payment Method"
+                                options={paymentOptions} onchange={handlePaymentOptionChange}
+                                disabled={isPaymentFieldsDisabled} required>
+                            </lightning-combobox>
+                        </div>
+
+                        <!-- Payment Amount -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                            <lightning-input type="number" name="paymentAmount" label="Enter Paying Amount"
+                                value={paymentAmount} onchange={handlePaymentAmountChange} formatter="currency"
+                                step="0.01" min="0" placeholder="0.00" disabled={isPaymentFieldsDisabled} required>
+                            </lightning-input>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                            <lightning-input name="transactionId" label="Transaction ID" value={transactionId}
+                                onchange={handleTransactionIdChange} placeholder="Enter Transaction ID"
+                                disabled={isPaymentFieldsDisabled}>
+                            </lightning-input>
+                            <!-- Error message for Transaction ID -->
+                            <template if:true={transactionIdError}>
+                                <div class="slds-form-element__help slds-text-color_error">
+                                    {transactionIdError}
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- CRM Receipt Number -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                            <lightning-input name="crmReceiptNumber" label="CRM Receipt Number" value={crmReceiptNumber}
+                                onchange={handleCrmReceiptNumberChange} placeholder="Enter CRM Receipt Number"
+                                disabled={isPaymentFieldsDisabled}>
+                            </lightning-input>
+                            <!-- Error message for CRM Receipt Number -->
+                            <template if:true={crmReceiptNumberError}>
+                                <div class="slds-form-element__help slds-text-color_error">
+                                    {crmReceiptNumberError}
+                                </div>
+                            </template>
+                        </div>
+
+
+                        <!-- CRM Receipt Number -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                            <lightning-input name="settlementUTR" label="Settlement UTR" value={settlementUTR}
+                                onchange={handlesettlementUTRChange} placeholder="Enter Settlement UTR Number"
+                                disabled={isPaymentFieldsDisabled}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fee Details Data Table -->
+                <template if:true={hasFeeRecords}>
+                    <div class="slds-var-p-bottom_medium">
+                        <!-- Payment Completion Message -->
+                        <template if:true={showPaymentCompleteMessage}>
+                            <div class="slds-notify slds-notify_alert slds-alert_warning slds-var-m-bottom_medium">
+                                <span class="slds-assistive-text">Warning</span>
+                                <h2>Payment already completed for this fee item. No further action is required.</h2>
+                            </div>
+                        </template>
+
+                        <h3 class="slds-text-heading_small slds-var-p-bottom_small">Fee Payment Details</h3>
+                        <lightning-datatable key-field="id" data={feeTableData} columns={dynamicFeeTableColumns}
+                            selected-rows={selectedRows} onrowselection={handleRowSelection} sorted-by={sortedBy}
+                            sorted-direction={sortedDirection} onsort={handleSort}>
+                        </lightning-datatable>
+                    </div>
+                </template>
+
+                <!-- No Fee Records Message -->
+                <template if:false={hasFeeRecords}>
+                    <div class="slds-var-p-around_medium slds-align_absolute-center">
+                        <p>No fee records found for this student.</p>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <!-- ACTION BUTTONS -->
+        <div class="slds-var-p-bottom_medium slds-align_absolute-center">
+            <template if:true={hasPaymentChanges}>
+                <lightning-button label="Generate Receipt" variant="brand" onclick={handlePayFee} class="slds-var-m-right_small"
+                    disabled={isPayFeeDisabled}>
+                </lightning-button>
+            </template>
+        </div>
+
+        <!-- BULK FEE PAYMENT MODAL -->
+        <template if:true={showBulkImport}>
+            <section role="dialog" tabindex="-1" aria-modal="true"
+                aria-labelledby="bulk-payment-heading"
+                class="slds-modal slds-fade-in-open bulk-modal">
+                <div class="slds-modal__container">
+
+                    <header class="slds-modal__header">
+                        <lightning-button-icon icon-name="utility:close" onclick={handleCloseBulkImport}
+                            alternative-text="Close" variant="bare-inverse" class="slds-modal__close"
+                            disabled={isBulkImporting}>
+                        </lightning-button-icon>
+                        <h2 id="bulk-payment-heading" class="slds-modal__title slds-hyphenate">
+                            Bulk Fee Payment
+                        </h2>
+                    </header>
+
+                    <div class="slds-modal__content slds-var-p-around_medium">
+                        <p class="slds-var-m-bottom_medium">
+                            Upload a CSV file to process fee payments for multiple students at once.
+                            Download the sample template to view the required columns. All columns are mandatory.
+                        </p>
+
+                        <lightning-button label="Download CSV Sample" icon-name="utility:download"
+                            onclick={handleDownloadSample}>
+                        </lightning-button>
+
+                        <template if:true={showFileInput}>
+                            <div class="slds-var-m-top_medium">
+                                <lightning-input type="file" label="Upload CSV" accept=".csv"
+                                    onchange={handleFileChange} required>
+                                </lightning-input>
+                            </div>
+                        </template>
+
+                        <template if:false={showFileInput}>
+                            <div class="slds-var-m-top_medium slds-grid slds-grid_vertical-align-center">
+                                <p class="slds-col slds-grow-none slds-var-m-right_small">
+                                    Selected file: <strong>{csvFileName}</strong>
+                                </p>
+                                <lightning-button label="Change File" icon-name="utility:replace"
+                                    onclick={handleChangeFile} disabled={isBulkImporting}>
+                                </lightning-button>
+                            </div>
+                        </template>
+
+                        <template if:true={isBulkImporting}>
+                            <p class="slds-var-m-top_small slds-text-color_weak">{bulkProgress}</p>
+                        </template>
+
+                        <template if:true={bulkImportError}>
+                            <div class="slds-text-color_error slds-var-m-top_small bulk-error">{bulkImportError}</div>
+                        </template>
+
+                                                <template if:true={hasBulkRows}>
+                            <div class="slds-var-m-top_medium">
+
+                                <template if:true={isEditingRow}>
+                                    <div class="slds-box slds-theme_shade slds-var-m-bottom_medium">
+                                        <p class="slds-text-heading_small slds-var-m-bottom_small">{editTitle}</p>
+                                        <div class="slds-grid slds-gutters slds-wrap">
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                                <lightning-input label="Fee Assignment" data-field="feeAssignment"
+                                                    value={editDraft.feeAssignment} onchange={handleEditFieldChange}
+                                                    required>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                                <lightning-input label="Payment Date (DD/MM/YYYY)" data-field="paymentDate"
+                                                    value={editDraft.paymentDate} onchange={handleEditFieldChange}
+                                                    required>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                                <lightning-combobox label="Payment Option" data-field="paymentOption"
+                                                    value={editDraft.paymentOption} options={paymentOptions}
+                                                    onchange={handleEditFieldChange} required>
+                                                </lightning-combobox>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                                <lightning-input label="Payment Amount" data-field="paymentAmount"
+                                                    value={editDraft.paymentAmount} onchange={handleEditFieldChange}
+                                                    required>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                                <lightning-input label="Transaction ID" data-field="transactionId"
+                                                    value={editDraft.transactionId} onchange={handleEditFieldChange}
+                                                    required>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                                <lightning-input label="CRM Receipt Number" data-field="crmReceiptNumber"
+                                                    value={editDraft.crmReceiptNumber} onchange={handleEditFieldChange}
+                                                    required>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                                <lightning-input label="Settlement UTR" data-field="settlementUTR"
+                                                    value={editDraft.settlementUTR} onchange={handleEditFieldChange}
+                                                    required>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                        <template if:true={editError}>
+                                            <div class="slds-text-color_error slds-var-m-top_small">{editError}</div>
+                                        </template>
+                                        <div class="slds-var-m-top_small">
+                                            <lightning-button label="Cancel" onclick={handleCancelEdit}></lightning-button>
+                                            <lightning-button label="Save" variant="brand" class="slds-var-m-left_small"
+                                                onclick={handleSaveEdit}>
+                                            </lightning-button>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <div class="slds-grid slds-grid_vertical-align-center slds-var-m-bottom_x-small">
+                                    <p class="slds-text-heading_small slds-col">{bulkSummary}</p>
+                                    <lightning-button label="Download Results" icon-name="utility:download"
+                                        onclick={handleDownloadResults}>
+                                    </lightning-button>
+                                </div>
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th scope="col"><div class="slds-truncate">Row</div></th>
+                                            <th scope="col"><div class="slds-truncate">USN</div></th>
+                                            <th scope="col"><div class="slds-truncate">Fee Assignment</div></th>
+                                            <th scope="col"><div class="slds-truncate">Status</div></th>
+                                            <th scope="col"><div>Reason / Details</div></th>
+                                            <th scope="col"><div class="slds-truncate">Action</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={displayRows} for:item="r">
+                                            <tr key={r.key}>
+                                                <td>{r.rowNumber}</td>
+                                                <td>{r.usn}</td>
+                                                <td>{r.feeAssignment}</td>
+                                                <td class={r.statusClass}><strong>{r.status}</strong></td>
+                                                <td class="slds-cell-wrap">
+                                                    {r.message}
+                                                    <template if:true={r.receiptUrl}>
+                                                        <a href={r.receiptUrl} target="_blank" rel="noopener noreferrer">View receipt</a>
+                                                    </template>
+                                                </td>
+                                                <td>
+                                                    <template if:true={r.canEdit}>
+                                                        <lightning-button label="Edit" variant="base"
+                                                            data-key={r.key} onclick={handleEditRow}>
+                                                        </lightning-button>
+                                                    </template>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </template>
+                    </div>
+
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Close" onclick={handleCloseBulkImport}
+                            disabled={isBulkImporting}></lightning-button>
+                        <lightning-button label="Validate" variant="neutral"
+                            class="slds-var-m-left_small" onclick={handleBulkValidate}
+                            disabled={isValidateDisabled}>
+                        </lightning-button>
+                        <lightning-button label="Import" variant="brand"
+                            class="slds-var-m-left_small" onclick={handleBulkProcess}
+                            disabled={isImportDisabled}>
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <!-- PDF MODAL POPUP -->
+        <template if:true={showPdfViewer}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal Header -->
+                    <header class="slds-modal__header">
+                        <lightning-button-icon icon-name="utility:close" onclick={closePdfViewer}
+                            alternative-text="Close" variant="bare-inverse" class="slds-modal__close">
+                        </lightning-button-icon>
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Generated Receipt</h2>
+                    </header>
+
+                    <!-- Modal Body -->
+                    <div class="slds-modal__content slds-var-p-around_medium pdf-modal-body">
+                        <!-- Loading state for PDF -->
+                        <template if:true={isPdfLoading}>
+                            <div class="slds-align_absolute-center slds-var-p-around_large">
+                                <lightning-spinner alternative-text="Loading PDF..." size="large"></lightning-spinner>
+                                <p class="slds-var-m-top_medium slds-text-align_center">Loading receipt PDF...</p>
+                            </div>
+                        </template>
+
+                        <!-- PDF Error state -->
+                        <template if:true={pdfError}>
+                            <div class="slds-var-p-around_medium">
+                                <div class="slds-notify slds-notify_alert slds-alert_error slds-var-m-bottom_medium">
+                                    <span class="slds-assistive-text">Error</span>
+                                    <h2>Unable to load PDF in browser. Please download it to view.</h2>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- PDF iframe -->
+                        <template if:true={pdfUrl}>
+                            <template if:false={pdfError}>
+                                <div class="pdf-container-modal">
+                                    <iframe src={enhancedPdfUrl} class="pdf-iframe-modal" onload={handlePdfLoad}
+                                        onerror={handlePdfError} title="Receipt PDF">
+                                    </iframe>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Close" variant="neutral" onclick={closePdfViewer}>
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </lightning-card>
+</template>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category__c</fullName>
+    <label>Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Profile Information</fullName>
+                <default>false</default>
+                <label>Profile Information</label>
+            </value>
+            <value>
+                <fullName>etc</fullName>
+                <default>false</default>
+                <label>etc</label>
+            </value>
+            <value>
+                <fullName>Service Request Tracking</fullName>
+                <default>false</default>
+                <label>Service Request Tracking</label>
+            </value>
+            <value>
+                <fullName>Delays and Escalations</fullName>
+                <default>false</default>
+                <label>Delays and Escalations</label>
+            </value>
+            <value>
+                <fullName>Fees and Payments</fullName>
+                <default>false</default>
+                <label>Fees and Payments</label>
+            </value>
+            <value>
+                <fullName>Request Modifications</fullName>
+                <default>false</default>
+                <label>Request Modifications</label>
+            </value>
+            <value>
+                <fullName>Required Documents</fullName>
+                <default>false</default>
+                <label>Required Documents</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

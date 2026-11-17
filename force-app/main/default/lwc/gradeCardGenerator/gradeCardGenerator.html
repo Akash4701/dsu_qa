@@ -1,0 +1,25 @@
+<template>
+    <lightning-quick-action-panel header="Generate Grade Cards">
+        <lightning-spinner if:true={isLoading} variant="brand" alternative-text="Loading..."></lightning-spinner>
+
+        <div if:true={isInitialized}>
+            <p>Click <b>"Generate"</b> to create Grade Card PDFs for all students under this Term.</p>
+            <p><b>Note:</b> For large batches, Salesforce PDF generation has limits. You may need to run multiple times.</p>
+        </div>
+
+        <div slot="footer">
+            <lightning-button
+                variant="neutral"
+                label="Cancel"
+                onclick={handleCancel}>
+            </lightning-button>
+            <lightning-button
+                variant="brand"
+                label="Generate"
+                class="slds-m-left_x-small"
+                onclick={handleGenerate}
+                disabled={isLoading}>
+            </lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>

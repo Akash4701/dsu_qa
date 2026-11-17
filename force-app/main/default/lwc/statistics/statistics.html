@@ -1,0 +1,38 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-25-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered stats-table">
+        <thead>
+            <tr class="slds-line-height_reset">
+                <th scope="col">
+                    <div class="slds-truncate" title="Statistics">Statistics</div>
+                </th>
+                <th scope="col" class="value-col">
+                    <div class="slds-truncate" title="Value">Value</div>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <template for:each={cardsData} for:item="card">
+                <tr key={card.id}>
+                    <td>
+                        <div class="slds-truncate" title={card.statistics}>
+                            {card.statistics}
+                        </div>
+                    </td>
+                    <td class="value-col">
+                        <div class="slds-truncate" title={card.marks}>
+                            {card.marks}
+                        </div>
+                    </td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</template>

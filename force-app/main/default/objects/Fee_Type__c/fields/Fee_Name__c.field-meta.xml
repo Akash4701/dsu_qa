@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fee_Name__c</fullName>
+    <label>Fee Name</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Application Fee</fullName>
+                <default>false</default>
+                <label>Application Fee</label>
+            </value>
+            <value>
+                <fullName>Course fees</fullName>
+                <default>false</default>
+                <label>Course fees</label>
+            </value>
+            <value>
+                <fullName>Entrance Exam Fees</fullName>
+                <default>false</default>
+                <label>Entrance Exam Fees</label>
+            </value>
+            <value>
+                <fullName>Counselling Fee</fullName>
+                <default>false</default>
+                <label>Counselling Fee</label>
+            </value>
+            <value>
+                <fullName>Registration Fee</fullName>
+                <default>false</default>
+                <label>Registration Fee</label>
+            </value>
+            <value>
+                <fullName>Counselling Registration Fee</fullName>
+                <default>false</default>
+                <label>Counselling Registration Fee</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

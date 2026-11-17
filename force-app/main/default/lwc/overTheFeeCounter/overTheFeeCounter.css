@@ -1,0 +1,144 @@
+/* overTheFeeCounter.css */
+
+/* Modal PDF Container */
+.pdf-container-modal {
+    height: 70vh;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-iframe-modal {
+    border: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+
+/* Modal Body Adjustments */
+.pdf-modal-body {
+    height: 70vh;
+    max-height: 70vh;
+    overflow: hidden;
+    padding: 0 !important;
+}
+
+/* Make modal larger for better PDF viewing */
+.slds-modal__container {
+    max-width: 90vw;
+    max-height: 90vh;
+    width: 90vw;
+    height: 90vh;
+}
+
+/* Modal content adjustments */
+.slds-modal__content {
+    overflow: hidden;
+}
+
+/* Loading spinner in modal */
+.pdf-modal-body .slds-align_absolute-center {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Original styles for regular containers */
+.pdf-container {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-container iframe {
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.pdf-container iframe:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading animation for PDF */
+.slds-spinner_container {
+    position: relative;
+}
+
+/* Custom styles for better visual hierarchy */
+.fee-section {
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    background: #fafafa;
+    margin-bottom: 16px;
+}
+
+.payment-success {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+/* Responsive adjustments for modal */
+@media (max-width: 768px) {
+    .slds-modal__container {
+        max-width: 95vw;
+        max-height: 85vh;
+        width: 95vw;
+        height: 85vh;
+    }
+    
+    .pdf-modal-body {
+        height: 60vh;
+        max-height: 60vh;
+    }
+    
+    .pdf-container-modal {
+        height: 60vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .slds-modal__container {
+        max-width: 98vw;
+        max-height: 80vh;
+        width: 98vw;
+        height: 80vh;
+    }
+
+    .pdf-modal-body {
+        height: 50vh;
+        max-height: 50vh;
+    }
+
+    .pdf-container-modal {
+        height: 50vh;
+    }
+}
+
+/* ---------- Bulk Fee Payment modal (overrides the PDF-modal sizing above) ---------- */
+.bulk-modal .slds-modal__container {
+    width: 50rem;
+    max-width: 95vw;
+    height: auto;
+    max-height: 90vh;
+}
+
+.bulk-modal .slds-modal__content {
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
+.bulk-error {
+    white-space: pre-line;
+    max-height: 200px;
+    overflow-y: auto;
+}

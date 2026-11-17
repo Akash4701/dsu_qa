@@ -1,0 +1,399 @@
+<apex:page controller="GradeCardController"
+           renderAs="pdf"
+           showHeader="false"
+           sidebar="false"
+           standardStylesheets="false"
+           applyHtmlTag="false"
+           applyBodyTag="false">
+
+<html>
+<head>
+    <style>
+        /*  MUST specify paper + landscape */
+        @page {
+            size: A4 landscape;
+            margin: 8mm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 9pt;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .center { text-align: center; }
+        .right { text-align: right; }
+        .bold { font-weight: 700; }
+
+        /* ===== FRONT PAGE HEADER ===== */
+        .headerBlock { margin-top: 0; margin-bottom: 3px; }
+        .uni  { font-size: 17pt; font-weight: 800; letter-spacing: 0.5px; line-height: 1.05; }
+        .addr { font-size: 8.5pt; margin-top: 1px; line-height: 1.1; }
+        .ecard { font-size: 11.5pt; font-weight: 800; text-decoration: underline; margin-top: 3px; line-height: 1.05; }
+        .prog { font-size: 10.2pt; font-weight: 800; margin-top: 3px; line-height: 1.1; }
+
+        /* top row: seal left, photo right */
+        table.toprow { width:100%; border-collapse: collapse; margin-top: 0; margin-bottom: 3px; table-layout: fixed; }
+        table.toprow td { vertical-align: top; padding: 0; }
+        .sealCell { width: 30%; }
+        .midCell { width: 46%; }
+        .photoCell { width: 24%; text-align: right; }
+        .gcCell { padding-top: 4px; }
+
+        .logoWrap { display: inline-block; margin-top: 1px; }
+        .logoImg { width: 250px; height: auto; }
+
+        .photoBox {
+            width: 25mm;
+            height: 31mm;
+            border: 1px solid #000;
+            overflow: hidden;
+            display: inline-block;
+        }
+        /* object-fit crops to the box instead of stretching when the
+           photo's aspect ratio doesn't match 25mm x 31mm; falls back to
+           the previous stretch behavior on renderers that ignore it. */
+        .photoBox img { width:100%; height:100%; object-fit: cover; object-position: center; }
+
+        .gcLine { font-size: 8.5pt; margin-top: 0; }
+        .gcBarcodeWrap { margin-top: 1px; }
+        .gcBarcodeLabel { font-size: 8pt; margin-bottom: 1px; }
+        .barcodeStrip {
+            display: inline-block;
+            white-space: nowrap;
+            font-size: 0;
+            line-height: 0;
+            height: 7mm;
+            overflow: hidden;
+        }
+        .barcodeBit {
+            display: inline-block;
+            width: 1.25px;
+            height: 7mm;
+            vertical-align: top;
+        }
+
+        /* student details 2-column */
+        table.details { width:100%; border-collapse: collapse; margin-top: 4px; }
+        table.details td { padding: 3px 2px; vertical-align: top; line-height: 1.18; }
+        .lbl { width: 20%; font-weight: 700; }
+        .colon { width: 2%; text-align: center; }
+        .val { width: 28%; }
+        .lblR { width: 16%; font-weight: 700; }
+        .valR { width: 34%; }
+
+        /* marks table */
+        table.marks {
+            width:100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 7.6pt;
+            border:1px solid #000;
+            table-layout: fixed;
+        }
+        table.marks th, table.marks td {
+            border:1px solid #000;
+            padding: 3px 2px;
+            line-height: 1.22;
+            word-wrap: break-word;
+        }
+        table.marks th { font-weight: 800; text-align: center; vertical-align: middle; background: #f4f4f4; }
+        table.marks tbody td { height: 5.8mm; vertical-align: middle; }
+        table.marks tr { page-break-inside: avoid; }
+        .c { text-align:center; }
+        .resultCell { white-space: nowrap; word-break: normal; }
+
+        /* footer */
+        table.footer { width:100%; border-collapse: collapse; margin-top: 22px; }
+        .sgpa { font-weight: 800; font-size: 9pt; text-align:right; }
+
+        table.sign { width:100%; border-collapse: collapse; margin-top: 74px; }
+        table.sign td { font-weight: 800; }
+        .keepTogether { page-break-inside: avoid; }
+
+        /* ✅ HARD PAGE BREAK FOR VF PDF */
+        .pageBreak { page-break-before: always; }
+
+        /* ===== PKDSU-213: dynamic compact layout =====
+           Applied (via body.compact) when the student has more than 5
+           courses, so the course table, SGPA and signature block always
+           stay on page 1 no matter how many rows are rendered. */
+        .compact table.marks { font-size: 7pt; margin-top: 6px; }
+        .compact table.marks th, .compact table.marks td { padding: 1.5px 2px; line-height: 1.1; }
+        .compact table.marks tbody td { height: 4.6mm; }
+        .compact table.details td { padding: 2px 2px; line-height: 1.1; }
+        .compact table.footer { margin-top: 10px; }
+        .compact table.sign { margin-top: 24px; }
+
+        /* ===== BACK PAGE ===== */
+        .p2Title { font-size: 12pt; font-weight: 800; margin-top: 4px; }
+        .p2Sub { font-size: 10pt; margin-top: 2px; }
+
+        table.scale { width:100%; border-collapse: collapse; margin-top: 8px; border:1px solid #000; font-size: 9pt; }
+        table.scale th, table.scale td { border:1px solid #000; padding: 6px; text-align:center; }
+        table.scale th { font-weight: 800; }
+
+        table.twoCol { width:100%; border-collapse: collapse; margin-top: 14px; }
+        table.twoCol td { vertical-align: top; }
+        .leftCol { width: 64%; }
+        .rightCol { width: 36%; }
+
+        table.classEq { width:100%; border-collapse: collapse; border:1px solid #000; font-size: 9pt; margin-top: 6px; }
+        table.classEq th, table.classEq td { border:1px solid #000; padding: 6px; }
+        table.classEq th { font-weight: 800; text-align:center; }
+
+        .website { margin-top: 16px; text-align:center; font-size: 9pt; }
+        .note { margin-top: 8px; text-align:center; font-size: 7.5pt; width:92%; margin-left:auto; margin-right:auto; }
+    </style>
+</head>
+
+<body class="{!IF(isCompact, 'compact', '')}">
+
+    <!-- ================= FRONT PAGE ================= -->
+    <div class="center headerBlock">
+        <div class="uni">DAYANANDA SAGAR UNIVERSITY</div>
+        <div class="addr">Bangalore, Karnataka, India.</div>
+        <div class="ecard">E-GRADE CARD</div>
+        <div class="prog">{!programName}</div>
+    </div>
+
+    <table class="toprow">
+        <tr>
+            <td class="sealCell">
+                <!-- Keep black/white logo if possible -->
+                <span class="logoWrap">
+                    <apex:image url="{!URLFOR($Resource.DSU_Updated_Logo)}" styleClass="logoImg"/>
+                </span>
+            </td>
+            <td class="midCell"></td>
+            <td class="photoCell" rowspan="2">
+                <div class="photoBox">
+                    <apex:outputPanel rendered="{!NOT(ISBLANK(studentPhotoUrl))}">
+                        <img src="{!studentPhotoUrl}" />
+                    </apex:outputPanel>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="gcCell" colspan="2">
+                <apex:outputPanel rendered="{!NOT(ISBLANK(gcNumber))}">
+                    <div class="gcBarcodeWrap">
+                        <div class="gcBarcodeLabel">GC. No. {!gcNumber}</div>
+                        <div class="barcodeStrip"><apex:repeat value="{!barcodeRunStyles}" var="s"><span class="barcodeBit" style="{!s}"></span></apex:repeat></div>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!ISBLANK(gcNumber)}">
+                    <div class="gcLine">GC. No.</div>
+                </apex:outputPanel>
+            </td>
+        </tr>
+    </table>
+
+    <table class="details">
+        <tr>
+            <td class="lbl">Name of the Student</td><td class="colon">:</td><td class="val">{!studentName}</td>
+           <td class="lbl">Aadhaar Number</td><td class="colon">:</td><td class="val">{!aadhaarNumber}</td>
+        </tr>
+        <tr>
+            <td class="lbl">University Seat Number</td><td class="colon">:</td><td class="val">{!rollNumber}</td>
+            <td class="lblR">Semester</td><td class="colon">:</td><td class="valR">{!semester}</td>
+        </tr>
+        <tr>
+            <td class="lbl">Mode of Examination</td><td class="colon">:</td><td class="val">{!modeOfExam}</td>
+            <td class="lblR">Mode of Delivery</td><td class="colon">:</td><td class="valR">{!modeOfDelivery}</td>
+        </tr>
+       
+    </table>
+
+    <table class="marks">
+    <colgroup>
+        <col style="width:10%;" />
+        <col style="width:13%;" />
+        <col style="width:5%;" />
+        <col style="width:4%;" />
+        <col style="width:4%;" />
+        <col style="width:10%;" />
+        <col style="width:4%;" />
+        <col style="width:4%;" />
+        <col style="width:10%;" />
+        <col style="width:11%;" />
+        <col style="width:8%;" />
+        <col style="width:8%;" />
+        <col style="width:9%;" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th rowspan="2">Course Code</th>
+            <th rowspan="2">Course Title</th>
+            <th rowspan="2">Credits</th>
+            <th colspan="3">Continuous Internal Assessment Marks</th>
+            <th colspan="3">Semester End Examination Marks</th>
+            <th rowspan="2">Results</th>
+            <th rowspan="2">Grade Letter</th>
+            <th rowspan="2">Grade Point</th>
+            <th rowspan="2">Remarks</th>
+        </tr>
+        <tr>
+            <th>Max/Min</th><th>Scored</th><th>Result</th>
+            <th>Max/Min</th><th>Scored</th><th>Result</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <apex:repeat value="{!courseRows}" var="r">
+            <tr>
+                <td class="c">{!r.courseCode}</td>
+                <td>{!r.courseTitle}</td>
+
+                <!-- Credits -->
+                <td class="c">
+                    <apex:outputText value="{0,number,0}">
+                        <apex:param value="{!r.credits}" />
+                    </apex:outputText>
+                </td>
+
+                <!-- CIA -->
+                <td class="c">{!r.ciaMax}</td>
+                <td class="c">
+                    <apex:outputText value="{0,number,0.##}">
+                        <apex:param value="{!r.ciaScored}" />
+                    </apex:outputText>
+                </td>
+                <td class="c resultCell">{!r.ciaResult}</td>
+
+                <!-- SEE -->
+                <td class="c">{!r.seeMax}</td>
+                <td class="c">
+                    <apex:outputText value="{0,number,0.##}">
+                        <apex:param value="{!r.seeScored}" />
+                    </apex:outputText>
+                </td>
+                <td class="c resultCell">{!r.seeResult}</td>
+
+                <!-- Final -->
+                <td class="c resultCell">{!r.finalResult}</td>
+                <td class="c">{!r.gradeLetter}</td>
+                <td class="c">
+                    <apex:outputText value="{0,number,0.##}">
+                        <apex:param value="{!r.gradePoint}" />
+                    </apex:outputText>
+                </td>
+
+                <!-- Remarks: hidden (shown as '-') when the student got F or IC -->
+                <td class="c">
+                    <apex:outputText rendered="{!OR(r.gradeLetter == 'F', r.gradeLetter == 'IC')}">-</apex:outputText>
+                    <apex:outputText rendered="{!NOT(OR(r.gradeLetter == 'F', r.gradeLetter == 'IC'))}">{!r.examCycle}</apex:outputText>
+                </td>
+            </tr>
+        </apex:repeat>
+
+        <!-- Optional: if no courseRows -->
+        <apex:outputPanel rendered="{!courseRows.size = 0}">
+            <tr>
+                <td colspan="13" class="c">No course enrollments found.</td>
+            </tr>
+        </apex:outputPanel>
+    </tbody>
+</table>
+
+
+    <div class="keepTogether">
+        <table class="footer">
+            <tr><td></td><td class="sgpa">SGPA : {!sgpa}</td></tr>
+        </table>
+
+        <table class="sign">
+            <tr>
+                <td>Deputy Registrar</td>
+                <td class="right">Controller of Examinations</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ✅ FORCE PAGE 2 -->
+    <div class="pageBreak"></div>
+
+    <!-- ================= BACK PAGE ================= -->
+    <div class="p2Title">Grade Point (Ten Point Scale)</div>
+    <div class="p2Sub">(i) The academic achievement of a student is assessed on a 10 point scale as detailed below:</div>
+
+    <table class="scale">
+        <tr>
+            <th style="width:16%;">Points Description</th>
+            <th>Outstanding</th><th>Excellent</th><th>Very Good</th><th>Above Average</th>
+            <th>Average</th><th>Good</th><th>Pass</th><th>Fail</th><th>In Complete</th>
+        </tr>
+        <tr>
+            <td class="bold">Grade</td>
+            <td>O</td><td>A+</td><td>A</td><td>B+</td><td>B</td><td>C</td><td>P</td><td>F</td><td>IC</td>
+        </tr>
+        <tr>
+            <td class="bold">Grade Points</td>
+            <td>10</td><td>9</td><td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>0</td><td>-</td>
+        </tr>
+        <tr>
+            <td class="bold">Core (Marks) Range %</td>
+            <td>90-100</td><td>80-89</td><td>70-79</td><td>60-69</td><td>55-59</td>
+            <td>50-54</td><td>40-49</td><td>&lt;40</td><td>-</td>
+        </tr>
+    </table>
+
+    <div style="margin-top:14px;" class="bold">
+        The overall performance of a student is indicated by two indicators:
+    </div>
+
+    <table class="twoCol">
+        <tr>
+            <td class="leftCol">
+                <div style="margin-top:10px;" class="bold">
+                    (ii) SGPA (Semester Grade Point Average) is the Grade Point Average for a semester:
+                </div>
+                <div style="margin-top:6px; font-size:9pt;">
+                    SGPA = [ Σ (Course Credits) X (Grade Point/s) ] for all the courses registered by the student, in that semester
+                    <br/>———————————————————————————————————————————————
+                    <br/>Σ (Course Credits) for all the courses registered by the student, in that semester
+                </div>
+
+                <div style="margin-top:14px;" class="bold">
+                    (iii) CGPA (Cumulative Grade Point Average) is the Grade Point Average for all the completed semester:
+                </div>
+                <div style="margin-top:6px; font-size:9pt;">
+                    CGPA = [ Σ (Course Credits) X (Grade Point/s) ] for all the courses registered by the student, until that semester
+                    <br/>———————————————————————————————————————————————
+                    <br/>Σ (Course Credits) for all the courses registered by the student, until that semester
+                </div>
+            </td>
+
+            <td class="rightCol">
+                <div class="bold">(iv) Class Equivalence of Grade Points</div>
+                <table class="classEq">
+                    <tr>
+                        <th style="width:55%;">CGPA</th>
+                        <th>Class / Division</th>
+                    </tr>
+                    <tr><td class="center">&ge; 4.0 - &lt; 5.75</td><td>Pass Class</td></tr>
+                    <tr><td class="center">&ge; 5.75 - &lt; 6.75</td><td>Second Class</td></tr>
+                    <tr><td class="center">&ge; 6.75 - &lt; 7.75</td><td>First Class</td></tr>
+                    <tr><td class="center">&ge; 7.75 - 10</td><td>First Class with Distinction</td></tr>
+                </table>
+
+                <div style="margin-top:14px; font-size:9pt;">
+                    <span class="bold">(v) Formula for Conversion of CGPA to Percentage of Marks:</span>
+                    CGPA Earned x 10
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="website">Website: www.dsu.edu.in</div>
+    <div class="note">
+        This is an ePaper document which is electronically secured using an NFC micro-chip.
+        Please log into "https://docunex.io" for instant verification and additional information
+        (or check the issuer website - https://www.dsu.edu.in)
+    </div>
+
+</body>
+</html>
+</apex:page>

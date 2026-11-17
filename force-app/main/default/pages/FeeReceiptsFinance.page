@@ -1,0 +1,102 @@
+<apex:page controller="DSUOnlineReceiptPdfController" renderAs="pdf">
+    <table border="1" cellspacing="0" cellpadding="5" style="width: 700px; border-collapse: collapse; border: 1px solid #000; font-size: 12px;">
+        <tr style="height: 70px">
+            <td style="width: 50%; padding: 10px; border: 1px solid #000;">
+                <img src="{!URLFOR($Resource.DSUOnlineLogo)}" style="height: 80px;" alt="DSUOnline Logo"/><br/>
+                <strong style="font-size: 12px;">Fee Receipt</strong>
+            </td>
+            <td style="width: 50%; padding: 10px; text-align: right; border: 1px solid #000; font-size: 11px;">
+                <b>Centre for Distance and Online Education</b><br/>
+                Dayananda Sagar University, Kudlu Gate, Hosur Road,<br/>
+                Bangalore - Urban - 560068<br/>
+                9880148004 | www.dsuonline.com<br/>
+                helpdesk@dsuonline.com<br/><br/>
+                
+                <strong style="font-size: 12px;">
+                    <span style="background-color: #007BFF; color: white; padding: 4px 8px; border-radius: 8px; display: inline-block;">
+                        Finance Copy
+                    </span>
+                </strong>
+            </td>
+        </tr>
+        <tr style="height: 100px">
+            <td style="padding: 10px; border: 1px solid #000; vertical-align: top;border-right: none; font-size: 10px;">
+                <span style="display: inline-block; width: 150px;">Student Name</span> : <strong>{!StudentName}</strong><br/><br/>
+                <span style="display: inline-block; width: 150px;">Application No</span> : <strong>{!ApplicationNo}</strong><br/><br/>
+                <span style="display: inline-block; width: 150px;">USN</span> :<strong> {!USN}</strong><br/><br/>
+                <span style="display: inline-block; width: 150px;">Program</span> :<strong> {!Program}</strong><br/><br/>
+                <span style="display: inline-block; width: 150px;">Semester</span> : <strong>{!SemesterNumber}</strong><br/>
+            </td>
+            <td style="width: 50%; padding: 10px; border: 1px solid #000; vertical-align: top; padding-top: 10px;border-left: none; font-size:10px;">
+                <span style="display: inline-block; width: 150px;">Receipt No</span> : <strong>{!ReceiptNo}</strong><br/><br/>
+                <span style="display: inline-block; width: 150px;">Receipt Date</span> : <strong>{!ReceiptDate}</strong><br/><br/>
+                <span style="display: inline-block; width: 150px;">Academic Session</span> : <strong>{!AcademicSession} {!StartingYear}</strong><br/><br/>
+                <span style="display: inline-block; width: 150px;">Fee Preference</span> : <strong>{!FeePreference}</strong><br/>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%; padding:10px; border:1px solid #000; font-size:10px;">
+                <table role="presentation" style="width:100%; border-collapse:collapse;">
+                    <tr>
+                        <td style="padding:0; text-align:left; vertical-align:top; font-weight:bold;">
+                            Particular
+                        </td>
+                        <td style="padding:0; text-align:right; vertical-align:top; font-weight:bold;">
+                            Amount (Rs.)
+                        </td>
+                    </tr>
+                    <apex:outputPanel layout="none" rendered="{!NOT(isExamFee)}">
+                    <tr>
+                        <td style="padding-top:8px; text-align:left; vertical-align:top;">
+                            <strong>{!Particular} - {!Semester}</strong>
+                        </td>
+                        <td style="padding-top:8px; text-align:right; vertical-align:top;">
+                            <strong>{!Amount}</strong>
+                        </td>
+                    </tr>
+                    </apex:outputPanel>
+                    <apex:outputPanel layout="none" rendered="{!isExamFee}">
+                    <tr>
+                        <td colspan="2" style="padding-top:8px; text-align:left; vertical-align:top;">
+                            <strong>{!Particular} - Number of Subjects - {!NumberOfSubjects}</strong>
+                        </td>
+                    </tr>
+                    <apex:repeat value="{!ExamRows}" var="row">
+                    <tr>
+                        <td style="padding-top:4px; text-align:left; vertical-align:top;">
+                            {!row.semester} - {!row.courseCode} - {!row.courseName}
+                        </td>
+                        <td style="padding-top:4px; text-align:right; vertical-align:top;">
+                            <strong>{!row.amount}</strong>
+                        </td>
+                    </tr>
+                    </apex:repeat>
+                    </apex:outputPanel>
+                </table>
+            </td>
+            
+            <td rowspan="2" style="width: 50%; padding: 10px; vertical-align: top; border: 1px solid #000; font-size: 10px;">
+                <span style="display: inline-block; width: 150px;">Payment Mode</span> : <strong>{!PaymentMode}</strong><br/><br/>
+                <span style="display: inline-block; width: 150px;">Payment Ref. No</span> : <strong>{!PaymentRefNo}</strong><br/><br/>
+                <span style="display: inline-block; width: 150px;">Payment Ref. Date</span> : <strong>{!PaymentRefDate}</strong><br/><br/>
+                <span style="display: inline-block; width: 150px;">Settlement UTR</span> : <strong>{!settlementUtr}</strong><br/>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%; padding: 10px; height: 100px; border: 1px solid #000; font-size: 10px;">
+                <div style="text-align: right; margin-bottom: 10px;">Total:<strong> {!Amount}</strong></div>
+                <div style="text-align: right; margin-bottom: 10px;">_________________________</div>
+                <div style="font-size: 10px; text-align: left;">(INR: {!amountInWords})</div> 
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding: 10px; border: 1px solid #000;font-size: 7.7pt;text-align: left;">
+                Subject to Bengaluru Jurisdiction under Schedule 1 article 53 Exemption(B) of the India Stamp Act Charitable Institution are not required to issue Stamped receipt
+            </td>
+        </tr>
+    </table> 
+    
+    <br/><br/><br/><br/><br/>
+    
+    <p style="text-align: center; font-size: 13px; color: #156082;">This receipt is computer generated and does not require any signature, Printed on {!ReceiptDateTime}</p>
+</apex:page>

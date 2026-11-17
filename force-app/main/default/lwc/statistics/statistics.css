@@ -1,0 +1,48 @@
+:host {
+    display: block;
+    max-width: 100%;
+}
+
+.stats-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed;
+    box-sizing: border-box;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+
+    background: #fff;
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+
+    border: 1px solid #d8dde6 !important;  
+    border-radius: 0.5rem !important;
+    overflow: hidden;
+}
+.stats-table thead th {
+    background: #f3f2f2;
+    border-bottom: 1px solid #d8dde6;
+    color: #3e3e3c;
+}
+
+.stats-table thead th .slds-truncate {
+    font-weight: 600;   
+    color: #3e3e3c;
+}
+
+
+.stats-table th,
+.stats-table td {
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+}
+
+.value-col {
+    text-align: right;
+    width: 35% !important;
+    border-left: none !important;  
+}

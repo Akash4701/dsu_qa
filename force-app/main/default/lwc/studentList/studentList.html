@@ -1,0 +1,68 @@
+<!--
+  @description       : 
+  @group             : 
+  @last modified on  : 10-25-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+  <template>
+    
+    <!-- Loading Spinner -->
+    <template if:true={isLoading}>
+        <div class="slds-spinner_container">
+            <div role="status" class="slds-spinner slds-spinner_medium slds-is-relative">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </div>
+    </template>
+    <!-- Minimum Passing Score Input + Save Button -->
+    <div class="slds-m-around_small slds-grid slds-grid_align-start slds-gutters_small">
+        <div>
+            <lightning-input 
+                type="number"
+                label="Minimum Passing Score"
+                value={minimumPassingScore}
+                onchange={handleThresholdChange}
+                min="0"
+                max="100"
+                step="0.01"
+                style="width: 200px;"
+            ></lightning-input>
+        </div>
+        <div class="slds-m-top_large" style="margin-left:10px">
+            <lightning-button
+                variant="neutral"
+                label="Save Score"
+                onclick={handleThresholdSave}
+            ></lightning-button>
+        </div>
+        <div class="slds-m-top_large slds-col_bump-left" >
+        <lightning-button
+            variant="brand"
+            label="Save"
+            icon-name="utility:edit"
+            onclick={handleSaveButton}
+        ></lightning-button>
+    </div>
+    </div>
+    <!-- Data Table -->
+    <template if:false={isLoading}>
+        <div class="slds-col slds-size_1-of-1 slds-m-top_medium">
+            <div style="max-height: 300px; overflow-y: auto">
+                <c-custom-letter-grade-datatable
+                    key-field="Id"
+                    data={tableData}
+                    columns={columns}
+                    hide-checkbox-column="true"
+                    suppress-bottom-bar="true"
+                    onrowaction={handleRowAction}
+                    oncellchange={handleCellChange}
+                    class="slds-table_custom"
+                    errors={validationError}
+                    onsort={handleSort}
+                    sorted-by={sortedBy}
+                    sorted-direction={sortedDirection}
+                ></c-custom-letter-grade-datatable>
+            </div>
+        </div>
+    </template>
+</template>

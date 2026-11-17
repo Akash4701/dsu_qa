@@ -1,0 +1,66 @@
+<html>
+ <head>
+  <title></title>
+ </head>
+ <body style="margin:0; padding:0; background:#f4f6f9; font-family: Arial, sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6f9; padding:30px 0;">
+   <tbody>
+    <tr>
+     <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #e0e0e0;">
+       <!-- Header -->
+       <tbody>
+        <tr>
+         <td style="background:#ffffff; padding:20px 36px; border-bottom:4px solid #0A6FB4;"><img src="{[devName:DSU_logo]}" alt="Dayananda Sagar University" width="280" style="display:block; width:280px; max-width:100%; height:auto; border:none;" /></td>
+        </tr>
+        <!-- Notice bar -->
+        <tr>
+         <td style="background:#E6F2FA; padding:12px 36px; border-bottom:1px solid #9CC9E8;">
+          <p style="margin:0; font-size:14px; font-weight:bold; color:#064E7A;">💬 &#xa0;Feedback form is now available</p>
+         </td>
+        </tr>
+        <!-- Body -->
+        <tr>
+         <td style="padding:32px 36px;">
+          <p style="margin:0 0 16px; font-size:15px; color:#222;">Dear All,</p>
+          <p style="margin:0 0 24px; font-size:15px; color:#444; line-height:1.7;">This is to notify you that the <strong>{{{Feedback_Item__c.Feedback_Type__c}}}</strong> feedback link for the following course offering is now available on the DSU Student Portal:</p>
+          <!-- Course box -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+           <tbody>
+            <tr>
+             <td style="background:#f4f6f9; border-left:4px solid #0A6FB4; border-radius:0 6px 6px 0; padding:14px 18px;">
+              <p style="margin:0 0 4px; font-size:11px; color:#888; text-transform:uppercase; letter-spacing:0.5px;">Course Offering</p>
+              <p style="margin:0; font-size:16px; font-weight:bold; color:#222;">{{{Feedback_Item__c.Course_Offering__c}}}</p>
+             </td>
+            </tr>
+           </tbody>
+          </table>
+          <p style="margin:0 0 24px; font-size:15px; color:#444; line-height:1.7;">Kindly complete the feedback without fail. Your feedback is important to us and helps us continually improve your learning experience.</p>
+          <!-- CTA Button -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+           <tbody>
+            <tr>
+             <td align="center"><a href="{{{Feedback_Item__c.Portal_Login_URL__c}}}" style="background:#0A6FB4; color:#E6F2FA; text-decoration:none; padding:12px 36px; border-radius:6px; font-size:15px; font-weight:bold; display:inline-block;"> Complete Feedback → </a></td>
+            </tr>
+           </tbody>
+          </table>
+          <p style="margin:0 0 24px; font-size:15px; color:#444; line-height:1.7;">We look forward to your cooperation and thank you for taking the time to share your valuable thoughts.</p>
+          <p style="margin:0 0 2px; font-size:15px; color:#222;">Best regards,</p>
+          <p style="margin:0 0 2px; font-size:15px; font-weight:bold; color:#222;">Program Office Team</p>
+          <p style="margin:0; font-size:13px; color:#888;">Dayananda Sagar University</p>
+         </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+         <td style="background:#f4f6f9; border-top:1px solid #e0e0e0; padding:14px 36px; text-align:center;">
+          <p style="margin:0; font-size:12px; color:#aaa;">This is an automated notification from the Program Office. Please do not reply to this email.</p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+ </body>
+</html>

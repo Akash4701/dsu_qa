@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CLINICAL__c</fullName>
+    <description>This field records whether or not a contract has clinical status, and if so, describes the contract type</description>
+    <label>CLINICAL</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not clinical academic</fullName>
+                <default>false</default>
+                <label>Not clinical academic</label>
+            </value>
+            <value>
+                <fullName>Clinical academic doctors and dentists</fullName>
+                <default>false</default>
+                <label>Clinical academic doctors and dentists</label>
+            </value>
+            <value>
+                <fullName>Clinical academic nurses and midwives</fullName>
+                <default>false</default>
+                <label>Clinical academic nurses and midwives</label>
+            </value>
+            <value>
+                <fullName>Clinical academic health professions</fullName>
+                <default>false</default>
+                <label>Clinical academic health professions</label>
+            </value>
+            <value>
+                <fullName>Other clinical academic staff</fullName>
+                <default>false</default>
+                <label>Other clinical academic staff</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

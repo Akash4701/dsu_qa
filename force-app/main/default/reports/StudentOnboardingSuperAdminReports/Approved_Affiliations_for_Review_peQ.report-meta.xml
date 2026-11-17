@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Contact$Name</field>
+    </columns>
+    <columns>
+        <field>Contact.hed__Affl_Accounts__r$Name</field>
+    </columns>
+    <columns>
+        <field>Contact.hed__Affl_Accounts__r$Roll_Number__c</field>
+    </columns>
+    <columns>
+        <field>Contact.hed__Affl_Accounts__r$DSU_Email__c</field>
+    </columns>
+    <columns>
+        <field>Contact.hed__Affl_Accounts__r$Approval_Status__c</field>
+    </columns>
+    <currency>INR</currency>
+    <filter>
+        <criteriaItems>
+            <column>Contact.hed__Affl_Accounts__r$Approval_Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Approved</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>Approved Affiliations for Review</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Contact_with_Affiliation__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Contact$Birthdate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

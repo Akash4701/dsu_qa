@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gradient_Start__c</fullName>
+    <description>Hex color for the hero band gradient start (e.g. #0044BB).</description>
+    <externalId>false</externalId>
+    <label>Gradient Start</label>
+    <length>20</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

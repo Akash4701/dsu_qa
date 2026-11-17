@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_Label__c</fullName>
+    <description>This is used to match the qualified terms for auto enrollment.</description>
+    <inlineHelpText>This is used to match the qualified terms for auto enrollment.</inlineHelpText>
+    <label>Term Label</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Term_Label</valueSetName>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

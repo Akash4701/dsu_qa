@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Contact.Individual_Applications__r$External_Application_Number__c</field>
+    </columns>
+    <columns>
+        <field>Contact$Name</field>
+    </columns>
+    <columns>
+        <field>Contact.Individual_Applications__r.Affiliations__r$Roll_Number__c</field>
+    </columns>
+    <columns>
+        <field>Contact.Individual_Applications__r$Status__c</field>
+    </columns>
+    <columns>
+        <field>Contact.Individual_Applications__r$Program_Plan__c</field>
+    </columns>
+    <columns>
+        <field>Contact.Individual_Applications__r.Affiliations__r$Name</field>
+    </columns>
+    <currency>INR</currency>
+    <filter>
+        <criteriaItems>
+            <column>Contact.Individual_Applications__r$Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>CRM Enrolled</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>CRM Enrolled Records</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Contact_with_Application_Affiliation__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Contact$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

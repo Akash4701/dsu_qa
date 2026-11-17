@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Service_Case</fullName>
+    <active>true</active>
+    <businessProcess>Standard Support Process</businessProcess>
+    <description>Primary case record type used for service and one-stop cases</description>
+    <label>Case</label>
+    <picklistValues>
+        <picklist>Escalation_Level__c</picklist>
+        <values>
+            <fullName>Level_1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Level_2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Reassigned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resolved</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Origin</picklist>
+        <values>
+            <fullName>Advisor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>One-Stop Walk-In</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Priority</picklist>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reason</picklist>
+        <values>
+            <fullName>Facility Issue</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Financial Aid Disbursements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grade Concern</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health Issue</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IT Support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Roommate Complaint</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stress Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transcript Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tuition and Billing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Withdrawal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Work Study</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>Academic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Career</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health and Wellness</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Housing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Question</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Registrar</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>hed__Category__c</picklist>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>School Code of Conduct</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>School Violation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>State Offense</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>hed__Location__c</picklist>
+        <values>
+            <fullName>Off Campus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On Campus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

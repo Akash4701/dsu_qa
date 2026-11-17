@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Primary</fullName>
+        <default>false</default>
+        <label>Primary</label>
+    </customValue>
+    <customValue>
+        <fullName>Secondary</fullName>
+        <default>false</default>
+        <label>Secondary</label>
+    </customValue>
+    <customValue>
+        <fullName>Both</fullName>
+        <default>false</default>
+        <label>Both</label>
+    </customValue>
+    <description>For a dual qualification, either the &apos;Primary&apos;, &apos;Secondary&apos; or &apos;Both&apos; programs can be selected for reporting</description>
+    <masterLabel>Dual Qualification Reporting Program</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

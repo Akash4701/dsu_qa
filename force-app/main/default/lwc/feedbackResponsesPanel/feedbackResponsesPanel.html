@@ -1,0 +1,107 @@
+<template>
+    <template lwc:if={showSkeleton}>
+        <c-feedback-skeleton variant="rows" count="5"></c-feedback-skeleton>
+    </template>
+    <template lwc:elseif={noSchedule}>
+        <c-feedback-message title="No schedules yet" message="Create a feedback schedule and its responses will show up here." icon-name="utility:event"></c-feedback-message>
+    </template>
+    <template lwc:else>
+        <div class="fh-toolbar">
+            <label class="picker">
+                <span class="fh-eyebrow">Feedback schedule</span>
+                <select class="fh-select" aria-label="Feedback schedule" onchange={handleSchedule}>
+                    <template for:each={scheduleOptions} for:item="option">
+                        <option key={option.value} value={option.value} selected={option.selected}>{option.label}</option>
+                    </template>
+                </select>
+            </label>
+            <div class="fh-toolbar__end">
+                <button type="button" class="fh-btn fh-btn_icon" title="Refresh" aria-label="Refresh" onclick={handleRefresh}>
+                    <lightning-icon icon-name="utility:refresh" size="x-small" alternative-text="Refresh"></lightning-icon>
+                </button>
+                <button type="button" class="fh-btn" disabled={cannotExport} onclick={handleExport}>
+                    <lightning-icon icon-name="utility:download" size="x-small" alternative-text=""></lightning-icon>
+                    Export CSV
+                </button>
+            </div>
+        </div>
+
+        <template lwc:if={hasCurrent}>
+            <section class="fh-card fh-card_pad summary fh-fade-in">
+                <c-feedback-donut value={summary.rate} tone={summary.rateTone} label="Responded" sublabel={summary.donutSub} size="160"></c-feedback-donut>
+                <div class="summary__body">
+                    <div class="fh-row">
+                        <h2 class="fh-title">{summary.name}</h2>
+                        <c-feedback-badge label={summary.status} tone={summary.statusTone}></c-feedback-badge>
+                    </div>
+                    <p class="fh-body fh-muted">
+                        <span lwc:if={summary.template}>{summary.template} · </span>{summary.window} · {summary.caption}
+                    </p>
+                    <div class="tiles">
+                        <div class="tile tile_success"><span class="tile__n">{summary.submitted}</span><span class="fh-small">Submitted</span></div>
+                        <div class="tile tile_warning"><span class="tile__n">{summary.pending}</span><span class="fh-small">Pending</span></div>
+                        <div class="tile"><span class="tile__n">{summary.total}</span><span class="fh-small">Assigned</span></div>
+                    </div>
+                    <p class="fh-small fh-muted">{summary.gap}</p>
+                </div>
+            </section>
+        </template>
+
+        <div class="fh-toolbar list_toolbar">
+            <div class="fh-search">
+                <lightning-icon icon-name="utility:search" size="xx-small" alternative-text=""></lightning-icon>
+                <input type="search" class="fh-input" placeholder="Search respondent or course" aria-label="Search responses" value={search} oninput={handleSearch} />
+            </div>
+            <div class="fh-seg" role="group" aria-label="Filter by status">
+                <template for:each={chips} for:item="chip">
+                    <button key={chip.label} type="button" class="fh-seg__btn" aria-pressed={chip.pressed} data-label={chip.label} onclick={handleChip}>{chip.label}</button>
+                </template>
+            </div>
+            <div class="fh-toolbar__end"><span class="fh-small fh-muted">{resultLabel}</span></div>
+        </div>
+
+        <template lwc:if={error}>
+            <c-feedback-message variant="error" title="We couldn't load the responses" message={error} action-label="Try again" onaction={handleRefresh}></c-feedback-message>
+        </template>
+        <template lwc:elseif={showItemsSkeleton}>
+            <c-feedback-skeleton variant="rows" count="6"></c-feedback-skeleton>
+        </template>
+        <template lwc:elseif={isEmpty}>
+            <c-feedback-message title="No feedback items" message="Nothing matches this schedule and filter yet." icon-name="utility:people"></c-feedback-message>
+        </template>
+        <template lwc:elseif={hasItems}>
+            <div class="fh-card fh-table-wrap fh-fade-in">
+                <table class="fh-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Respondent</th>
+                            <th scope="col">Course offering</th>
+                            <th scope="col">Window</th>
+                            <th scope="col">Reminders</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={visibleItems} for:item="row">
+                            <tr key={row.id}>
+                                <td>
+                                    <div class="who">
+                                        <span class="avatar" aria-hidden="true">{row.avatar}</span>
+                                        <span class="who__text">
+                                            <span class="fh-strong">{row.respondent}</span>
+                                            <button type="button" class="fh-link fh-small" data-id={row.id} onclick={handleOpenRecord}>{row.name}</button>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>{row.courseOffering}</td>
+                                <td class="fh-muted">{row.window}</td>
+                                <td class="fh-muted">{row.remindersLabel}</td>
+                                <td><c-feedback-badge label={row.status} tone={row.statusTone}></c-feedback-badge></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+    </template>
+</template>

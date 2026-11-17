@@ -1,0 +1,13 @@
+/* academicPlaneerScreen.css */
+.slds-box {
+    border-radius: 4px;
+}
+
+.slds-text-title {
+    font-weight: 600;
+}
+
+.slds-text-link {
+    color: rgb(0, 112, 210);
+    float: right;
+}

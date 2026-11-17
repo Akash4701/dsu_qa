@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Course__c</fullName>
+    <label>Course</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Campus__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>Course</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Ascent College</controllingFieldValue>
+            <valueName>B.Com</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ascent College</controllingFieldValue>
+            <valueName>BBA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ascent College</controllingFieldValue>
+            <valueName>MBA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>School of Business</controllingFieldValue>
+            <valueName>EPGDM</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

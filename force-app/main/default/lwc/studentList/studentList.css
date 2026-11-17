@@ -1,0 +1,12 @@
+div[style*="max-height: 300px"] {
+    max-height: none !important;
+    height: auto !important;
+    overflow-y: visible !important;
+}
+
+.slds-scrollable_y,
+.slds-scrollable_x {
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+}

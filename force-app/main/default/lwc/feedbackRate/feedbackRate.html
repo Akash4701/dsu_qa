@@ -1,0 +1,9 @@
+<template>
+    <div class="wrap">
+        <div class={trackClass} role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={percent}>
+            <span class={barClass} style={barStyle}></span>
+            <span lwc:if={hasTarget} class="marker" style={markerStyle} title={markerTitle}></span>
+        </div>
+        <span class="pct">{percent}%</span>
+    </div>
+</template>

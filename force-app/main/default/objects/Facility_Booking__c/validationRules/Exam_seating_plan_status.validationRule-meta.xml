@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exam_seating_plan_status</fullName>
+    <active>false</active>
+    <errorConditionFormula>AND(
+    ISNEW(),
+    ISPICKVAL(Exam__r.Seating_Plan_Status__c, &apos;Completed&apos;)
+)</errorConditionFormula>
+    <errorMessage>Seating plan cannot be created for a facility booking associated with an exam where Seating Plan Status is &quot;Completed&quot;.</errorMessage>
+</ValidationRule>

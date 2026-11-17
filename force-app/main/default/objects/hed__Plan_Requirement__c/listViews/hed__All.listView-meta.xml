@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>hed__All</fullName>
+    <columns>NAME</columns>
+    <columns>RECORDTYPE</columns>
+    <columns>Institute__c</columns>
+    <columns>hed__Category__c</columns>
+    <columns>hed__Course__c</columns>
+    <columns>Course_Enrollment__c</columns>
+    <columns>hed__Program_Plan__c</columns>
+    <columns>Term__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>hed__Plan_Requirement__c.Unit</value>
+    </filters>
+    <filters>
+        <field>Term__c</field>
+        <operation>contains</operation>
+        <value>2026-NOV-B.Tech-CSE-Sem 1</value>
+    </filters>
+    <label>All</label>
+</ListView>

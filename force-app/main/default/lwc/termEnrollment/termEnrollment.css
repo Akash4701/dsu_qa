@@ -1,0 +1,7 @@
+.no-wrap {
+    white-space: normal;
+}
+
+.custom-dropdown-width {
+        width: calc(100% + 50px); /* Adjust this value as needed to ensure the dropdown is wider than the input field */
+    }

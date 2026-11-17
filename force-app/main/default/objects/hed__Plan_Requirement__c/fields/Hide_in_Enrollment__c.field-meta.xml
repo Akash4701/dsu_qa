@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hide_in_Enrollment__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>(Group Record Type only) Hide this header and child courses in the Enrollment Wizard. If this is a child group, child courses will instead be displayed under the parent group.</description>
+    <inlineHelpText>Hide this header and child courses in the Enrollment Wizard. If this is a child group, child courses will instead be displayed under the parent group.</inlineHelpText>
+    <label>Hide in Enrollment</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

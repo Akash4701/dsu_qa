@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Case Reply</name>
+    <pageDevName>Case_Reply</pageDevName>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <textOnly>Dear {{{Case.Student_Name__c}}}
+
+Your mail with the subject line &quot;{{{Case.Subject}}}&quot; assigned with the ticket ID {{{Case.CaseNumber}}} is been addressed. Details below:
+
+Regards,
+
+HD Counsellor – 
+
+For any communication, please write to the helpdesk @ helpdesk@dsuonline.com. or call @ +919880148004 (Timings: 8:45 am to 4:45 pm, Monday to Saturday).
+
+https://dsuonline.com</textOnly>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

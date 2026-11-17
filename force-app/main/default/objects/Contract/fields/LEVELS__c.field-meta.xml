@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LEVELS__c</fullName>
+    <description>This field records the UCEA or XpertHR defined level of the contract</description>
+    <label>LEVELS</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Vice-Chancellor/Principal/Head of Institution</fullName>
+                <default>false</default>
+                <label>Vice-Chancellor/Principal/Head of Institution</label>
+            </value>
+            <value>
+                <fullName>UCEA level 2</fullName>
+                <default>false</default>
+                <label>UCEA level 2</label>
+            </value>
+            <value>
+                <fullName>UCEA level 3A</fullName>
+                <default>false</default>
+                <label>UCEA level 3A</label>
+            </value>
+            <value>
+                <fullName>UCEA level 3B</fullName>
+                <default>false</default>
+                <label>UCEA level 3B</label>
+            </value>
+            <value>
+                <fullName>UCEA level 3/4A1</fullName>
+                <default>false</default>
+                <label>UCEA level 3/4A1</label>
+            </value>
+            <value>
+                <fullName>UCEA level 3/4A2</fullName>
+                <default>false</default>
+                <label>UCEA level 3/4A2</label>
+            </value>
+            <value>
+                <fullName>UCEA level 3/4A3</fullName>
+                <default>false</default>
+                <label>UCEA level 3/4A3</label>
+            </value>
+            <value>
+                <fullName>UCEA level 4A</fullName>
+                <default>false</default>
+                <label>UCEA level 4A</label>
+            </value>
+            <value>
+                <fullName>UCEA level 4B</fullName>
+                <default>false</default>
+                <label>UCEA level 4B</label>
+            </value>
+            <value>
+                <fullName>UCEA level 5A</fullName>
+                <default>false</default>
+                <label>UCEA level 5A</label>
+            </value>
+            <value>
+                <fullName>UCEA level 5B</fullName>
+                <default>false</default>
+                <label>UCEA level 5B</label>
+            </value>
+            <value>
+                <fullName>XpertHR level I</fullName>
+                <default>false</default>
+                <label>XpertHR level I</label>
+            </value>
+            <value>
+                <fullName>XpertHR level J</fullName>
+                <default>false</default>
+                <label>XpertHR level J</label>
+            </value>
+            <value>
+                <fullName>XpertHR level K</fullName>
+                <default>false</default>
+                <label>XpertHR level K</label>
+            </value>
+            <value>
+                <fullName>XpertHR level L</fullName>
+                <default>false</default>
+                <label>XpertHR level L</label>
+            </value>
+            <value>
+                <fullName>XpertHR level M</fullName>
+                <default>false</default>
+                <label>XpertHR level M</label>
+            </value>
+            <value>
+                <fullName>XpertHR level N</fullName>
+                <default>false</default>
+                <label>XpertHR level N</label>
+            </value>
+            <value>
+                <fullName>XpertHR level O</fullName>
+                <default>false</default>
+                <label>XpertHR level O</label>
+            </value>
+            <value>
+                <fullName>XpertHR level P</fullName>
+                <default>false</default>
+                <label>XpertHR level P</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

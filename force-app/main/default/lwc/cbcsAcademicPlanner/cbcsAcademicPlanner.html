@@ -1,0 +1,810 @@
+<template>
+    <!-- Filters -->
+    <div class="slds-grid slds-gutters slds-m-bottom_medium">
+        <div class="slds-col">
+            <lightning-combobox name="academicProgram" label="Academic Program" value={selectedProgram}
+                options={programOptions} onchange={handleProgramChange}>
+            </lightning-combobox>
+        </div>
+        <div class="slds-col">
+            <lightning-combobox name="programPlan" label="Program Plan" value={selectedPlan} options={planOptions}
+                onchange={handlePlanChange}>
+            </lightning-combobox>
+        </div>
+        <!-- Fix these two comboboxes in your HTML template -->
+        <div class="slds-col">
+            <lightning-combobox name="pathwayType" label="Pathway Type" value={selectedPathwayType}
+                options={specializationTypeOptions} required onchange={handlePathwayTypeChange}>
+            </lightning-combobox>
+        </div>
+        <div class="slds-col">
+            <lightning-combobox name="pathwayName" label="Pathway Name" value={selectedPathwayName}
+                options={pathwayNameOptions} required onchange={handlePathwayNameChange}>
+            </lightning-combobox>
+        </div>
+
+        <div class="slds-col">
+            <c-searchable-multi-select label="Academic Term (Optional)" options={termOptions}
+                onchange={handleTermChange}>
+            </c-searchable-multi-select>
+        </div>
+    </div>
+
+    <!-- Terms -->
+    <template if:true={terms}>
+        <template for:each={terms} for:item="term">
+            <!-- Editable Term -->
+            <template if:true={term.isEditable}>
+                <div key={term.Id} class="slds-box slds-m-bottom_medium">
+                    <!-- Term Header -->
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_3-of-12">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-12">
+                                    <lightning-button-icon icon-name={term.iconName} onclick={handleToggleExpand}
+                                        data-term-id={term.Id} variant="bare">
+                                    </lightning-button-icon>
+                                </div>
+                                <div class="slds-col slds-size_11-of-12">
+                                    <div class="slds-text-heading_small">{term.Name}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_9-of-12">
+                            <div class="slds-grid slds-gutters">
+
+                                <div class="slds-col">
+                                    <lightning-input type="text" value={term.Term_Duration__c} disabled
+                                        label="Duration">
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-input type="date" value={term.hed__Start_Date__c} disabled
+                                        label="Start Date">
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-input type="date" value={term.hed__End_Date__c} disabled
+                                        label="End Date">
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Term Content -->
+                    <template if:true={term.isExpanded}>
+                        <template if:true={term.isLoadingPathways}>
+                            <div class="slds-text-align_center slds-p-vertical_medium">
+                                <lightning-spinner size="small"></lightning-spinner>
+                            </div>
+                        </template>
+
+                        <template if:false={term.isLoadingPathways}>
+                            <template if:false={term.pathwayType}>
+                                <div class="slds-text-align_center slds-p-vertical_medium">
+                                    <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                                    <span class="slds-text-color_weak">Please select a pathway type.</span>
+                                </div>
+                            </template>
+
+                            <template if:true={term.pathwayType}>
+                                <template if:false={term.pathwayName}>
+                                    <div class="slds-text-align_center slds-p-vertical_medium">
+                                        <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                                        <span class="slds-text-color_weak">Please select a pathway name.</span>
+                                    </div>
+                                </template>
+                            </template>
+
+                            <!-- Course Enrollments -->
+                            <template if:true={term.pathwayType}>
+                                <template if:true={term.pathwayName}>
+                                    <template if:true={term.innerSections.length}>
+                                        <div class="slds-p-around_medium">
+                                            <!-- Single-Select Radio Buttons -->
+                                            <fieldset class="slds-form-element">
+                                                <legend class="slds-form-element__legend slds-form-element__label">
+                                                    Select Course Enrollment
+                                                </legend>
+                                                <div class="slds-form-element__control">
+                                                    <div class="slds-radio_button-group">
+                                                        <template for:each={term.sectionOptions} for:item="option">
+                                                            <span key={option.value}
+                                                                class="slds-button slds-radio_button">
+                                                                <input type="radio" value={option.value} name={term.Id}
+                                                                    id={option.uniqueId} onchange={handleSectionChange}
+                                                                    data-term-id={term.Id} />
+                                                                <label class="slds-radio_button__label"
+                                                                    for={option.uniqueId}>
+                                                                    <span class="slds-radio_faux">{option.label}</span>
+                                                                </label>
+                                                            </span>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <!-- Selected Info -->
+                                            <template if:true={term.selectedSections.length}>
+                                                <div
+                                                    class="slds-m-top_small slds-text-body_small slds-text-color_success">
+                                                    <lightning-icon icon-name="utility:success"
+                                                        size="x-small"></lightning-icon>
+                                                    Selected {term.selectedSections.length} enrollment(s)
+                                                </div>
+                                            </template>
+
+                                            <!-- Add Clusters Button (below selections) -->
+                                            <template if:true={term.selectedSections.length}>
+                                                <div class="slds-m-top_medium">
+                                                    <lightning-button label="Add Clusters" variant="brand"
+                                                        data-term-id={term.Id} onclick={handleAddClusters}>
+                                                    </lightning-button>
+                                                </div>
+                                            </template>
+
+                                            <!-- Pathway Units Table -->
+                                            <template if:true={term.selectedSections.length}>
+                                                <div class="slds-m-top_medium">
+                                                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                                                        <div class="slds-col">
+                                                            <h3 class="slds-text-heading_small">
+                                                                ({term.selectedSections.length}
+                                                                enrollment{term.selectedSectionsPlural} selected)
+                                                            </h3>
+                                                        </div>
+                                                        <div class="slds-col slds-no-flex">
+                                                            <lightning-button-icon icon-name="utility:refresh"
+                                                                onclick={handleRefreshPathwayUnits} variant="border"
+                                                                size="x-small" data-term-id={term.Id}>
+                                                            </lightning-button-icon>
+                                                        </div>
+                                                    </div>
+
+                                                    <template if:true={term.pathwayUnits.length}>
+                                                        <div class="slds-scrollable_y" style="height: 400px;">
+                                                            <table
+                                                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                                                                <thead>
+                                                                    <tr class="slds-line-height_reset">
+                                                                        <th scope="col" style="width: 18%;">
+                                                                            <div class="slds-truncate">Cluster Name
+                                                                            </div>
+                                                                        </th>
+                                                                        <th scope="col" style="width: 40%;">
+                                                                            <div class="slds-truncate">Course</div>
+                                                                        </th>
+                                                                        <th scope="col" style="width: 12%;">
+                                                                            <div class="slds-truncate">Min Courses</div>
+                                                                        </th>
+                                                                        <th scope="col" style="width: 12%;">
+                                                                            <div class="slds-truncate">Max Courses</div>
+                                                                        </th>
+                                                                        <th scope="col" style="width: 18%;">
+                                                                            <div class="slds-truncate">Enrollment</div>
+                                                                        </th>
+                                                                        <th scope="col" style="width: 15%;">
+                                                                            <div class="slds-truncate">Actions</div>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <template for:each={term.uniqueClusters}
+                                                                        for:item="cluster">
+                                                                        <tr key={cluster.key} class="slds-hint-parent">
+                                                                            <td>
+                                                                                <div class="slds-truncate"
+                                                                                    title={cluster.ClusterName}>
+                                                                                    {cluster.ClusterName}</div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="slds-truncate"
+                                                                                    title={cluster.CourseNames}>
+                                                                                    {cluster.CourseNames}</div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="slds-truncate">
+                                                                                    {cluster.MinCourses}</div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="slds-truncate">
+                                                                                    {cluster.MaxCourses}</div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="slds-truncate"
+                                                                                    title={cluster.EnrollmentName}>
+                                                                                    {cluster.EnrollmentName}</div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <lightning-button-menu
+                                                                                    alternative-text="Show menu"
+                                                                                    variant="border-filled"
+                                                                                    icon-size="x-small"
+                                                                                    menu-alignment="right">
+                                                                                    <lightning-menu-item value="edit"
+                                                                                        label="Edit"
+                                                                                        icon-name="utility:edit"
+                                                                                        onclick={handleMenuAction}
+                                                                                        data-action="edit"
+                                                                                        data-cluster-id={cluster.ClusterId}
+                                                                                        data-term-index={cluster.termIndex}>
+                                                                                    </lightning-menu-item>
+                                                                                    <lightning-menu-item value="clone"
+                                                                                        label="Clone"
+                                                                                        icon-name="utility:copy"
+                                                                                        onclick={handleMenuAction}
+                                                                                        data-action="clone"
+                                                                                        data-cluster-id={cluster.ClusterId}
+                                                                                        data-term-index={cluster.termIndex}>
+                                                                                    </lightning-menu-item>
+                                                                                    <lightning-menu-item value="delete"
+                                                                                        label="Delete"
+                                                                                        icon-name="utility:delete"
+                                                                                        onclick={handleMenuAction}
+                                                                                        data-action="delete"
+                                                                                        data-cluster-id={cluster.ClusterId}
+                                                                                        data-term-index={cluster.termIndex}>
+                                                                                    </lightning-menu-item>
+                                                                                </lightning-button-menu>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </template>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </template>
+
+                                                    <template if:false={term.uniqueClusters.length}>
+                                                        <div class="slds-text-align_center slds-p-vertical_medium">
+                                                            <p class="slds-text-color_weak">No clusters found for
+                                                                selected
+                                                                enrollments.</p>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </template>
+                            </template>
+                        </template>
+                    </template>
+                </div>
+            </template>
+
+            <!-- Non-Editable Term -->
+            <template if:false={term.isEditable}>
+                <div key={term.Id} class="slds-box slds-m-bottom_medium disabled-term">
+                    <!-- Term Header -->
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_3-of-12">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-12">
+                                    <lightning-button-icon icon-name={term.iconName} onclick={handleToggleExpand}
+                                        data-term-id={term.Id} variant="bare">
+                                    </lightning-button-icon>
+                                </div>
+                                <div class="slds-col slds-size_11-of-12">
+                                    <div class="slds-text-heading_small">{term.Name}</div>
+                                    <div class="slds-text-body_small slds-text-color_weak">
+                                        <lightning-icon icon-name="utility:lock" size="xx-small"></lightning-icon>
+                                        Outside pathway semester range
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_9-of-12">
+                            <div class="slds-grid slds-gutters">
+
+                                <div class="slds-col">
+                                    <lightning-input type="text" value={term.Term_Duration__c} disabled
+                                        label="Duration">
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-input type="date" value={term.hed__Start_Date__c} disabled
+                                        label="Start Date">
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-input type="date" value={term.hed__End_Date__c} disabled
+                                        label="End Date">
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Term Content -->
+                    <template if:true={term.isExpanded}>
+                        <template if:true={term.isLoadingPathways}>
+                            <div class="slds-text-align_center slds-p-vertical_medium">
+                                <lightning-spinner size="small"></lightning-spinner>
+                            </div>
+                        </template>
+
+                        <template if:false={term.isLoadingPathways}>
+                            <template if:false={term.pathwayType}>
+                                <div class="slds-text-align_center slds-p-vertical_medium">
+                                    <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                                    <span class="slds-text-color_weak">Please select a pathway type.</span>
+                                </div>
+                            </template>
+
+                            <template if:true={term.pathwayType}>
+                                <template if:false={term.pathwayName}>
+                                    <div class="slds-text-align_center slds-p-vertical_medium">
+                                        <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                                        <span class="slds-text-color_weak">Please select a pathway name.</span>
+                                    </div>
+                                </template>
+                            </template>
+
+                            <!-- Course Enrollments -->
+                            <template if:true={term.pathwayType}>
+                                <template if:true={term.pathwayName}>
+                                    <template if:true={term.innerSections.length}>
+                                        <div class="slds-p-around_medium">
+                                            <!-- Single-Select Radio Buttons -->
+                                            <fieldset class="slds-form-element">
+                                                <legend class="slds-form-element__legend slds-form-element__label">
+                                                    Select Course Enrollment (Choose One)
+                                                </legend>
+                                                <div class="slds-form-element__control">
+                                                    <div class="slds-radio_button-group">
+                                                        <template for:each={term.sectionOptions} for:item="option">
+                                                            <span key={option.value}
+                                                                class="slds-button slds-radio_button disabled-radio">
+                                                                <input type="radio" value={option.value} name={term.Id}
+                                                                    id={option.uniqueId} onchange={handleSectionChange}
+                                                                    data-term-id={term.Id} disabled />
+                                                                <label class="slds-radio_button__label"
+                                                                    for={option.uniqueId}>
+                                                                    <span class="slds-radio_faux">{option.label}</span>
+                                                                </label>
+                                                            </span>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <!-- Selected Info -->
+                                            <template if:true={term.selectedSections.length}>
+                                                <div
+                                                    class="slds-m-top_small slds-text-body_small slds-text-color_success">
+                                                    <lightning-icon icon-name="utility:success"
+                                                        size="x-small"></lightning-icon>
+                                                    Selected {term.selectedSections.length} enrollment(s)
+                                                </div>
+                                            </template>
+
+                                            <!-- Add Clusters Button (below selections) -->
+                                            <template if:true={term.selectedSections.length}>
+                                                <div class="slds-m-top_medium">
+                                                    <lightning-button label="Add Clusters" variant="brand"
+                                                        data-term-id={term.Id} onclick={handleAddClusters} disabled>
+                                                    </lightning-button>
+                                                </div>
+                                            </template>
+
+                                            <!-- Pathway Units Table -->
+                                            <template if:true={term.selectedSections.length}>
+                                                <div class="slds-m-top_medium">
+                                                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                                                        <div class="slds-col">
+                                                            <h3 class="slds-text-heading_small">
+                                                                ({term.selectedSections.length}
+                                                                enrollment{term.selectedSectionsPlural} selected)
+                                                            </h3>
+                                                        </div>
+                                                        <div class="slds-col slds-no-flex">
+                                                            <lightning-button-icon icon-name="utility:refresh"
+                                                                onclick={handleRefreshPathwayUnits} variant="border"
+                                                                size="x-small" data-term-id={term.Id} disabled>
+                                                            </lightning-button-icon>
+                                                        </div>
+                                                    </div>
+
+                                                    <template if:true={term.pathwayUnits.length}>
+                                                        <div class="slds-scrollable_y" style="height: 400px;">
+                                                            <table
+                                                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                                                                <thead>
+                                                                    <tr class="slds-line-height_reset">
+                                                                        <th scope="col" style="width: 18%;">
+                                                                            <div class="slds-truncate">Cluster Name
+                                                                            </div>
+                                                                        </th>
+                                                                        <th scope="col" style="width: 40%;">
+                                                                            <div class="slds-truncate">Course</div>
+                                                                        </th>
+                                                                        <th scope="col" style="width: 12%;">
+                                                                            <div class="slds-truncate">Min Courses</div>
+                                                                        </th>
+                                                                        <th scope="col" style="width: 12%;">
+                                                                            <div class="slds-truncate">Max Courses</div>
+                                                                        </th>
+                                                                        <th scope="col" style="width: 18%;">
+                                                                            <div class="slds-truncate">Enrollment</div>
+                                                                        </th>
+                                                                        <th scope="col" style="width: 15%;">
+                                                                            <div class="slds-truncate">Actions</div>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <template for:each={term.uniqueClusters}
+                                                                        for:item="cluster">
+                                                                        <tr key={cluster.key} class="slds-hint-parent">
+                                                                            <td>
+                                                                                <div class="slds-truncate"
+                                                                                    title={cluster.ClusterName}>
+                                                                                    {cluster.ClusterName}</div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="slds-truncate"
+                                                                                    title={cluster.CourseNames}>
+                                                                                    {cluster.CourseNames}</div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="slds-truncate">
+                                                                                    {cluster.MinCourses}</div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="slds-truncate">
+                                                                                    {cluster.MaxCourses}</div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="slds-truncate"
+                                                                                    title={cluster.EnrollmentName}>
+                                                                                    {cluster.EnrollmentName}</div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <lightning-button-menu
+                                                                                    alternative-text="Show menu"
+                                                                                    variant="border-filled"
+                                                                                    icon-size="x-small"
+                                                                                    menu-alignment="right" disabled>
+                                                                                    <lightning-menu-item value="edit"
+                                                                                        label="Edit"
+                                                                                        icon-name="utility:edit"
+                                                                                        onclick={handleMenuAction}
+                                                                                        data-action="edit"
+                                                                                        data-cluster-id={cluster.ClusterId}
+                                                                                        data-term-index={cluster.termIndex}>
+                                                                                    </lightning-menu-item>
+                                                                                    <lightning-menu-item value="clone"
+                                                                                        label="Clone"
+                                                                                        icon-name="utility:copy"
+                                                                                        onclick={handleMenuAction}
+                                                                                        data-action="clone"
+                                                                                        data-cluster-id={cluster.ClusterId}
+                                                                                        data-term-index={cluster.termIndex}>
+                                                                                    </lightning-menu-item>
+                                                                                    <lightning-menu-item value="delete"
+                                                                                        label="Delete"
+                                                                                        icon-name="utility:delete"
+                                                                                        onclick={handleMenuAction}
+                                                                                        data-action="delete"
+                                                                                        data-cluster-id={cluster.ClusterId}
+                                                                                        data-term-index={cluster.termIndex}>
+                                                                                    </lightning-menu-item>
+                                                                                </lightning-button-menu>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </template>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </template>
+
+                                                    <template if:false={term.uniqueClusters.length}>
+                                                        <div class="slds-text-align_center slds-p-vertical_medium">
+                                                            <p class="slds-text-color_weak">No clusters found for
+                                                                selected
+                                                                enrollments.</p>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </template>
+                            </template>
+                        </template>
+                    </template>
+                </div>
+            </template>
+        </template>
+    </template>
+
+    <!-- No Terms -->
+    <template if:false={terms.length}>
+        <template if:true={selectedPlan}>
+            <div class="slds-box slds-text-align_center">
+                <p class="slds-text-color_weak">No terms found.</p>
+            </div>
+        </template>
+    </template>
+
+    <!-- Spinners -->
+    <template if:true={isLoadingSubjects}>
+        <lightning-spinner size="medium"></lightning-spinner>
+    </template>
+    <template if:true={showSpinner}>
+        <lightning-spinner size="medium"></lightning-spinner>
+    </template>
+
+    <!-- Create Cluster Modal -->
+    <template if:true={showClusterModal}>
+        <c-modal-popup-utility-component modal-size="large" onclosepopup={handleModalClose}>
+            <div slot="header">
+                <h2 class="slds-text-heading_medium">Create Clusters</h2>
+            </div>
+            <div class="slds-p-around_medium">
+                <!-- Summary Info -->
+                <template if:true={selectedClustersInfo}>
+                    <div class="slds-box slds-theme_info slds-m-bottom_medium">
+                        <div class="slds-text-body_small">
+                            Will create <strong>{selectedClustersInfo.clusterCount} clusters</strong>
+                            with <strong>{selectedClustersInfo.totalUnits} total units</strong>
+                            ({selectedClustersInfo.unitsPerCluster} units per cluster).
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Form Fields -->
+                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                    <div class="slds-col">
+                        <lightning-input label="Base Cluster Name" value={clusterName} required
+                            onchange={handleClusterInputChange} data-field="clusterName">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-input label="Min Courses" type="number" value={minCourses} min="0"
+                            onchange={handleClusterInputChange} data-field="minCourses">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-input label="Max Courses" type="number" value={maxCourses} min="1"
+                            onchange={handleClusterInputChange} data-field="maxCourses">
+                        </lightning-input>
+                    </div>
+                </div>
+
+                <!-- Course Selection Table -->
+                <template if:true={showClusterCourseSelection}>
+                    <div class="slds-box slds-theme_shade">
+                        <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                            <div class="slds-col">
+                                <h3 class="slds-text-heading_small">Select Courses</h3>
+                            </div>
+                            <div class="slds-col slds-no-flex">
+                                <lightning-input type="search" placeholder="Search courses..."
+                                    onchange={handleCourseSearch} variant="label-hidden">
+                                </lightning-input>
+                            </div>
+                        </div>
+
+                        <!-- Course Table -->
+                        <div class="slds-scrollable_y" style="height: 300px;">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col" style="width: 3rem;">
+                                            <div class="slds-truncate">
+                                                <lightning-input type="checkbox" onchange={handleSelectAllCourses}
+                                                    checked={isAllCoursesSelected} variant="label-hidden">
+                                                </lightning-input>
+                                            </div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate">Course Name</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate">Course ID</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate">Credits</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={filteredCourses} for:item="course">
+                                        <tr key={course.value} class="slds-hint-parent">
+                                            <td>
+                                                <lightning-input type="checkbox" checked={course.isSelected}
+                                                    onchange={handleCourseSelection} data-course-id={course.value}
+                                                    variant="label-hidden">
+                                                </lightning-input>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={course.label}>{course.label}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate">{course.courseId}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate">{course.credits}</div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Selection Summary -->
+                        <div class="slds-m-top_small slds-text-body_small">
+                            <div class="slds-grid slds-grid_align-spread">
+                                <div class="slds-col">
+                                    <strong>{selectedCoursesForCluster.length}</strong> courses selected
+                                </div>
+                                <div class="slds-col slds-no-flex">
+                                    <template if:true={selectedCoursesForCluster.length}>
+                                        <lightning-button label="Clear All" size="small"
+                                            onclick={handleClearAllCourses}>
+                                        </lightning-button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div slot="footer">
+                <lightning-button label="Cancel" onclick={handleModalClose}></lightning-button>
+                <lightning-button label="Create Clusters" variant="brand" onclick={handleSaveCluster}
+                    disabled={isSaveClusterDisabled}>
+                </lightning-button>
+            </div>
+        </c-modal-popup-utility-component>
+    </template>
+
+    <!-- Edit Cluster Modal -->
+    <template if:true={showEditModal}>
+        <c-modal-popup-utility-component modal-size="large" onclosepopup={handleCloseEditModal}>
+            <div slot="header">
+                <h2 class="slds-text-heading_medium">Edit Cluster</h2>
+            </div>
+            <div class="slds-p-around_medium">
+                <!-- Summary Info -->
+                <template if:true={editSelectedClustersInfo}>
+                    <div class="slds-box slds-theme_info slds-m-bottom_medium">
+                        <div class="slds-text-body_small">
+                            Will update cluster with <strong>{editSelectedClustersInfo.totalUnits} courses</strong>.
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Form Fields -->
+                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                    <div class="slds-col">
+                        <lightning-input label="Cluster Name" value={editClusterName} required
+                            onchange={handleEditInputChange} data-field="editClusterName">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-input label="Min Courses" type="number" value={editMinCourses} min="0"
+                            onchange={handleEditInputChange} data-field="editMinCourses">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-input label="Max Courses" type="number" value={editMaxCourses} min="1"
+                            onchange={handleEditInputChange} data-field="editMaxCourses">
+                        </lightning-input>
+                    </div>
+                </div>
+
+                <!-- Course Selection Table -->
+                <div class="slds-box slds-theme_shade">
+                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                        <div class="slds-col">
+                            <h3 class="slds-text-heading_small">Select Courses</h3>
+                        </div>
+                        <div class="slds-col slds-no-flex">
+                            <lightning-input type="search" placeholder="Search courses..." onchange={handleCourseSearch}
+                                variant="label-hidden">
+                            </lightning-input>
+                        </div>
+                    </div>
+
+                    <!-- Course Table -->
+                    <div class="slds-scrollable_y" style="height: 300px;">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th scope="col" style="width: 3rem;">
+                                        <div class="slds-truncate">
+                                            <lightning-input type="checkbox" onchange={handleSelectAllCourses}
+                                                checked={isAllCoursesSelected} variant="label-hidden">
+                                            </lightning-input>
+                                        </div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate">Course Name</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate">Course ID</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate">Credits</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={filteredCourses} for:item="course">
+                                    <tr key={course.value} class="slds-hint-parent">
+                                        <td>
+                                            <lightning-input type="checkbox" checked={course.isSelected}
+                                                onchange={handleEditCourseSelection} data-course-id={course.value}
+                                                variant="label-hidden">
+                                            </lightning-input>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={course.label}>{course.label}</div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate">{course.courseId}</div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate">{course.credits}</div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Selection Summary -->
+                    <div class="slds-m-top_small slds-text-body_small">
+                        <div class="slds-grid slds-grid_align-spread">
+                            <div class="slds-col">
+                                <strong>{editSelectedCourses.length}</strong> courses selected
+                            </div>
+                            <div class="slds-col slds-no-flex">
+                                <template if:true={editSelectedCourses.length}>
+                                    <lightning-button label="Clear All" size="small" onclick={handleClearAllCourses}>
+                                    </lightning-button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div slot="footer">
+                <lightning-button label="Cancel" onclick={handleCloseEditModal}></lightning-button>
+                <lightning-button label="Update Cluster" variant="brand" onclick={handleSaveEdit}
+                    disabled={isEditSaveDisabled}></lightning-button>
+            </div>
+        </c-modal-popup-utility-component>
+    </template>
+
+    <!-- Delete Confirmation Modal -->
+    <template if:true={showDeleteModal}>
+        <c-modal-popup-utility-component modal-size="small" onclosepopup={handleCloseDeleteModal}>
+            <div slot="header">
+                <h2 class="slds-text-heading_medium">Delete Cluster</h2>
+            </div>
+            <div class="slds-p-around_medium">
+                <div class="slds-text-align_center">
+                    <lightning-icon icon-name="utility:warning" size="large" variant="warning"></lightning-icon>
+                    <p class="slds-m-top_medium slds-text-body_regular">
+                        Are you sure you want to delete the cluster
+                        <strong>"{clusterToDelete.ClusterName}"</strong>?
+                    </p>
+                    <p class="slds-m-top_small slds-text-color_weak">
+                        This action cannot be undone and will permanently remove all associated pathway units.
+                    </p>
+                </div>
+            </div>
+            <div slot="footer">
+                <lightning-button label="Cancel" onclick={handleCloseDeleteModal}></lightning-button>
+                <lightning-button label="Delete" variant="destructive" onclick={handleConfirmDelete}>
+                </lightning-button>
+            </div>
+        </c-modal-popup-utility-component>
+    </template>
+
+</template>

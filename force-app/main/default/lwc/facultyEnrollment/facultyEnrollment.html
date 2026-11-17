@@ -1,0 +1,135 @@
+<template>
+	
+
+	<lightning-card title="Faculty Enrollment">
+		<div slot="actions">
+			<lightning-button label="Enroll" variant="brand" class="slds-m-left_xx-small"
+				onclick={handleEnrollClick}></lightning-button>
+		</div>
+
+
+		<div class="slds-m-around_medium">
+			<div class="slds-grid slds-gutters">
+				<div class="slds-col slds-size_5-of-12">
+					<div>
+						<lightning-combobox name="institute" label="Institute" value={state.institute}
+							placeholder="Select Institute" options={instituteOptions} onchange={handleInstituteChange}
+							class="slds-size_12-of-12" variant="label-inline" required data-id="input">
+						</lightning-combobox>
+
+						<lightning-combobox name="department" label="Institute Department" value={state.department}
+							placeholder="Select Institute Department" options={departmentOptions}
+							onchange={handleDepartmentChange} class="slds-size_12-of-12 " variant="label-inline"
+							required data-id="input">
+						</lightning-combobox>
+						<lightning-combobox name="program" label="Program" value={state.program}
+							placeholder="Select Program" options={programOptions} onchange={handleProgramChange}
+							class="slds-size_12-of-12 " variant="label-inline" required data-id="input">
+						</lightning-combobox>
+
+						<c-custom-searchable-combobox options={specializationOptions}
+							selected-value={state.programSpecialization} label="Elective" variant="label-inline"
+							onselectoption={handleSpecializationChange} class="slds-size_12-of-12 "
+							placeholder="Select Elective" data-id="input" data-name="specialization">
+						</c-custom-searchable-combobox>
+
+						<c-custom-searchable-combobox options={intakeOptions} selected-value={state.programPlan}
+							label="Program Plan (Intake)" variant="label-inline" onselectoption={handleIntakeChange}
+							class="slds-size_12-of-12 " placeholder="Select Program Plan" required data-id="input"
+							data-name="intake">
+						</c-custom-searchable-combobox>
+
+						<c-custom-searchable-combobox options={termOptions} selected-value={state.term} label="Semester"
+							variant="label-inline" onselectoption={handleTermChange} class="slds-size_12-of-12 "
+							placeholder="Select Semester" required data-id="input" data-name="term">
+						</c-custom-searchable-combobox>
+
+						<lightning-combobox name="section" label="Section" value={state.section}
+							placeholder="Select Section" options={sectionOptions} onchange={handleSectionChange}
+							class="slds-size_12-of-12 " variant="label-inline" required data-id="input">
+						</lightning-combobox>
+
+						<button class="slds-button slds-button_brand" onclick={handleSearchClick}>Search</button>
+					</div>
+				</div>
+				<div class="slds-col slds-size_7-of-12">
+					<div class="slds-m-top_small slds-theme_default eva_table eva_editable">
+						<div class="slds-table--header-fixed_container" style="height: 480px">
+							<div class="slds-scrollable fixTableHead" style="height: 100%">
+								<table
+									class="slds-table slds-table_fixed-layout slds-table--header-fixed evatableBSpacing">
+									<thead>
+										<tr class="evaTRHead">
+											<th class="" scope="col" style="width: 40%">
+												<div class="slds-truncate panTitle" title="Subject Name">Subject Name
+												</div>
+											</th>
+											<th class="" scope="col" style="width: 30%">
+												<div class="slds-truncate" title="Faculties">Primary Faculty</div>
+											</th>
+											<th class="" scope="col" style="width: 30%">
+												<div class="slds-truncate" title="Faculties">Supporting Faculties</div>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<template for:each={courseOfferings} for:item="courseOffering"
+											for:index="index">
+											<tr class="parent evaTableRow" data-id={index}
+												key={courseOffering.courseOfferingId}>
+												<td>
+													<div class="panTitle slds-cell-wrap">
+														{courseOffering.courseOfferingName}</div>
+												</td>
+												<td>
+													<div class="panDetails numMembers">
+														<div class="slds-form-element PanelsLabels">
+															<div class="slds-form-element__control">
+																<div class="slds-p-top_small">
+																	<c-custom-combobox-search data-index={index}
+																		options={allFacultyOptions} single-select="true"
+																		name="facultyNames" required="true"
+																		placeholder="Search Here"
+																		force-show-pills="true"
+																		pill-remove-msg="Are you sure you want to remove this Faculty?"
+																		selected={courseOffering.selectedFaculties.primary}
+																		onchange={handlePrimarySelection}>
+																	</c-custom-combobox-search>
+																</div>
+															</div>
+														</div>
+													</div>
+												</td>
+												<td>
+													<div class="panDetails numMembers">
+														<div class="slds-form-element PanelsLabels">
+															<div class="slds-form-element__control">
+																<!-- <input type="text" placeholder="Panel 1" required="" class="slds-input" /> -->
+																<div class="slds-p-top_small">
+																	<c-custom-combobox-search data-index={index}
+																		options={courseOffering.secondaryFacultyOptions}
+																		name="facultyNames" required="true"
+																		placeholder="Search Here" show-pills="true"
+																		selected={courseOffering.selectedFaculties.supporting}
+																		pill-remove-msg="Are you sure you want to remove this Faculty?"
+																		onchange={handleSelection}>
+																	</c-custom-combobox-search>
+																</div>
+															</div>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</template>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</lightning-card>
+</template>

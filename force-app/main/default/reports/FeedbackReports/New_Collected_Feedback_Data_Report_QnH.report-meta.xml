@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <block>
+        <blockInfo>
+            <blockId>B0</blockId>
+            <joinTable>Collected_Feedback_Data__c</joinTable>
+        </blockInfo>
+        <columns>
+            <field>Collected_Feedback_Data__c$Name</field>
+        </columns>
+        <columns>
+            <field>Collected_Feedback_Data__c$Contact__c</field>
+        </columns>
+        <columns>
+            <field>Collected_Feedback_Data__c$Feedback_Master__c.Program__c</field>
+        </columns>
+        <columns>
+            <field>Collected_Feedback_Data__c$Term__c</field>
+        </columns>
+        <columns>
+            <field>Collected_Feedback_Data__c$Feedback_Master__c.Feedback_Type__c</field>
+        </columns>
+        <columns>
+            <aggregateTypes>Sum</aggregateTypes>
+            <field>Collected_Feedback_Data__c$Feedback_Master_Child__c.Order__c</field>
+        </columns>
+        <columns>
+            <field>Collected_Feedback_Data__c$Question__c</field>
+        </columns>
+        <columns>
+            <field>Collected_Feedback_Data__c$Question_Type__c</field>
+        </columns>
+        <columns>
+            <field>Collected_Feedback_Data__c$Answer__c</field>
+        </columns>
+        <columns>
+            <field>Collected_Feedback_Data__c$Feedback_DateTime__c</field>
+        </columns>
+        <columns>
+            <field>Collected_Feedback_Data__c$Feedback_Item__c.Feedback_Status__c</field>
+        </columns>
+        <format>Summary</format>
+        <name>Collected Feedback Data block 1</name>
+        <params>
+            <name>co</name>
+            <value>1</value>
+        </params>
+        <reportType>Collecetd_Feedback_Data__c</reportType>
+        <scope>organization</scope>
+        <showGrandTotal>true</showGrandTotal>
+        <showSubTotals>true</showSubTotals>
+        <timeFrameFilter>
+            <dateColumn>Collected_Feedback_Data__c$CreatedDate</dateColumn>
+            <interval>INTERVAL_CUSTOM</interval>
+        </timeFrameFilter>
+    </block>
+    <blockInfo>
+        <blockId xsi:nil="true"/>
+        <joinTable>Collected_Feedback_Data__c</joinTable>
+    </blockInfo>
+    <format>MultiBlock</format>
+    <name>Collected Feedback Data Report</name>
+    <reportType>Collecetd_Feedback_Data__c</reportType>
+    <showDetails>true</showDetails>
+</Report>

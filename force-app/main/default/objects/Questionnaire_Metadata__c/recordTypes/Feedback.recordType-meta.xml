@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Feedback</fullName>
+    <active>true</active>
+    <label>Feedback</label>
+    <picklistValues>
+        <picklist>Academic__c</picklist>
+        <values>
+            <fullName>Academic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non Academic</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Face_to_Face_and_Online__c</picklist>
+        <values>
+            <fullName>Face to Face</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Feedback_Type__c</picklist>
+        <values>
+            <fullName>Admissions Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Assistant Dean Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dean Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deputy Director Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Director Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>End Term Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Events and Workshop Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Exam Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Final Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Graduation Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interim Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mid Term FeedBack</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Orientation Feedback</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

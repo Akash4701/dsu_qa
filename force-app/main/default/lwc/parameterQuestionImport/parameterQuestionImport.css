@@ -1,0 +1,21 @@
+/* Layout and spacing come from SLDS utility classes. Only what SLDS has no class for is here. */
+
+.download-container {
+    display: none;
+}
+
+/* Long lists scroll inside the dialog instead of stretching it. */
+.scroll-box {
+    max-height: 16rem;
+    overflow: auto;
+}
+
+/* Long question text wraps instead of widening the table. */
+.wrap-cell {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.row-col {
+    width: 4.5rem;
+}

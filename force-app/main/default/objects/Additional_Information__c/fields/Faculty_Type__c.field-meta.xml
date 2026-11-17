@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Faculty_Type__c</fullName>
+    <label>Faculty_Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Conferences, Conclaves and Seminars</fullName>
+                <default>false</default>
+                <label>Conferences, Conclaves and Seminars</label>
+            </value>
+            <value>
+                <fullName>Learning,Development</fullName>
+                <default>false</default>
+                <label>Learning,Development</label>
+            </value>
+            <value>
+                <fullName>Consulting Projects</fullName>
+                <default>false</default>
+                <label>Consulting Projects</label>
+            </value>
+            <value>
+                <fullName>Grants</fullName>
+                <default>false</default>
+                <label>Grants</label>
+            </value>
+            <value>
+                <fullName>Patents</fullName>
+                <default>false</default>
+                <label>Patents</label>
+            </value>
+            <value>
+                <fullName>Publications</fullName>
+                <default>false</default>
+                <label>Publications</label>
+            </value>
+            <value>
+                <fullName>Awards</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Awards</label>
+            </value>
+            <value>
+                <fullName>Certificate</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Certificate</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

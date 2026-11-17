@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Program_Plans__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>PKDSU-199: when checked the announcement is shown to students of every Program Plan. Unchecked when the announcement is mapped to specific Program Plans (Announcement Program Plans).</description>
+    <inlineHelpText>Checked: visible to all students. Use the Program Plans button to limit the announcement to selected Program Plans and semesters.</inlineHelpText>
+    <label>Visible to All Program Plans</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

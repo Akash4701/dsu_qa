@@ -1,0 +1,326 @@
+<template>
+    <div class="sr-root">
+        <!-- Hidden anchor — must be inside the single root div (LWC API 56 single-root rule) -->
+        <a class="sr-dl-anchor" style="display:none;position:absolute;"></a>
+
+        <!-- ═══════════════════════════════════════════════════════════
+             LIST VIEW  (filter + KPI + table + optional side panel)
+        ════════════════════════════════════════════════════════════ -->
+        <template if:true={isListView}>
+
+            <!-- FILTER BAR -->
+            <div class="sr-filter-bar">
+                <div class="sr-filter-grid">
+                    <div class="sr-filter-item sr-filter-date">
+                        <label class="sr-filter-label">Date Range</label>
+                        <div class="sr-date-range">
+                            <lightning-input type="date" value={filters.dateFrom} onchange={handleDateFrom} class="sr-date-input"></lightning-input>
+                            <span class="sr-date-sep">–</span>
+                            <lightning-input type="date" value={filters.dateTo}   onchange={handleDateTo}   class="sr-date-input"></lightning-input>
+                        </div>
+                    </div>
+                    <div class="sr-filter-item sr-filter-search">
+                        <label class="sr-filter-label">Student</label>
+                        <lightning-input type="search" placeholder="Search student..." value={filters.studentSearch} onchange={handleStudentSearch}></lightning-input>
+                    </div>
+                    <div class="sr-filter-item">
+                        <label class="sr-filter-label">Session Status</label>
+                        <lightning-combobox placeholder="All" value={filters.statusFilter} options={statusOptions} onchange={handleStatusChange} dropdown-alignment="auto"></lightning-combobox>
+                    </div>
+                    <div class="sr-filter-actions">
+                        <lightning-button variant="brand"   label="Search" icon-name="utility:search"  onclick={handleSearch}></lightning-button>
+                        <lightning-button variant="neutral" label="Reset"  icon-name="utility:refresh" onclick={handleReset}></lightning-button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI CARDS -->
+            <div class="sr-kpi-row">
+                <div class="sr-kpi-card">
+                    <div class="sr-kpi-icon-wrap kpi-blue"><lightning-icon icon-name="standard:contact" size="small"></lightning-icon></div>
+                    <div class="sr-kpi-body"><p class="sr-kpi-value">{kpi.totalStudents}</p><p class="sr-kpi-label">Total Students</p><p class="sr-kpi-sub">All Registered</p></div>
+                </div>
+                <div class="sr-kpi-card">
+                    <div class="sr-kpi-icon-wrap kpi-green"><lightning-icon icon-name="standard:person_account" size="small"></lightning-icon></div>
+                    <div class="sr-kpi-body"><p class="sr-kpi-value">{kpi.studentsLoggedIn}</p><p class="sr-kpi-label">Students Logged In</p><p class="sr-kpi-sub">In Selected Period</p></div>
+                </div>
+                <div class="sr-kpi-card">
+                    <div class="sr-kpi-icon-wrap kpi-purple"><lightning-icon icon-name="standard:groups" size="small"></lightning-icon></div>
+                    <div class="sr-kpi-body"><p class="sr-kpi-value">{kpi.currentlyOnline}</p><p class="sr-kpi-label">Currently Online</p><p class="sr-kpi-sub"><span class="online-dot"></span>Active Now</p></div>
+                </div>
+                <div class="sr-kpi-card">
+                    <div class="sr-kpi-icon-wrap kpi-orange"><lightning-icon icon-name="standard:opportunity" size="small"></lightning-icon></div>
+                    <div class="sr-kpi-body"><p class="sr-kpi-value">{kpi.totalSessions}</p><p class="sr-kpi-label">Total Sessions</p><p class="sr-kpi-sub">In Selected Period</p></div>
+                </div>
+                <div class="sr-kpi-card">
+                    <div class="sr-kpi-icon-wrap kpi-red"><lightning-icon icon-name="standard:event" size="small"></lightning-icon></div>
+                    <div class="sr-kpi-body"><p class="sr-kpi-value">{kpi.avgSession}</p><p class="sr-kpi-label">Average Session Time</p><p class="sr-kpi-sub">Per Session</p></div>
+                </div>
+            </div>
+
+            <!-- MAIN CONTENT: Table + optional side panel -->
+            <div class={mainContentClass}>
+
+                <!-- Student Session Summary Table -->
+                <div class="sr-table-panel">
+                    <div class="sr-table-header">
+                        <div>
+                            <span class="sr-table-title">Student Session Summary</span>
+                            <span class="sr-table-sub">Showing {showingFrom} to {showingTo} of {reportData.total} entries</span>
+                        </div>
+                        <lightning-button variant="neutral" label="Export" icon-name="utility:download" onclick={handleExport} disabled={isExporting}></lightning-button>
+                    </div>
+
+                    <template if:true={isTableLoading}>
+                        <div class="sr-spinner-wrap"><lightning-spinner alternative-text="Loading" size="small"></lightning-spinner></div>
+                    </template>
+
+                    <template if:false={isTableLoading}>
+                        <div class="sr-table-wrap">
+                            <table class="sr-table">
+                                <thead>
+                                    <tr>
+                                        <th class="sr-th sr-th-num">#</th>
+                                        <th class="sr-th">Student Name</th>
+                                        <th class="sr-th">Roll No.</th>
+                                        <th class="sr-th sr-th-sort" onclick={handleSortFirstLogin}>First Login <span class="sr-sort-icon">{sortIconFirstLogin}</span></th>
+                                        <th class="sr-th sr-th-sort" onclick={handleSortLastLogout}>Last Logout <span class="sr-sort-icon">{sortIconLastLogout}</span></th>
+                                        <th class="sr-th sr-th-center">Sessions</th>
+                                        <th class="sr-th">Total Active Time</th>
+                                        <th class="sr-th">Avg. Session</th>
+                                        <th class="sr-th sr-th-center">Status</th>
+                                        <th class="sr-th sr-th-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template if:true={hasRows}>
+                                        <template for:each={reportData.rows} for:item="row">
+                                            <tr key={row.contactId} class="sr-tr" data-contactid={row.contactId}>
+                                                <td class="sr-td sr-td-num">{row.rowNum}</td>
+                                                <td class="sr-td"><span class="sr-student-link">{row.studentName}</span></td>
+                                                <td class="sr-td sr-td-muted">{row.rollNumber}</td>
+                                                <td class="sr-td">{row.firstLoginFmt}</td>
+                                                <td class="sr-td sr-td-muted">{row.lastLogoutFmt}</td>
+                                                <td class="sr-td sr-td-center">{row.sessionCount}</td>
+                                                <td class="sr-td sr-td-bold">{row.totalActiveFmt}</td>
+                                                <td class="sr-td sr-td-muted">{row.avgSessionFmt}</td>
+                                                <td class="sr-td sr-td-center"><span class={row.statusClass}>{row.status}</span></td>
+                                                <td class="sr-td sr-td-center">
+                                                    <button class="sr-action-btn" data-contactid={row.contactId} onclick={handleViewDetail} title="View Full Details">
+                                                        <lightning-icon icon-name="utility:preview" size="x-small"></lightning-icon>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </template>
+                                    <template if:false={hasRows}>
+                                        <tr><td colspan="10" class="sr-empty-row">No session records found for the selected filters.</td></tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="sr-pagination">
+                            <div class="sr-page-info">
+                                <button class="sr-page-nav" disabled={isPrevDisabled} onclick={handlePrev}>&#8249;</button>
+                                <template for:each={pageNumbers} for:item="p">
+                                    <button key={p.key} class={p.btnClass} data-page={p.value} onclick={handlePageClick} disabled={p.isEllipsis}>{p.label}</button>
+                                </template>
+                                <button class="sr-page-nav" disabled={isNextDisabled} onclick={handleNext}>&#8250;</button>
+                            </div>
+                            <div class="sr-page-size">
+                                <span>Show</span>
+                                <lightning-combobox value={pageSize} options={pageSizeOptions} onchange={handlePageSizeChange} class="sr-pagesize-select" dropdown-alignment="auto"></lightning-combobox>
+                                <span>entries</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+            </div>
+
+        </template><!-- end LIST VIEW -->
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             DETAIL PAGE VIEW  (full-width student session report)
+        ════════════════════════════════════════════════════════════ -->
+        <template if:true={isDetailView}>
+            <div class="sr-dp-root">
+
+                <!-- Back bar -->
+                <div class="sr-dp-topbar">
+                    <button class="sr-dp-back-btn" onclick={handleBack}>
+                        <lightning-icon icon-name="utility:chevronleft" size="x-small" class="sr-dp-back-icon"></lightning-icon>
+                        Back to Session Summary
+                    </button>
+                    <template if:true={hasDetailPageData}>
+                        <lightning-button variant="neutral" label="Download Report" icon-name="utility:download" onclick={handleDownloadStudentDetail}></lightning-button>
+                    </template>
+                </div>
+
+                <!-- Loading -->
+                <template if:true={isDetailLoading}>
+                    <div class="sr-dp-loading">
+                        <lightning-spinner alternative-text="Loading student details..." size="large" variant="brand"></lightning-spinner>
+                    </div>
+                </template>
+
+                <!-- Full content -->
+                <template if:true={hasDetailPageData}>
+
+                    <!-- Student Header Card -->
+                    <div class="sr-dp-header-card">
+                        <div class="sr-dp-avatar">{detail.initials}</div>
+                        <div class="sr-dp-hc-info">
+                            <h1 class="sr-dp-hc-name">{detail.contactName}</h1>
+                            <p class="sr-dp-hc-sub">{detail.rollNumber}<template if:true={detail.programName}> &nbsp;·&nbsp; {detail.programName}</template></p>
+                        </div>
+                        <div class="sr-dp-hc-right">
+                            <span class={detail.statusBadgeClass}>{detail.statusLabel}</span>
+                            <p class="sr-dp-hc-last">Last Activity: {detail.lastActivityFmt}</p>
+                        </div>
+                    </div>
+
+                    <!-- 5 Summary Metric Cards -->
+                    <div class="sr-dp-metrics-row">
+                        <div class="sr-dp-mc">
+                            <p class="sr-dp-ml">First Login</p>
+                            <p class="sr-dp-md">{detail.firstLoginDate}</p>
+                            <p class="sr-dp-mt">{detail.firstLoginTime}</p>
+                        </div>
+                        <div class="sr-dp-mc">
+                            <p class="sr-dp-ml">Last Logout</p>
+                            <p class="sr-dp-md">{detail.lastLogoutDate}</p>
+                            <p class="sr-dp-mt">{detail.lastLogoutTime}</p>
+                        </div>
+                        <div class="sr-dp-mc">
+                            <p class="sr-dp-ml">Total Sessions</p>
+                            <p class="sr-dp-mv">{detail.totalSessions}</p>
+                        </div>
+                        <div class="sr-dp-mc">
+                            <p class="sr-dp-ml">Total Active Time</p>
+                            <p class="sr-dp-mv">{detail.totalActiveFmt}</p>
+                        </div>
+                        <div class="sr-dp-mc">
+                            <p class="sr-dp-ml">Avg. Session</p>
+                            <p class="sr-dp-mv">{detail.avgSessionFmt}</p>
+                        </div>
+                    </div>
+
+                    <!-- Login History Table (full width, paginated, latest first) -->
+                    <div class="sr-dp-table-card">
+                        <div class="sr-dp-tc-header">
+                            <h2 class="sr-dp-tc-title">Login History</h2>
+                            <span class="sr-dp-tc-count">
+                                Showing {dpShowingFrom}–{dpShowingTo} of {dpTotalRows} sessions (All Time)
+                            </span>
+                        </div>
+
+                        <template if:true={hasSessionRows}>
+                            <div class="sr-dp-table-wrap">
+                                <table class="sr-dp-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="sr-dp-th sr-dp-th-num">#</th>
+                                            <th class="sr-dp-th">Date</th>
+                                            <th class="sr-dp-th">Login Time</th>
+                                            <th class="sr-dp-th">Logout Time</th>
+                                            <th class="sr-dp-th">Duration</th>
+                                            <th class="sr-dp-th">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={paginatedSessionRows} for:item="row">
+                                            <tr key={row.key} class="sr-dp-tr">
+                                                <td class="sr-dp-td sr-dp-td-num">{row.num}</td>
+                                                <td class="sr-dp-td">{row.loginDate}</td>
+                                                <td class="sr-dp-td">
+                                                    <div class="sr-dp-time-cell">
+                                                        <span class="sr-dp-login-dot"></span>{row.loginTime}
+                                                    </div>
+                                                </td>
+                                                <td class="sr-dp-td">
+                                                    <div class="sr-dp-time-cell">
+                                                        <span class="sr-dp-logout-dot"></span>{row.logoutTime}
+                                                    </div>
+                                                </td>
+                                                <td class="sr-dp-td sr-dp-td-bold">{row.duration}</td>
+                                                <td class="sr-dp-td"><span class={row.statusClass}>{row.status}</span></td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Pagination controls -->
+                            <div class="sr-dp-pagination">
+                                <span class="sr-dp-pg-info">
+                                    Page {dpPage} of {dpTotalPages}
+                                </span>
+                                <div class="sr-dp-pg-btns">
+                                    <button class="sr-dp-pg-btn" disabled={dpIsPrevDisabled} onclick={handleDpPrev}>&#8249; Prev</button>
+                                    <button class="sr-dp-pg-btn" disabled={dpIsNextDisabled} onclick={handleDpNext}>Next &#8250;</button>
+                                </div>
+                            </div>
+                        </template>
+
+                        <template if:false={hasSessionRows}>
+                            <div class="sr-dp-empty-state">
+                                <lightning-icon icon-name="utility:inbox" size="medium"></lightning-icon>
+                                <p>No sessions found in the selected date range.</p>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Bottom: Daily chart + 7-day summary -->
+                    <div class="sr-dp-bottom">
+                        <div class="sr-dp-chart-card">
+                            <p class="sr-dp-card-title">Daily Active Time — Last 7 Days</p>
+                            <div class="sr-bar-chart">
+                                <template for:each={weeklyData} for:item="day">
+                                    <div key={day.dayLabel} class="sr-bar-col">
+                                        <div class="sr-bar-outer">
+                                            <template if:true={day.hasData}><div class="sr-bar-label-top">{day.durationFmt}</div></template>
+                                            <div class="sr-bar-inner" style={day.barStyle}></div>
+                                        </div>
+                                        <p class="sr-bar-day">{day.shortDay}</p>
+                                        <p class="sr-bar-date">{day.dateLabel}</p>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="sr-dp-summary-card">
+                            <p class="sr-dp-card-title">Summary (Last 7 Days)</p>
+                            <template if:true={weeklySummary.hasActivity}>
+                                <div class="sr-weekly-grid">
+                                    <div class="sr-weekly-stat"><p class="sr-ws-label">Total Active Time</p><p class="sr-ws-value">{weeklySummary.totalActive}</p></div>
+                                    <div class="sr-weekly-stat"><p class="sr-ws-label">Average Daily Time</p><p class="sr-ws-value">{weeklySummary.avgDaily}</p></div>
+                                    <div class="sr-weekly-stat"><p class="sr-ws-label">Total Logins</p><p class="sr-ws-value">{weeklySummary.totalLogins}</p></div>
+                                    <div class="sr-weekly-stat"><p class="sr-ws-label">Total Sessions</p><p class="sr-ws-value">{weeklySummary.totalSessions}</p></div>
+                                    <div class="sr-weekly-stat"><p class="sr-ws-label">Longest Session</p><p class="sr-ws-value">{weeklySummary.longestSession}</p></div>
+                                    <div class="sr-weekly-stat"><p class="sr-ws-label">Most Recent Login</p><p class="sr-ws-value sr-ws-value-link">{weeklySummary.mostRecentLogin}</p></div>
+                                </div>
+                            </template>
+                            <template if:false={weeklySummary.hasActivity}>
+                                <div class="sr-weekly-empty">
+                                    <lightning-icon icon-name="utility:clock" size="small"></lightning-icon>
+                                    <p class="sr-we-title">No activity in the last 7 days</p>
+                                    <template if:true={weeklySummary.lastSeenFmt}>
+                                        <p class="sr-we-sub">Last login: {weeklySummary.lastSeenFmt}</p>
+                                    </template>
+                                    <template if:false={weeklySummary.lastSeenFmt}>
+                                        <p class="sr-we-sub">This student has never logged in.</p>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                </template><!-- end hasDetailPageData -->
+            </div>
+        </template><!-- end DETAIL PAGE VIEW -->
+
+    </div>
+</template>

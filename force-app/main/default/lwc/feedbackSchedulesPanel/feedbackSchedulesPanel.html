@@ -1,0 +1,81 @@
+<template>
+    <div class="fh-toolbar">
+        <div class="fh-search">
+            <lightning-icon icon-name="utility:search" size="xx-small" alternative-text=""></lightning-icon>
+            <input type="search" class="fh-input" placeholder="Search by schedule, template or term" aria-label="Search schedules" value={searchText} oninput={handleSearch} />
+        </div>
+        <div class="fh-seg" role="group" aria-label="Filter by status">
+            <template for:each={chips} for:item="chip">
+                <button key={chip.label} type="button" class="fh-seg__btn" aria-pressed={chip.pressed} data-label={chip.label} onclick={handleChip}>{chip.label} <span class="count">{chip.count}</span></button>
+            </template>
+        </div>
+        <select class="fh-select" aria-label="Sort schedules" onchange={handleSort}>
+            <template for:each={sortOptions} for:item="option">
+                <option key={option.value} value={option.value} selected={option.selected}>{option.label}</option>
+            </template>
+        </select>
+        <button lwc:if={hasFilters} type="button" class="fh-link" onclick={handleClear}>Clear filters</button>
+        <div class="fh-toolbar__end">
+            <span class="fh-small fh-muted">{resultLabel}</span>
+            <button type="button" class="fh-btn fh-btn_icon" title="Refresh" aria-label="Refresh" onclick={handleRefresh}>
+                <lightning-icon icon-name="utility:refresh" size="x-small" alternative-text="Refresh"></lightning-icon>
+            </button>
+            <button type="button" class="fh-btn fh-btn_primary" onclick={handleNew}>
+                <lightning-icon icon-name="utility:add" size="x-small" variant="inverse" alternative-text=""></lightning-icon>
+                New Schedule
+            </button>
+        </div>
+    </div>
+
+    <template lwc:if={error}>
+        <c-feedback-message variant="error" title="We couldn't load the schedules" message={error} action-label="Try again" onaction={handleRefresh}></c-feedback-message>
+    </template>
+    <template lwc:elseif={showSkeleton}>
+        <c-feedback-skeleton variant="rows" count="8"></c-feedback-skeleton>
+    </template>
+    <template lwc:elseif={isEmpty}>
+        <c-feedback-message title="No schedules to show" message={emptyMessage} icon-name="utility:event" action-label="New Schedule" onaction={handleNew}></c-feedback-message>
+    </template>
+    <template lwc:elseif={hasRows}>
+        <section class="fh-card fh-fade-in">
+            <div class={wrapClass}>
+                <table class="fh-table" aria-label="Feedback schedules" aria-busy={loading}>
+                    <thead>
+                        <tr>
+                            <th scope="col">Schedule</th>
+                            <th scope="col">Template</th>
+                            <th scope="col">Term</th>
+                            <th scope="col">Window</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="resp-col">Responses</th>
+                            <th scope="col"><span class="fh-visually-hidden">Actions</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={rows} for:item="row">
+                            <tr key={row.id}>
+                                <td><button type="button" class="fh-link" data-id={row.id} onclick={handleOpenRecord}>{row.name}</button></td>
+                                <td>{row.template}</td>
+                                <td>{row.term}</td>
+                                <td>
+                                    <div>{row.window}</div>
+                                    <div class={row.captionClass}>{row.caption}</div>
+                                </td>
+                                <td><c-feedback-badge label={row.status} tone={row.statusTone}></c-feedback-badge></td>
+                                <td class="resp-col">
+                                    <template lwc:if={row.hasItems}>
+                                        <div class="fh-small fh-muted">{row.responseLabel} responded</div>
+                                        <c-feedback-rate value={row.rate} tone={row.rateTone} target={target} compact></c-feedback-rate>
+                                    </template>
+                                    <span lwc:else class="fh-chip fh-chip_warning">No items yet</span>
+                                </td>
+                                <td class="act"><button type="button" class="fh-link" data-id={row.id} onclick={handleOpenResponses}>View responses →</button></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <c-feedback-pager page-number={page.pageNumber} page-size={page.pageSize} total={total} total-pages={totalPages} truncated={truncated} noun="schedule" onpagechange={handlePageChange} onsizechange={handleSizeChange}></c-feedback-pager>
+        </section>
+    </template>
+</template>

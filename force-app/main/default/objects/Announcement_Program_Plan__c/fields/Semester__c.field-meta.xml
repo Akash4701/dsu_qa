@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Semester__c</fullName>
+    <description>Optional. Blank means every semester of the Program Plan. Matched on the semester number of the student&apos;s current Program Enrollment.</description>
+    <inlineHelpText>Leave blank to show the announcement to all semesters of this Program Plan.</inlineHelpText>
+    <label>Semester</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Semester 1</fullName>
+                <default>false</default>
+                <label>Semester 1</label>
+            </value>
+            <value>
+                <fullName>Semester 2</fullName>
+                <default>false</default>
+                <label>Semester 2</label>
+            </value>
+            <value>
+                <fullName>Semester 3</fullName>
+                <default>false</default>
+                <label>Semester 3</label>
+            </value>
+            <value>
+                <fullName>Semester 4</fullName>
+                <default>false</default>
+                <label>Semester 4</label>
+            </value>
+            <value>
+                <fullName>Semester 5</fullName>
+                <default>false</default>
+                <label>Semester 5</label>
+            </value>
+            <value>
+                <fullName>Semester 6</fullName>
+                <default>false</default>
+                <label>Semester 6</label>
+            </value>
+            <value>
+                <fullName>Semester 7</fullName>
+                <default>false</default>
+                <label>Semester 7</label>
+            </value>
+            <value>
+                <fullName>Semester 8</fullName>
+                <default>false</default>
+                <label>Semester 8</label>
+            </value>
+            <value>
+                <fullName>Semester 9</fullName>
+                <default>false</default>
+                <label>Semester 9</label>
+            </value>
+            <value>
+                <fullName>Semester 10</fullName>
+                <default>false</default>
+                <label>Semester 10</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

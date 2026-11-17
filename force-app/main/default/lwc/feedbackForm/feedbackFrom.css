@@ -1,0 +1,9 @@
+.centered-form {
+    margin: 0 auto;
+    width: 50%;
+}
+
+.slds-card {
+    box-shadow: var(--lwc-box-shadow-medium);
+    border-radius: var(--lwc-border-radius-medium);
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Lets the student portal integration user read and update the CodeTantra registration flag on Affiliations.</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Affiliation__c.CodeTantra_Registered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>CodeTantra Integration</label>
+</PermissionSet>

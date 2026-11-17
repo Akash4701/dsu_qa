@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SOBS__c</fullName>
+    <description>This field records the source of basic salary at the reference date, or the end date of the contract if earlier</description>
+    <label>SOBS</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Wholly general financed by the higher education provider</fullName>
+                <default>false</default>
+                <label>Wholly general financed by the higher education provider</label>
+            </value>
+            <value>
+                <fullName>Partly financed by the higher education provider</fullName>
+                <default>false</default>
+                <label>Partly financed by the higher education provider</label>
+            </value>
+            <value>
+                <fullName>NHS/General Medical or General Dental practice or Department of Health</fullName>
+                <default>false</default>
+                <label>NHS/General Medical or General Dental practice or Department of Health</label>
+            </value>
+            <value>
+                <fullName>UK central government bodies and local authorities</fullName>
+                <default>false</default>
+                <label>UK central government bodies and local authorities</label>
+            </value>
+            <value>
+                <fullName>UK industry, commerce and public corporations</fullName>
+                <default>false</default>
+                <label>UK industry, commerce and public corporations</label>
+            </value>
+            <value>
+                <fullName>EU government bodies</fullName>
+                <default>false</default>
+                <label>EU government bodies</label>
+            </value>
+            <value>
+                <fullName>EU other</fullName>
+                <default>false</default>
+                <label>EU other</label>
+            </value>
+            <value>
+                <fullName>Other overseas sources</fullName>
+                <default>false</default>
+                <label>Other overseas sources</label>
+            </value>
+            <value>
+                <fullName>Other sources</fullName>
+                <default>false</default>
+                <label>Other sources</label>
+            </value>
+            <value>
+                <fullName>Biotechnology &amp; Biological Sciences Research Council (BBSRC)</fullName>
+                <default>false</default>
+                <label>Biotechnology &amp; Biological Sciences Research Council (BBSRC)</label>
+            </value>
+            <value>
+                <fullName>Medical Research Council (MRC)</fullName>
+                <default>false</default>
+                <label>Medical Research Council (MRC)</label>
+            </value>
+            <value>
+                <fullName>Natural Environmental Research Council (NERC)</fullName>
+                <default>false</default>
+                <label>Natural Environmental Research Council (NERC)</label>
+            </value>
+            <value>
+                <fullName>Engineering &amp; Physical Sciences Research Council (EPSRC)</fullName>
+                <default>false</default>
+                <label>Engineering &amp; Physical Sciences Research Council (EPSRC)</label>
+            </value>
+            <value>
+                <fullName>Economic &amp; Social Research Council (ESRC)</fullName>
+                <default>false</default>
+                <label>Economic &amp; Social Research Council (ESRC)</label>
+            </value>
+            <value>
+                <fullName>Arts &amp; Humanities Research Council (AHRC)</fullName>
+                <default>false</default>
+                <label>Arts &amp; Humanities Research Council (AHRC)</label>
+            </value>
+            <value>
+                <fullName>Science &amp; Technology Facilities Council (STFC)</fullName>
+                <default>false</default>
+                <label>Science &amp; Technology Facilities Council (STFC)</label>
+            </value>
+            <value>
+                <fullName>Research council - not specified</fullName>
+                <default>false</default>
+                <label>Research council - not specified</label>
+            </value>
+            <value>
+                <fullName>Cancer Research UK</fullName>
+                <default>false</default>
+                <label>Cancer Research UK</label>
+            </value>
+            <value>
+                <fullName>Wellcome Trust</fullName>
+                <default>false</default>
+                <label>Wellcome Trust</label>
+            </value>
+            <value>
+                <fullName>Other Association of Medical Research Charities (AMRC) charity</fullName>
+                <default>false</default>
+                <label>Other Association of Medical Research Charities (AMRC) charity</label>
+            </value>
+            <value>
+                <fullName>Other charitable foundation</fullName>
+                <default>false</default>
+                <label>Other charitable foundation</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

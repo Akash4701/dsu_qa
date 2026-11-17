@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unique_Cohort_Code__c</fullName>
+    <externalId>false</externalId>
+    <formula>Course__r.hed__Course_ID__c + 
+IF(
+    ISBLANK(Section__c), 
+    &quot; - &quot; + Name, 
+    &quot; - &quot; + Section__c + &quot; - &quot; + Name
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Unique Cohort Code</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

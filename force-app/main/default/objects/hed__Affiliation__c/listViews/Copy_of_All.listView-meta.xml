@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Copy_of_All</fullName>
+    <columns>NAME</columns>
+    <columns>hed__Contact__c</columns>
+    <columns>Individual_Application__c</columns>
+    <columns>hed__Account__c</columns>
+    <columns>Program_Plan__c</columns>
+    <columns>hed__Role__c</columns>
+    <columns>hed__Status__c</columns>
+    <columns>Roll_Number__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>hed__Account__c</field>
+        <operation>equals</operation>
+        <value>Master of Business Administration</value>
+    </filters>
+    <label>Copy of All Master of Business Administr</label>
+</ListView>

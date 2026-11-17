@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Display_as_Required__c</fullName>
+    <description>Displays as a Program Required Course in the Course Enrollment Wizard</description>
+    <formula>IF(NOT(ISBLANK(hed__Plan_Requirement__c)),
+IF(NOT(ISBLANK(hed__Plan_Requirement__r.hed__Plan_Requirement__c)),
+IF(NOT(ISBLANK(hed__Plan_Requirement__r.hed__Plan_Requirement__r.hed__Plan_Requirement__c)),
+AND(ISPICKVAL(hed__Plan_Requirement__r.hed__Plan_Requirement__r.hed__Plan_Requirement__r.hed__Category__c, &quot;Required&quot;), ISPICKVAL(hed__Plan_Requirement__r.hed__Plan_Requirement__r.hed__Category__c, &quot;Required&quot;), ISPICKVAL(hed__Plan_Requirement__r.hed__Category__c, &quot;Required&quot;), ISPICKVAL(hed__Category__c, &quot;Required&quot;)),
+AND(ISPICKVAL(hed__Plan_Requirement__r.hed__Plan_Requirement__r.hed__Category__c, &quot;Required&quot;), ISPICKVAL(hed__Plan_Requirement__r.hed__Category__c, &quot;Required&quot;), ISPICKVAL(hed__Category__c, &quot;Required&quot;))),
+AND(ISPICKVAL(hed__Plan_Requirement__r.hed__Category__c, &quot;Required&quot;), ISPICKVAL(hed__Category__c, &quot;Required&quot;))),
+ISPICKVAL(hed__Category__c, &quot;Required&quot;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Display as Required</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

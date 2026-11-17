@@ -1,0 +1,230 @@
+<template>
+    <div if:true={enrollProgress} class="slds-notify slds-notify_alert slds-alert_info" role="status">
+        <h2>{enrollProgress}</h2>
+    </div>
+    
+    
+    <lightning-card variant="narrow">
+        <h1 slot="title" class="no-wrap">Semester Enrollment</h1>
+        <lightning-input type="search" slot="actions" variant="label-hidden" placeholder="Search..."
+            onchange={handleSearch}></lightning-input>
+
+        <div class="slds-m-around_medium">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_5-of-12">
+                    <div>
+                        <lightning-combobox name="institute" label="Institute" value={state.institute}
+                            placeholder="Select Institute" options={instituteOptions} onchange={handleInstituteChange}
+                            class="slds-size_12-of-12" variant="label-inline" required
+                            data-id="input"></lightning-combobox>
+
+                        <lightning-combobox name="department" label="Institute Department" value={state.department}
+                            placeholder="Select Institute Department" options={departmentOptions}
+                            onchange={handleDepartmentChange} class="slds-size_12-of-12" variant="label-inline"
+                            required data-id="input"></lightning-combobox>
+
+                        <lightning-combobox name="program" label="Program" value={state.program}
+                            placeholder="Select Program" options={programOptions} onchange={handleProgramChange}
+                            class="slds-size_12-of-12" variant="label-inline" required
+                            data-id="input"></lightning-combobox>
+
+                        <c-custom-searchable-combobox options={specializationOptions}
+                            selected-value={state.programSpecialization} label="Program Specialization"
+                            variant="label-inline" onselectoption={handleSpecializationChange}
+                            class="slds-size_12-of-12" placeholder="Select Program Specialization" data-id="input"
+                            data-name="specialization"></c-custom-searchable-combobox>
+
+                        <c-custom-searchable-combobox options={intakeOptions} selected-value={state.programPlan}
+                            label="Program Plan (Intake)" variant="label-inline" onselectoption={handleIntakeChange}
+                            class="slds-size_12-of-12" placeholder="Select Program Plan" required data-id="input"
+                            data-name="intake"></c-custom-searchable-combobox>
+
+                        <c-custom-searchable-combobox options={termOptions} selected-value={state.term}
+                            label="Current Semester" variant="label-inline" onselectoption={handleTermChange}
+                            class="slds-size_12-of-12" placeholder="Select Semester" required data-id="input"
+                            data-name="term"></c-custom-searchable-combobox>
+
+                        <c-custom-searchable-combobox options={termOptions} selected-value={state.nextTerm}
+                            label="Next Semester" variant="label-inline" onselectoption={handleNextTermChange}
+                            class="slds-size_12-of-12" placeholder="Select Semester" required data-id="input"
+                            data-name="nextterm"></c-custom-searchable-combobox>
+
+                        <!-- **NEW: Pathway Type Selection** -->
+                        <lightning-combobox name="pathwayType" label="Pathway Type" value={state.pathwayType}
+                            placeholder="Select Pathway Type" options={pathwayTypeOptions}
+                            onchange={handlePathwayTypeChange} class="slds-size_12-of-12" variant="label-inline"
+                            required data-id="input" data-name="pathwayType">
+                        </lightning-combobox>
+
+                        <div class="slds-grid slds-gutters slds-p-top_small">
+                            <div class="slds-col">
+                                <button class="slds-button slds-button_brand" onclick={handleSearchClick}>Search</button>
+                            </div>
+                            <div class="slds-col">
+                                <button class="slds-button slds-button_neutral" onclick={handleClearClick}>Clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- **UPDATED: Four separate course offering tables instead of Required/Optional** -->
+                    
+                    <!-- Major Course Offerings -->
+                    <template if:true={hasMajorCourses}>
+                        <div class="slds-p-top_small">
+                            <div class="slds-card slds-m-bottom_small">
+                                <div class="slds-card__header slds-border_bottom">
+                                    <h2 class="slds-card__header-title slds-text-heading_small">
+                                        <span>Major Course Offerings</span>
+                                    </h2>
+                                </div>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <lightning-datatable 
+                                        data={majorCourseOfferings} 
+                                        columns={courseOfferingColumns}
+                                        key-field="courseOfferingId" 
+                                        onrowselection={handleMajorCOSelection}
+                                        selected-rows={selectedMajorCO}
+                                        max-row-selection="50">
+                                    </lightning-datatable>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Minor Course Offerings -->
+                    <template if:true={hasMinorCourses}>
+                        <div class="slds-p-top_small">
+                            <div class="slds-card slds-m-bottom_small">
+                                <div class="slds-card__header slds-border_bottom">
+                                    <h2 class="slds-card__header-title slds-text-heading_small">
+                                        <span>Minor Course Offerings</span>
+                                    </h2>
+                                </div>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <lightning-datatable 
+                                        data={minorCourseOfferings} 
+                                        columns={courseOfferingColumns}
+                                        key-field="courseOfferingId" 
+                                        onrowselection={handleMinorCOSelection}
+                                        selected-rows={selectedMinorCO}
+                                        max-row-selection="50">
+                                    </lightning-datatable>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Specialization Course Offerings -->
+                    <template if:true={hasSpecializationCourses}>
+                        <div class="slds-p-top_small">
+                            <div class="slds-card slds-m-bottom_small">
+                                <div class="slds-card__header slds-border_bottom">
+                                    <h2 class="slds-card__header-title slds-text-heading_small">
+                                        <span>Specialization Course Offerings</span>
+                                    </h2>
+                                </div>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <lightning-datatable 
+                                        data={specializationCourseOfferings}
+                                        columns={courseOfferingColumns} 
+                                        key-field="courseOfferingId"
+                                        onrowselection={handleSpecializationCOSelection}
+                                        selected-rows={selectedSpecializationCO}
+                                        max-row-selection="50">
+                                    </lightning-datatable>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Concentration Course Offerings -->
+                    <template if:true={hasConcentrationCourses}>
+                        <div class="slds-p-top_small">
+                            <div class="slds-card slds-m-bottom_small">
+                                <div class="slds-card__header slds-border_bottom">
+                                    <h2 class="slds-card__header-title slds-text-heading_small">
+                                        <span>Concentration Course Offerings</span>
+                                    </h2>
+                                </div>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <lightning-datatable 
+                                        data={concentrationCourseOfferings}
+                                        columns={courseOfferingColumns} 
+                                        key-field="courseOfferingId"
+                                        onrowselection={handleConcentrationCOSelection}
+                                        selected-rows={selectedConcentrationCO}
+                                        max-row-selection="50">
+                                    </lightning-datatable>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- No Course Offerings Message -->
+                    <template if:false={hasAnyCourseOfferings}>
+                        <div class="slds-p-top_small">
+                            <div class="slds-card slds-m-bottom_small">
+                                <div class="slds-card__body slds-card__body_inner slds-text-align_center">
+                                    <p class="slds-text-color_weak">
+                                        <lightning-icon icon-name="utility:info" size="small"
+                                            class="slds-m-right_x-small"></lightning-icon>
+                                        No course offerings available for the selected criteria.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="slds-col slds-size_7-of-12">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-p-bottom_x-small">
+                        <p class="slds-col slds-text-title_bold">{studentSelectionLabel}</p>
+                        <lightning-button label="Select all" variant="base" class="slds-m-left_small"
+                            onclick={handleSelectAll} disabled={isSelectAllDisabled}></lightning-button>
+                        <lightning-button label="Clear selection" variant="base" class="slds-m-left_small"
+                            onclick={handleClearSelection} disabled={isClearSelectionDisabled}></lightning-button>
+                    </div>
+                    <div class="slds-scrollable fixTableHead" style="height: 100%">
+                        <lightning-datatable data={paginatedStudentDetails} columns={applicationColumns}
+                            key-field="applicationRecordId" selected-rows={selectedIds}
+                            onrowselection={handleRowSelection}
+                            default-sort-direction={defaultSortDirection} sorted-direction={sortDirection}
+                            sorted-by={sortedBy} onsort={onHandleSort}></lightning-datatable>
+
+                        <!-- **UPDATED: Enhanced Pagination Controls** -->
+                        <template if:true={totalRecords}>
+                            <div class="slds-grid slds-gutters slds-p-top_small slds-align_absolute-center">
+                                <div class="slds-col">
+                                    <lightning-button 
+                                        label="Previous" 
+                                        onclick={handlePreviousPage}
+                                        disabled={isFirstPage}
+                                        variant="neutral">
+                                    </lightning-button>
+                                </div>
+                                <div class="slds-col slds-text-align_center">
+                                    <span class="slds-text-body_small">
+                                        Page {currentPage} of {totalPages} | Total Records: {totalRecords}
+                                    </span>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-button 
+                                        label="Next" 
+                                        onclick={handleNextPage}
+                                        disabled={isLastPage}
+                                        variant="neutral">
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div slot="footer" class="slds-clearfix">
+            <lightning-button label="Enroll Students" variant="brand" class="slds-float_right slds-m-left_xx-small"
+                onclick={handleEnrollClick}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

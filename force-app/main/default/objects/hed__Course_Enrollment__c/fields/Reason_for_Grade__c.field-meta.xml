@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_for_Grade__c</fullName>
+    <label>Reason for Grade</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Attendance Below Criteria</fullName>
+                <default>false</default>
+                <label>Attendance Below Criteria</label>
+            </value>
+            <value>
+                <fullName>Academic Misconduct</fullName>
+                <default>false</default>
+                <label>Misconduct</label>
+            </value>
+            <value>
+                <fullName>Absent for Final Exam</fullName>
+                <default>false</default>
+                <label>Absent for Final Exam</label>
+            </value>
+            <value>
+                <fullName>Composite Score Below Criteria</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Composite Score Below Criteria</label>
+            </value>
+            <value>
+                <fullName>Final Exam Score Below Criteria</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Final Exam Score Below Criteria</label>
+            </value>
+            <value>
+                <fullName>Low Internal Marks</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Low Internal Marks</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

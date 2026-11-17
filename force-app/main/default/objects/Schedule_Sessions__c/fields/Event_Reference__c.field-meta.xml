@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_Reference__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Event Reference</label>
+    <referenceTo>Event_Master__c</referenceTo>
+    <relationshipLabel>Schedule &amp; Sessions</relationshipLabel>
+    <relationshipName>Schedule_Sessions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

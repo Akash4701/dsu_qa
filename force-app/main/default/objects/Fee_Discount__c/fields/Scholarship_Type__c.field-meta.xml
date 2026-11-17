@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Scholarship_Type__c</fullName>
+    <label>Scholarship Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Expense-Based</fullName>
+                <default>false</default>
+                <label>Expense-Based</label>
+            </value>
+            <value>
+                <fullName>Sponsor-Based</fullName>
+                <default>false</default>
+                <label>Sponsor-Based</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

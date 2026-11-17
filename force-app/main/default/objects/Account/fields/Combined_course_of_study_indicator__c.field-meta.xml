@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Combined_course_of_study_indicator__c</fullName>
+    <label>Combined Course of Study Indicator</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Course is not a combined course of study</fullName>
+                <default>false</default>
+                <label>Course is not a combined course of study</label>
+            </value>
+            <value>
+                <fullName>Course is a combined course of study</fullName>
+                <default>false</default>
+                <label>Course is a combined course of study</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

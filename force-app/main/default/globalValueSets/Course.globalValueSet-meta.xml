@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>B.Com</fullName>
+        <default>false</default>
+        <label>B.Com</label>
+    </customValue>
+    <customValue>
+        <fullName>BBA</fullName>
+        <default>false</default>
+        <label>BBA</label>
+    </customValue>
+    <customValue>
+        <fullName>EPGDM</fullName>
+        <default>false</default>
+        <label>EPGDM</label>
+    </customValue>
+    <customValue>
+        <fullName>MBA</fullName>
+        <default>false</default>
+        <label>MBA</label>
+    </customValue>
+    <masterLabel>Course</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

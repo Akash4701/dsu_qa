@@ -1,0 +1,287 @@
+<template>
+    <div class="dashboard-root">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:report" size="medium"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h1 class="slds-text-heading_large header-title">Session Report Dashboard</h1>
+                    <p class="slds-text-body_small header-subtitle">Track and analyze user portal session activity</p>
+                </div>
+                <div class="slds-media__fixed slds-grid slds-grid_align-end slds-gutters_small">
+                    <div class="slds-col">
+                        <lightning-button
+                            variant="brand"
+                            label="Download All Students Report"
+                            icon-name="utility:download"
+                            onclick={handleDownloadReport}
+                            disabled={isDownloading}>
+                        </lightning-button>
+                    </div>
+                    <template if:true={hasSelectedSession}>
+                        <div class="slds-col">
+                            <lightning-button
+                                variant="brand-outline"
+                                label="Download Student History"
+                                icon-name="utility:list"
+                                onclick={handleDownloadStudentHistory}
+                                disabled={isDownloading}>
+                            </lightning-button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Global Loading -->
+        <template if:true={isLoading}>
+            <div class="spinner-overlaRecent Sessionsy">
+                <lightning-spinner alternative-text="Loading sessions..." size="large" variant="brand"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Main Layout -->
+        <div class="slds-grid slds-gutters slds-wrap main-layout">
+
+            <!-- ======= LEFT PANEL: Session List ======= -->
+            <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 left-panel">
+                <lightning-card icon-name="standard:date_time">
+                    <span slot="title">Recent Sessions<span class="count-badge">{totalCount}</span></span>
+
+                    <div class="slds-p-around_small" slot="actions">
+                        <lightning-input
+                            type="search"
+                            placeholder="Search by Student Name..."
+                            value={searchTerm}
+                            onchange={handleSearch}
+                            class="search-input">
+                        </lightning-input>
+                    </div>
+
+                    <div class="session-list-scroll">
+                        <!-- Sessions -->
+                        <template if:true={hasFilteredSessions}>
+                            <template for:each={filteredSessions} for:item="s">
+                                <div
+                                    key={s.Id}
+                                    class={s.itemClass}
+                                    onclick={handleSessionClick}
+                                    data-id={s.Id}
+                                    data-contactid={s.contactId}>
+
+                                    <div class="slds-media">
+                                        <div class="slds-media__figure">
+                                            <div class="avatar-circle">{s.initials}</div>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <div class="slds-grid slds-grid_align-spread">
+                                                <p class="list-user-name">{s.contactName}</p>
+                                                <span class={s.statusPillClass}>{s.Session_Status__c}</span>
+                                            </div>
+                                            <p class="list-time">{s.formattedLoginTime}</p>
+                                            <p class="list-duration">{s.formattedDuration}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+
+                        <!-- Empty State -->
+                        <template if:false={hasFilteredSessions}>
+                            <div class="empty-list-state">
+                                <lightning-icon icon-name="utility:search" size="large" class="slds-m-bottom_small"></lightning-icon>
+                                <p class="slds-text-heading_small slds-m-top_small">No Sessions Found</p>
+                                <p class="slds-text-body_small slds-text-color_weak">Try searching with a different name</p>
+                            </div>
+                        </template>
+                    </div>
+                </lightning-card>
+            </div>
+
+            <!-- ======= RIGHT PANEL: Detail Dashboard ======= -->
+            <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12 right-panel">
+
+                <!-- No Selection -->
+                <template if:false={hasSelectedSession}>
+                    <div class="no-selection-state">
+                        <lightning-icon icon-name="standard:report" size="x-large"></lightning-icon>
+                        <h2 class="slds-text-heading_medium slds-m-top_medium">Select a Session</h2>
+                        <p class="slds-text-body_regular slds-text-color_weak slds-m-top_x-small">
+                            Choose a record from the list to view the full session report
+                        </p>
+                    </div>
+                </template>
+
+                <!-- Detail Sections -->
+                <template if:true={hasSelectedSession}>
+
+                    <!-- Section 1: User Information -->
+                    <lightning-card icon-name="standard:contact" title="Student Information">
+                        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+                            <div class="user-info-wrap">
+                                <div class="user-info-cell">
+                                    <p class="info-label">Student Name</p>
+                                    <p class="info-value">{selectedContact.name}</p>
+                                </div>
+                                <div class="user-info-cell">
+                                    <p class="info-label">USN</p>
+                                    <p class="info-value">{selectedContact.usn}</p>
+                                </div>
+                                <div class="user-info-cell">
+                                    <p class="info-label">University Email</p>
+                                    <p class="info-value info-email">{selectedContact.universityEmail}</p>
+                                </div>
+                            </div>
+                            <div class="user-info-wrap user-info-wrap-second">
+                                <div class="user-info-cell">
+                                    <p class="info-label">Email</p>
+                                    <p class="info-value info-email">{selectedContact.email}</p>
+                                </div>
+                                <div class="user-info-cell">
+                                    <p class="info-label">Program Name</p>
+                                    <p class="info-value">{selectedContact.programName}</p>
+                                </div>
+                                <div class="user-info-cell">
+                                    <p class="info-label">Batch (Program Plan)</p>
+                                    <p class="info-value">{selectedContact.batch}</p>
+                                </div>
+                                <div class="user-info-cell">
+                                    <p class="info-label">Current Semester</p>
+                                    <p class="info-value">{selectedContact.semester}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning-card>
+
+                    <!-- Section 2: Summary Cards -->
+                    <div class="summary-grid slds-m-top_medium">
+                        <div class="summary-card card-blue">
+                            <div class="card-icon-row">
+                                <lightning-icon icon-name="utility:clock" size="x-small"></lightning-icon>
+                            </div>
+                            <p class="card-value">{summary.totalHours}</p>
+                            <p class="card-label">Total Hours</p>
+                        </div>
+                        <div class="summary-card card-green">
+                            <div class="card-icon-row">
+                                <lightning-icon icon-name="utility:today" size="x-small"></lightning-icon>
+                            </div>
+                            <p class="card-value">{summary.todayHours}</p>
+                            <p class="card-label">Today</p>
+                        </div>
+                        <div class="summary-card card-purple">
+                            <div class="card-icon-row">
+                                <lightning-icon icon-name="utility:date_input" size="x-small"></lightning-icon>
+                            </div>
+                            <p class="card-value">{summary.weeklyHours}</p>
+                            <p class="card-label">This Week</p>
+                        </div>
+                        <div class="summary-card card-orange">
+                            <div class="card-icon-row">
+                                <lightning-icon icon-name="utility:metrics" size="x-small"></lightning-icon>
+                            </div>
+                            <p class="card-value">{summary.monthlyHours}</p>
+                            <p class="card-label">This Month</p>
+                        </div>
+                        <div class="summary-card card-teal">
+                            <div class="card-icon-row">
+                                <lightning-icon icon-name="utility:list" size="x-small"></lightning-icon>
+                            </div>
+                            <p class="card-value">{summary.totalSessions}</p>
+                            <p class="card-label">Sessions</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Latest Session Details -->
+                    <lightning-card icon-name="standard:recent" title="Latest Session Details" class="slds-m-top_medium">
+                        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+                            <div class="slds-grid slds-gutters slds-wrap">
+                                <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4 session-detail-cell">
+                                    <div class="detail-icon-row">
+                                        <lightning-icon icon-name="utility:login" size="x-small"></lightning-icon>
+                                        <p class="info-label slds-m-left_x-small">Login Time</p>
+                                    </div>
+                                    <p class="detail-value">{latestSession.loginTime}</p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4 session-detail-cell">
+                                    <div class="detail-icon-row">
+                                        <lightning-icon icon-name="utility:logout" size="x-small"></lightning-icon>
+                                        <p class="info-label slds-m-left_x-small">Logout Time</p>
+                                    </div>
+                                    <p class="detail-value">{latestSession.logoutTime}</p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4 session-detail-cell">
+                                    <div class="detail-icon-row">
+                                        <lightning-icon icon-name="utility:timer" size="x-small"></lightning-icon>
+                                        <p class="info-label slds-m-left_x-small">Duration</p>
+                                    </div>
+                                    <p class="detail-value detail-duration">{latestSession.duration}</p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4 session-detail-cell">
+                                    <div class="detail-icon-row">
+                                        <lightning-icon icon-name="utility:event" size="x-small"></lightning-icon>
+                                        <p class="info-label slds-m-left_x-small">Session Date</p>
+                                    </div>
+                                    <p class="detail-value">{latestSession.sessionDate}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning-card>
+
+                    <!-- Section 4: Session History -->
+                    <lightning-card icon-name="standard:list" title="Session History" class="slds-m-top_medium">
+                        <div class="slds-p-around_medium">
+                            <template if:true={hasSessionHistory}>
+                                <lightning-datatable
+                                    key-field="Id"
+                                    data={paginatedSessionHistory}
+                                    columns={columns}
+                                    hide-checkbox-column
+                                    sorted-by={sortedBy}
+                                    sorted-direction={sortedDirection}
+                                    onsort={handleSort}
+                                    class="history-table">
+                                </lightning-datatable>
+                                <!-- Pagination Controls -->
+                                <div class="pagination-container slds-m-top_medium">
+                                    <div class="pagination-info">
+                                        <span>Page {currentHistoryPage} of {totalHistoryPages}</span>
+                                        <span class="record-count">({totalSessionsCount} sessions)</span>
+                                    </div>
+                                    <div class="pagination-controls">
+                                        <lightning-button
+                                            variant="base"
+                                            label="Previous"
+                                            icon-name="utility:left"
+                                            icon-position="left"
+                                            onclick={handlePreviousPage}
+                                            disabled={isPreviousDisabled}>
+                                        </lightning-button>
+                                        <lightning-button
+                                            variant="base"
+                                            label="Next"
+                                            icon-name="utility:right"
+                                            icon-position="right"
+                                            onclick={handleNextPage}
+                                            disabled={isNextDisabled}>
+                                        </lightning-button>
+                                    </div>
+                                </div>
+                            </template>
+                            <template if:false={hasSessionHistory}>
+                                <div class="empty-list-state">
+                                    <lightning-icon icon-name="utility:inbox" size="medium"></lightning-icon>
+                                    <p class="slds-text-body_regular slds-text-color_weak slds-m-top_small">No session history available</p>
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-card>
+
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

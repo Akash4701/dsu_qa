@@ -1,0 +1,292 @@
+<template>
+    <div class="root">
+
+        <!-- ══ HEADER ═══════════════════════════════════════════════════════════ -->
+        <div class="header">
+            <div class="header-info">
+                <div class="header-icon-wrap">
+                    <lightning-icon icon-name="standard:file" size="small"></lightning-icon>
+                </div>
+                <div>
+                    <h2 class="header-title">Student Documents</h2>
+                    <p class="header-sub">{headerSub}</p>
+                </div>
+            </div>
+            <lightning-input
+                type="search"
+                placeholder="Search by document or student name..."
+                value={searchTerm}
+                onchange={handleSearch}
+                variant="label-hidden"
+                class="search-input">
+            </lightning-input>
+        </div>
+
+        <!-- ══ CATEGORY TABS ════════════════════════════════════════════════════ -->
+        <div class="tabs-row">
+            <template for:each={categoryTabs} for:item="tab">
+                <button
+                    key={tab.value}
+                    class={tab.tabClass}
+                    data-value={tab.value}
+                    onclick={handleCategoryChange}>
+                    {tab.label}
+                    <span class="tab-badge">{tab.countLabel}</span>
+                </button>
+            </template>
+        </div>
+
+        <!-- ══ PROGRAM + BATCH + TERM + FEE HEAD FILTER ════════════════════════ -->
+        <template if:true={showFilters}>
+        <div class="plan-row">
+            <div class="filter-grid">
+                <lightning-combobox
+                    label="Program"
+                    variant="label-stacked"
+                    placeholder="Select program…"
+                    value={programValue}
+                    options={programOptions}
+                    onchange={handleProgramChange}
+                    class="plan-dropdown">
+                </lightning-combobox>
+                <lightning-combobox
+                    label="Batch"
+                    variant="label-stacked"
+                    placeholder="Select batch…"
+                    value={planValue}
+                    disabled={isPlanDisabled}
+                    options={programPlanOptions}
+                    onchange={handlePlanChange}
+                    class="plan-dropdown">
+                </lightning-combobox>
+                <template if:true={showTermFilter}>
+                    <lightning-combobox
+                        label="Term"
+                        variant="label-stacked"
+                        placeholder="Select term…"
+                        value={termValue}
+                        disabled={isTermDisabled}
+                        options={termOptions}
+                        onchange={handleTermChange}
+                        class="plan-dropdown">
+                    </lightning-combobox>
+                </template>
+                <template if:true={showFeeHeadFilter}>
+                    <lightning-combobox
+                        label="Fee Head"
+                        variant="label-stacked"
+                        placeholder="Select fee head…"
+                        value={feeHeadValue}
+                        disabled={isFeeHeadDisabled}
+                        options={feeHeadOptions}
+                        onchange={handleFeeHeadChange}
+                        class="plan-dropdown">
+                    </lightning-combobox>
+                </template>
+            </div>
+            <template if:true={hasActiveFilter}>
+                <button class="btn-clear-filters" onclick={handleClearFilters}>Clear filters</button>
+            </template>
+        </div>
+        </template>
+
+        <!-- ══ LOADING ═══════════════════════════════════════════════════════════ -->
+        <template if:true={isLoading}>
+            <div class="state-wrap">
+                <lightning-spinner alternative-text="Loading..." size="medium" variant="brand"></lightning-spinner>
+                <p class="state-text slds-m-top_medium">Loading documents, please wait...</p>
+            </div>
+        </template>
+
+        <!-- ══ CONTENT ═══════════════════════════════════════════════════════════ -->
+        <template if:false={isLoading}>
+
+            <!-- Empty State -->
+            <template if:false={hasDocuments}>
+                <div class="state-wrap">
+                    <div class="empty-icon-wrap">
+                        <lightning-icon icon-name="utility:search" size="medium"></lightning-icon>
+                    </div>
+                    <p class="state-title">No Documents Found</p>
+                    <p class="state-text">
+                        <template if:true={hasSearch}>Try a different search term or clear the filter</template>
+                        <template if:false={hasSearch}>No documents are available at this time</template>
+                    </p>
+                </div>
+            </template>
+
+            <!-- Table -->
+            <template if:true={hasDocuments}>
+
+                <!-- Column Headers -->
+                <div class="table-head">
+                    <div class="th-check">
+                        <input
+                            type="checkbox"
+                            class="cb"
+                            checked={allSelected}
+                            title="Select all on this page"
+                            onchange={handleSelectAll}>
+                    </div>
+                    <div class="th-icon"></div>
+                    <div class="th-document">Document</div>
+                    <div class="th-type">Type</div>
+                    <div class="th-details">Details</div>
+                    <div class="th-actions">
+                        <template if:true={hasSelection}>
+                            <span class="sel-count-chip">{selectedCount} selected</span>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Select-all-matching banner -->
+                <template if:true={showSelectAllBanner}>
+                    <div class={selectAllBannerClass}>
+                        <!-- Selecting: spinner + progress bar -->
+                        <template if:true={isSelectingAll}>
+                            <div class="sab-main">
+                                <div class="sab-icon sab-icon--spin">
+                                    <lightning-spinner alternative-text="Selecting" size="x-small" variant="brand"></lightning-spinner>
+                                </div>
+                                <div class="sab-text">
+                                    <p class="sab-title">Selecting matching documents…</p>
+                                    <div class="sab-progress">
+                                        <div class="sab-progress-fill" style={selectAllProgressStyle}></div>
+                                    </div>
+                                    <p class="sab-sub">{selectAllProgressLabel}</p>
+                                </div>
+                            </div>
+                            <button class="sab-btn sab-btn--ghost" onclick={handleCancelSelectAll}>Cancel</button>
+                        </template>
+
+                        <template if:false={isSelectingAll}>
+                            <!-- Everything matching is selected -->
+                            <template if:true={allMatchingSelected}>
+                                <div class="sab-main">
+                                    <div class="sab-icon sab-icon--success">
+                                        <lightning-icon icon-name="utility:check" size="x-small" variant="inverse"></lightning-icon>
+                                    </div>
+                                    <div class="sab-text">
+                                        <p class="sab-title">All <strong>{matchingLabel}</strong> {activeTabLabel} documents are selected</p>
+                                        <p class="sab-sub">Across every page matching your current filters</p>
+                                    </div>
+                                </div>
+                                <button class="sab-btn sab-btn--ghost" onclick={handleClearAll}>Clear selection</button>
+                            </template>
+
+                            <!-- Only this page is selected: offer the rest -->
+                            <template if:false={allMatchingSelected}>
+                                <div class="sab-main">
+                                    <div class="sab-icon">
+                                        <lightning-icon icon-name="utility:multi_select_checkbox" size="x-small" variant="inverse"></lightning-icon>
+                                    </div>
+                                    <div class="sab-text">
+                                        <p class="sab-title">
+                                            <strong>{pageDocCount}</strong> documents on this page are selected
+                                        </p>
+                                        <p class="sab-sub">Want every {activeTabLabel} document matching your filters, on all pages?</p>
+                                    </div>
+                                </div>
+                                <button class="sab-btn sab-btn--primary" onclick={handleSelectAllMatching}>
+                                    <lightning-icon icon-name="utility:check" size="xx-small" variant="inverse"></lightning-icon>
+                                    Select all {matchingLabel}
+                                </button>
+                            </template>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Document Rows -->
+                <div class="table-body">
+                    <template for:each={filteredDocuments} for:item="doc">
+                        <div key={doc.id} class={doc.itemClass} data-id={doc.id} onclick={handleRowToggle}>
+
+                            <div class="td-check" onclick={stopProp}>
+                                <input
+                                    type="checkbox"
+                                    class="cb"
+                                    checked={doc.selected}
+                                    data-id={doc.id}
+                                    onchange={handleCheckbox}>
+                            </div>
+
+                            <div class="td-icon">
+                                <lightning-icon icon-name={doc.fileIcon} size="small"></lightning-icon>
+                            </div>
+
+                            <div class="td-document">
+                                <p class="doc-name">{doc.title}</p>
+                                <p class="doc-student">{doc.studentName}</p>
+                            </div>
+
+                            <div class="td-type">
+                                <span class={doc.categoryClass}>{doc.category}</span>
+                            </div>
+
+                            <div class="td-details">{doc.meta}</div>
+
+                            <div class="td-actions" onclick={stopProp}>
+                                <button
+                                    class="btn-dl"
+                                    title="Download this file"
+                                    data-url={doc.downloadUrl}
+                                    data-name={doc.title}
+                                    onclick={handleSingleDownload}>
+                                    <lightning-icon icon-name="utility:download" size="x-small"></lightning-icon>
+                                </button>
+                            </div>
+
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pager">
+                    <span class="pager-info">{pageInfo}</span>
+
+                    <div class="pager-btns">
+                        <button class="pg-btn" onclick={handlePrevPage} disabled={prevDisabled}>&#8249;</button>
+
+                        <span class="pg-num pg-num--active">{pageLabel}</span>
+                        <button class="pg-btn" onclick={handleNextPage} disabled={nextDisabled}>&#8250;</button>
+                    </div>
+
+                    <lightning-combobox
+                        label="Per page"
+                        variant="label-hidden"
+                        value={pageSizeStr}
+                        options={pageSizeOptions}
+                        onchange={handlePageSize}
+                        class="pager-size">
+                    </lightning-combobox>
+                </div>
+
+            </template>
+        </template>
+
+        <!-- ══ SELECTION ACTION BAR ══════════════════════════════════════════════ -->
+        <template if:true={hasSelection}>
+            <div class="sel-bar">
+                <div class="sel-bar-left">
+                    <div class="sel-bar-icon">
+                        <lightning-icon icon-name="utility:check" size="x-small" variant="inverse"></lightning-icon>
+                    </div>
+                    <span>{selectedCount} file(s) selected</span>
+                </div>
+                <div class="sel-bar-right">
+                    <button class="sel-btn-clear" onclick={handleClearAll}>Deselect All</button>
+                    <button class="sel-btn-zip" onclick={handleBulkDownload} disabled={zipDisabled}>
+                        <lightning-icon icon-name="utility:download" size="x-small" variant="inverse"></lightning-icon>
+                        <template if:false={isDownloading}>
+                            {zipButtonLabel}
+                        </template>
+                        <template if:true={isDownloading}>
+                            {downloadProgressLabel}
+                        </template>
+                    </button>
+                </div>
+            </div>
+        </template>
+
+    </div>
+</template>

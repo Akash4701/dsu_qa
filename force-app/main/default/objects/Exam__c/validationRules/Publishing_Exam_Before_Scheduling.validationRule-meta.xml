@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Publishing_Exam_Before_Scheduling</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  OR(NOT(Is_Scheduled__c),Is_Scheduled__c),
+  NOT(ISPICKVAL(Seating_Plan_Status__c, &quot;Completed&quot;)),
+  Is_Published__c = TRUE
+)</errorConditionFormula>
+    <errorDisplayField>Is_Published__c</errorDisplayField>
+    <errorMessage>You cannot publish the exam without completing the schedule and seating plan.</errorMessage>
+</ValidationRule>

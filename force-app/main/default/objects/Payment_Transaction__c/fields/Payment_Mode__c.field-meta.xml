@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Mode__c</fullName>
+    <label>Payment Mode</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Wire Transfer</fullName>
+                <default>false</default>
+                <label>Wire Transfer</label>
+            </value>
+            <value>
+                <fullName>Online - HDFC</fullName>
+                <default>false</default>
+                <label>Online - HDFC</label>
+            </value>
+            <value>
+                <fullName>Online - Paytm</fullName>
+                <default>false</default>
+                <label>Online - Paytm</label>
+            </value>
+            <value>
+                <fullName>NEFT</fullName>
+                <default>false</default>
+                <label>NEFT</label>
+            </value>
+            <value>
+                <fullName>RTGS</fullName>
+                <default>false</default>
+                <label>RTGS</label>
+            </value>
+            <value>
+                <fullName>DD</fullName>
+                <default>false</default>
+                <label>DD</label>
+            </value>
+            <value>
+                <fullName>AXIS Bank</fullName>
+                <default>false</default>
+                <label>AXIS Bank</label>
+            </value>
+            <value>
+                <fullName>Online - ICICI</fullName>
+                <default>false</default>
+                <label>Online - ICICI</label>
+            </value>
+            <value>
+                <fullName>UPI</fullName>
+                <default>false</default>
+                <label>UPI</label>
+            </value>
+            <value>
+                <fullName>Card</fullName>
+                <default>false</default>
+                <label>Card</label>
+            </value>
+            <value>
+                <fullName>Flywire, Online</fullName>
+                <default>false</default>
+                <label>Flywire, Online</label>
+            </value>
+            <value>
+                <fullName>Online - CCAvenue</fullName>
+                <default>false</default>
+                <label>Online - CCAvenue</label>
+            </value>
+            <value>
+                <fullName>CC Avenue</fullName>
+                <default>false</default>
+                <label>CC Avenue</label>
+            </value>
+            <value>
+                <fullName>Wire</fullName>
+                <default>false</default>
+                <label>Wire</label>
+            </value>
+            <value>
+                <fullName>Net Banking</fullName>
+                <default>false</default>
+                <label>Net Banking</label>
+            </value>
+            <value>
+                <fullName>Online</fullName>
+                <default>false</default>
+                <label>Online</label>
+            </value>
+            <value>
+                <fullName>Cash</fullName>
+                <default>false</default>
+                <label>Cash</label>
+            </value>
+            <value>
+                <fullName>Credit Card</fullName>
+                <default>false</default>
+                <label>Credit Card</label>
+            </value>
+            <value>
+                <fullName>Debit Card</fullName>
+                <default>false</default>
+                <label>Debit Card</label>
+            </value>
+            <value>
+                <fullName>Cheque</fullName>
+                <default>false</default>
+                <label>Cheque</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

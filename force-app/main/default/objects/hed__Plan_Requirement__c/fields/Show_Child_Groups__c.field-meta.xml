@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Show_Child_Groups__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>(Group Record Type only) Displays child groups and courses under this group&apos;s header in the Enrollment Wizard.</description>
+    <inlineHelpText>Displays child groups and courses under this group&apos;s header in the Enrollment Wizard.</inlineHelpText>
+    <label>Show Child Groups</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

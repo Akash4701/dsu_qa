@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interview_Programs__c</fullName>
+    <label>Interview Programs</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>BBA</fullName>
+                <default>false</default>
+                <label>BBA</label>
+            </value>
+            <value>
+                <fullName>BBC</fullName>
+                <default>false</default>
+                <label>BBC</label>
+            </value>
+            <value>
+                <fullName>BCE</fullName>
+                <default>false</default>
+                <label>BCE</label>
+            </value>
+            <value>
+                <fullName>BDS</fullName>
+                <default>false</default>
+                <label>BDS</label>
+            </value>
+            <value>
+                <fullName>DBA</fullName>
+                <default>false</default>
+                <label>DBA</label>
+            </value>
+            <value>
+                <fullName>EMBA ELO</fullName>
+                <default>false</default>
+                <label>EMBA ELO</label>
+            </value>
+            <value>
+                <fullName>EMBA OC</fullName>
+                <default>false</default>
+                <label>EMBA OC</label>
+            </value>
+            <value>
+                <fullName>GMBA</fullName>
+                <default>false</default>
+                <label>GMBA</label>
+            </value>
+            <value>
+                <fullName>MAIB</fullName>
+                <default>false</default>
+                <label>MAIB</label>
+            </value>
+            <value>
+                <fullName>MGB</fullName>
+                <default>false</default>
+                <label>MGB</label>
+            </value>
+            <value>
+                <fullName>MGLUXM</fullName>
+                <default>false</default>
+                <label>MGLUXM</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

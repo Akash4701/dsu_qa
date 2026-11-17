@@ -1,0 +1,22 @@
+<html>
+ <head>
+  <title></title>
+ </head>
+ <body style="height: auto; min-height: auto;">
+  <p>Dear {{{Case.Student_Name__c}}}</p>
+  <p>Your mail with the subject line “ {{{Case.Subject}}} “.assigned with the ticket ID {{{Case.CaseNumber}}} is been addressed. Details below–&#xa0;For any communication, please write to the helpdesk @ helpdesk@dsuonline.com. or call @ +919880148004 (Timings: 8:45 am to 4:45 pm, Monday to Saturday).</p>
+  <p>&#xa0;</p>
+  <p>Regards,</p>
+  <p>HD Counsellor
+   <br />
+   <img alt="DSU logo" src="{[devName:DSU_logo]}" style="max-width: 1308.72px; width: 315.99px; height: 104.987px;" title="DSU logo" />
+   <br />
+   Centre for Distance and Online Education (CDOE)
+   <br />
+   <a href="https://dsuonline.com">https://dsuonline.com</a></p>
+  <div id="" style="left: 430.495px; top: 205.938px;">&#xa0;</div>
+  <div id="" style="left: 430.495px; top: 205.938px;">&#xa0;</div>
+  <div id="" style="left: 7.99479px; top: 189.948px;">&#xa0;</div>
+  <div id="" style="left: 7.99479px; top: 189.948px;">&#xa0;</div>
+ </body>
+</html>

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Registrar Approved</fullName>
+        <default>false</default>
+        <label>Registrar Approved</label>
+    </customValue>
+    <customValue>
+        <fullName>Email Id Active</fullName>
+        <default>false</default>
+        <label>Email Id Active</label>
+    </customValue>
+    <customValue>
+        <fullName>Shortlisted</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Shortlisted</label>
+    </customValue>
+    <customValue>
+        <fullName>Rejected</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Rejected</label>
+    </customValue>
+    <customValue>
+        <fullName>Waitlisted</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Waitlisted</label>
+    </customValue>
+    <customValue>
+        <fullName>Initiated</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Initiated</label>
+    </customValue>
+    <customValue>
+        <fullName>In Progress</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>In Progress</label>
+    </customValue>
+    <customValue>
+        <fullName>Withdrawn</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Withdrawn</label>
+    </customValue>
+    <customValue>
+        <fullName>Applied</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Applied</label>
+    </customValue>
+    <customValue>
+        <fullName>Dropped the plan</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Dropped the plan</label>
+    </customValue>
+    <customValue>
+        <fullName>Not Interested</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Not Interested</label>
+    </customValue>
+    <customValue>
+        <fullName>Not looking in Bangalore</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Not looking in Bangalore</label>
+    </customValue>
+    <customValue>
+        <fullName>Not Looking for higher studies</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Not Looking for higher studies</label>
+    </customValue>
+    <customValue>
+        <fullName>Looking for job</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Looking for job</label>
+    </customValue>
+    <customValue>
+        <fullName>Fees is too high</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Fees is too high</label>
+    </customValue>
+    <customValue>
+        <fullName>Not Eligible</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Not Eligible</label>
+    </customValue>
+    <customValue>
+        <fullName>Taken admission elsewhere</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Taken admission elsewhere</label>
+    </customValue>
+    <customValue>
+        <fullName>Mid Out-post Follow up</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Mid Out-post Follow up</label>
+    </customValue>
+    <customValue>
+        <fullName>Attended SP</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Attended SP</label>
+    </customValue>
+    <customValue>
+        <fullName>Offer Letter Sent</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Offer Letter Sent</label>
+    </customValue>
+    <customValue>
+        <fullName>Need Extension-PA</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Need Extension-PA</label>
+    </customValue>
+    <customValue>
+        <fullName>Expected for PA</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Expected for PA</label>
+    </customValue>
+    <customValue>
+        <fullName>Direct Visit to campus</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Direct Visit to campus</label>
+    </customValue>
+    <customValue>
+        <fullName>Request for financial aid</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Request for financial aid</label>
+    </customValue>
+    <customValue>
+        <fullName>No response</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>No response</label>
+    </customValue>
+    <customValue>
+        <fullName>Mid Out Post Follow up</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Mid Out Post Follow up</label>
+    </customValue>
+    <customValue>
+        <fullName>PA- done</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>PA- done</label>
+    </customValue>
+    <customValue>
+        <fullName>Bonafide &amp; expenditure Request</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Bonafide &amp; expenditure Request</label>
+    </customValue>
+    <customValue>
+        <fullName>Financial Aid Request</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Financial Aid Request</label>
+    </customValue>
+    <customValue>
+        <fullName>Not qualified to study the said Program</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Not qualified to study the said Program</label>
+    </customValue>
+    <customValue>
+        <fullName>Very far from my place to stay</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Very far from my place to stay</label>
+    </customValue>
+    <customValue>
+        <fullName>Home Sick</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Home Sick</label>
+    </customValue>
+    <customValue>
+        <fullName>Due to health problems</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Due to health problems</label>
+    </customValue>
+    <customValue>
+        <fullName>Due to financial Problem</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Due to financial Problem</label>
+    </customValue>
+    <customValue>
+        <fullName>Unable to cope up with studies</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Unable to cope up with studies</label>
+    </customValue>
+    <customValue>
+        <fullName>Joined other college</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Joined other college</label>
+    </customValue>
+    <customValue>
+        <fullName>Got placed in a company</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Got placed in a company</label>
+    </customValue>
+    <customValue>
+        <fullName>Others</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Others</label>
+    </customValue>
+    <customValue>
+        <fullName>Info given on Final Admission process</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Info given on Final Admission process</label>
+    </customValue>
+    <customValue>
+        <fullName>Provisional Confirmation Letter Sent</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Provisional Confirmation Letter Sent</label>
+    </customValue>
+    <customValue>
+        <fullName>Welcome Letter sent</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Welcome Letter sent</label>
+    </customValue>
+    <customValue>
+        <fullName>Hostel details given</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Hostel details given</label>
+    </customValue>
+    <customValue>
+        <fullName>Generated</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Generated</label>
+    </customValue>
+    <customValue>
+        <fullName>Not Reported</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Not Reported</label>
+    </customValue>
+    <customValue>
+        <fullName>Discontinued</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Discontinued</label>
+    </customValue>
+    <customValue>
+        <fullName>Cancelled</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Cancelled</label>
+    </customValue>
+    <customValue>
+        <fullName>Registration Fee Paid</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Registration Fee Paid</label>
+    </customValue>
+    <customValue>
+        <fullName>Reported</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Reported</label>
+    </customValue>
+    <customValue>
+        <fullName>Accepted</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Accepted</label>
+    </customValue>
+    <masterLabel>Sub Status</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

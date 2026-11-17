@@ -1,0 +1,1108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AIMS_Contract</fullName>
+    <active>true</active>
+    <label>AIMS Contract</label>
+    <picklistValues>
+        <picklist>ACEMPFUN__c</picklist>
+        <values>
+            <fullName>Academic contract that is both teaching and research</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Academic contract that is neither teaching nor research</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Academic contract that is research only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Academic contract that is teaching only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not an academic contract</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>APPRENTICESHIP__c</picklist>
+        <values>
+            <fullName>Advanced apprenticeship%2FLevel 3 qualifications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Higher and Degree Apprenticeships%2FLevel 4 qualifications and above</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Intermediate level Apprenticeship%2FLevel 2 qualifications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not on an apprenticeship</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CLINICAL__c</picklist>
+        <values>
+            <fullName>Clinical academic doctors and dentists</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical academic health professions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical academic nurses and midwives</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not clinical academic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other clinical academic staff</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CLINSUB__c</picklist>
+        <values>
+            <fullName>Accident %26 Emergency medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Acute medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Allergy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Anaesthetics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Audiological medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bacteriology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blood transfusion medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Breast surgery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cardio-thoracic surgery %28including Thoracic surgery%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cardiology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chemical pathology %28including Clinical biochemistry%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Child and adolescent psychiatry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical cytogenetics %26 Molecular genetics %28Radiotherapy%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical genetics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical haematology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical immunology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical neurophysiology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical oncology %28including Radiotherapy%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical pharmacology %26 Therapeutics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical radiology %28including Diagnostic radiology%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Colorectal surgery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cytopathology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dental general practice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dental public health</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dermatology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endocrinology %26 Diabetes mellitus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endodontics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Forensic pathology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Forensic psychiatry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gastroenterology %28including Hepatology%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gastrointestinal surgery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General %28Adult%29 psychiatry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General %28Internal%29 medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General pathology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General practice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General surgery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Genito-urinary medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Geriatric medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gynaecological oncology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Histopathology %28including Morbid anatomy%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Immunopathology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Infectious diseases %28Communicable diseases%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Intensive care medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Laboratory haematology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Maternal %26 Fetal medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical microbiology %26 Virology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical oncology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical ophthalmology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Neonatology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Neurology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Neuropathology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Neurosurgery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nuclear medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Obstetrics %26 Gynaecology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Occupational medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Old age psychiatry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ophthalmic surgery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ophthalmology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oral %26 Maxillofacial surgery %28where employed by the Dental school%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oral %26 Maxillofacial surgery %28where employed by the medical school%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oral medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oral microbiology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oral pathology%2C Oral %26 Maxillofacial pathology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oral radiology%2C Dental %26 Maxillofacial radiology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oral surgery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Orthodontics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Otolaryngology %28including ENT surgery%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paediatric cardiology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paediatric dentistry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paediatric neurology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paediatric pathology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paediatric surgery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paediatrics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pain management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Palliative medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Periodontics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Plastic surgery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prosthodontics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Psychiatry of eating disorders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Psychiatry of learning disability</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Psychotherapy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Public health medicine %28including Community medicine%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rehabilitation medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renal %26 Transplantation medicine %28to include Nephrology%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reproductive medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Respiratory medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Restorative dentistry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rheumatology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sexual %26 Reproductive health</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Special care dentistry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sports %26 Exercise medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stroke medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Surgical dentistry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Surgical education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Toxicology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transplantation surgery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trauma %26 Orthopaedic surgery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tropical medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Urogynaecology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Urology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vascular surgery</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Currency__c</picklist>
+        <values>
+            <fullName>AED</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AUD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EUR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GBP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>INR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SGD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>USD</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>HOURLYPAID__c</picklist>
+        <values>
+            <fullName>Hourly paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Salaried</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>HSPEC__c</picklist>
+        <values>
+            <fullName>Anaesthetics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Art therapy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical psychology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dentistry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dietetics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Emergency medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General practice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health visiting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Healthcare scientists</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Infection%2FMicrobiology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Midwifery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nursing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Obstetrics %26 Gynaecology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Occupational medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Occupational therapy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oncology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ophthalmology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Orthoptics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others in medicine or dentistry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paediatrics %26 Child health</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paramedic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pathology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pharmacy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Physicians%2FMedicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Physiotherapy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Podiatry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prosthetics %26 orthotics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Psychiatry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Public health medicine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Radiography</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Radiology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Speech %26 language therapy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Surgery</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>LEVELS__c</picklist>
+        <values>
+            <fullName>UCEA level 2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UCEA level 3%2F4A1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UCEA level 3%2F4A2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UCEA level 3%2F4A3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UCEA level 3A</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UCEA level 3B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UCEA level 4A</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UCEA level 4B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UCEA level 5A</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UCEA level 5B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vice-Chancellor%2FPrincipal%2FHead of Institution</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XpertHR level I</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XpertHR level J</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XpertHR level K</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XpertHR level L</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XpertHR level M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XpertHR level N</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XpertHR level O</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XpertHR level P</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>MOEMP__c</picklist>
+        <values>
+            <fullName>Atypical</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dormant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Full-time</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Full-time%2C term-time only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Part-time</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Part-time%2C term-time only</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NHSCONGR__c</picklist>
+        <values>
+            <fullName>Associate specialist</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinical assistant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consultant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Foundation programme doctor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General practitioner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-medical grade</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Senior house officer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Specialist registrar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Speciality doctor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Speciality registrar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Staff grade</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NHSCON__c</picklist>
+        <values>
+            <fullName>Higher education provider contract and NHS honorary contract %28excluding those with contracts in Nursing and Midwifery purely for the purpose of supervision of placements%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Joint higher education provider%2FNHS or primary%2Fcommunity healthcare contracts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Separate higher education provider and NHS contracts</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>RESAST__c</picklist>
+        <values>
+            <fullName>Not a research assistant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Research assistant</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>RESCON__c</picklist>
+        <values>
+            <fullName>Atypical contract issued</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Continued employment%2C new HESA contract record generated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Death</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>End of fixed-term contract</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non Academic contract issued</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other %28includes dismissal and ill-health%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other redundancy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resignation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retirement %28excluding ill-health%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Voluntary redundancy</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ReferenceListStatus__c</picklist>
+        <values>
+            <fullName>Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Revised_Contract_Status__c</picklist>
+        <values>
+            <fullName>Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Send</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revised</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SIGRES__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SOBS__c</picklist>
+        <values>
+            <fullName>Arts %26 Humanities Research Council %28AHRC%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Biotechnology %26 Biological Sciences Research Council %28BBSRC%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancer Research UK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EU government bodies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EU other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Economic %26 Social Research Council %28ESRC%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Engineering %26 Physical Sciences Research Council %28EPSRC%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical Research Council %28MRC%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NHS%2FGeneral Medical or General Dental practice or Department of Health</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Natural Environmental Research Council %28NERC%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Association of Medical Research Charities %28AMRC%29 charity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other charitable foundation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other overseas sources</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other sources</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Partly financed by the higher education provider</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Research council - not specified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Science %26 Technology Facilities Council %28STFC%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UK central government bodies and local authorities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UK industry%2C commerce and public corporations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellcome Trust</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wholly general financed by the higher education provider</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Selected_Contract_Format__c</picklist>
+        <values>
+            <fullName>Dubai</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mumbai</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Singapore</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sydney</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status</picklist>
+        <values>
+            <fullName>Activated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Approval Process</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TCHWLH__c</picklist>
+        <values>
+            <fullName>Information not sought</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not teaching through the medium of Welsh</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Teaching through the medium of Welsh</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TERMS__c</picklist>
+        <values>
+            <fullName>Atypical</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed-term</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Open-ended%2FPermanent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ZEROHRS__c</picklist>
+        <values>
+            <fullName>Not on a zero hours contract</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On a zero hours contract</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

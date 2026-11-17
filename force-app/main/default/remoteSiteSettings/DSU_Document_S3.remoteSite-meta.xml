@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RemoteSiteSetting xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Applicant document bucket. Lets the Student E-ID Card PDF (StudentIdCard.page) load the passport photo and signature images.</description>
+    <disableProtocolSecurity>false</disableProtocolSecurity>
+    <isActive>true</isActive>
+    <url>https://dsu-document-integration.s3.ap-south-1.amazonaws.com</url>
+</RemoteSiteSetting>

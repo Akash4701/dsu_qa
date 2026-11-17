@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NHSCONGR_F_CODE__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE( NHSCONGR__c , 
+	&quot;Consultant&quot;, &apos;01&apos;,
+	&quot;Specialist registrar&quot;, &apos;02&apos;,
+	&quot;Staff grade&quot;, &apos;03&apos;,
+	&quot;Associate specialist&quot;, &apos;04&apos;,
+        &quot;General practitioner&quot;, &apos;05&apos;,
+	&quot;Senior house officer&quot;, &apos;06&apos;,
+	&quot;Clinical assistant&quot;, &apos;07&apos;,
+	&quot;Foundation programme doctor&quot;, &apos;08&apos;,
+	&quot;Speciality registrar&quot;, &apos;09&apos;,
+	&quot;Speciality doctor&quot;, &apos;10&apos;,
+	&quot;Non-medical grade&quot;, &apos;11&apos;,
+null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>NHSCONGR CODE</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

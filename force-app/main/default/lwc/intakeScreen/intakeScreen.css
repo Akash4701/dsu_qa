@@ -1,0 +1,89 @@
+/* intakeFormLwc.css */
+:host {
+    display: block;
+}
+
+.spinner-container {
+    height: 100px;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+/* Add consistent spacing */
+.slds-var-p-around_x-small {
+    padding: 0.5rem;
+}
+
+/* Ensure form elements maintain consistent height */
+lightning-input, 
+lightning-combobox {
+    height: 100%;
+}
+
+/* Make dual-listbox a bit more compact */
+lightning-dual-listbox {
+    --lwc-heightDualListbox: 15rem;
+}
+
+/* Responsive adjustments for mobile devices */
+@media screen and (max-width: 768px) {
+    .slds-medium-size_1-of-2,
+    .slds-medium-size_1-of-3 {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    lightning-button {
+        width: 45%;
+        justify-content: center;
+    }
+}
+.date-time-container {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+    
+    .date-input {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .time-input {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+    }
+    
+    .cancel-button,
+    .save-button {
+        min-width: 80px;
+    }
+    
+    /* Ensure consistent spacing */
+    .slds-form-element {
+        margin-bottom: 0.75rem;
+    }
+    
+    /* Override any default lightning-input margins in date-time containers */
+    .date-time-container lightning-input {
+        margin-bottom: 0;
+    }
+    
+    /* Ensure proper alignment for static fields */
+    .slds-form-element__static {
+        min-height: 2.25rem;
+        display: flex;
+        align-items: center;
+        padding: 0 0.75rem;
+        border: 1px solid #d8dde6;
+        border-radius: 0.25rem;
+        background-color: #f3f3f3;
+    }

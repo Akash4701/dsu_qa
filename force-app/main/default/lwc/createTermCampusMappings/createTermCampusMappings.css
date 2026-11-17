@@ -1,0 +1,76 @@
+.program-combobox-width{
+    width: 400px;
+}
+.term-combobox-width{
+    width: 250px;
+}
+.campus-combobox-width{
+    width: 130px;
+}
+.action-btn{
+    padding-top:24px;
+    justify-Content:space-evenly;
+}
+.red-icon{
+    --lwc-colorTextIconDefault: #F62217;
+}
+.slds-modal__content{
+    overflow: initial;
+    height: 60% !important;
+    max-height: 60% !important;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+.slds-modal__container{
+    width: 60% !important;
+    max-width: 60% !important;
+}
+.addRowBtnBox{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+}
+.InstructionText{
+    font-size: 14px;
+    font-weight: 600;
+    color: #505F79;
+}
+.AddRowBtn{
+    background: #D7DEE9;
+    border-radius: 3px;
+    color: #505F79;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+}
+.eva_table .slds-table {
+    border-top: none;
+    border-color: #D7DEE9;
+    color: #00218D;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+}
+.eva_table .slds-table thead th {
+    text-transform: uppercase;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    color: #00218D;
+    background: none;
+    border-bottom: 1px solid #D7DEE9;
+}
+.evaTableRow, .evaTableRow:hover {
+    background: #D9E1FF;
+    height: 50px;
+}
+.evaLable{
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    color: #00218D;
+}
+.evaWidth{
+    width: 47%;
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OWNCONTID__c</fullName>
+    <description>This field records the higher education provider&apos;s (HEP&apos;s) own internal identifier for the contract</description>
+    <externalId>false</externalId>
+    <label>OWNCONTID</label>
+    <length>20</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>redu_Double_Term_Semester_Member__c</fullName>
+    <description>Term numbers that are considered to be part of Double Term Semester for PE Pathway stored in comma-separated values.
+ex: 1,2 indicates that PE Pathway with My Term = 1 or 2 which are linked with the Program Enrolment of this Program Plan should be considered a Double Term Semester.
+
+Special values:
+-1 : Indicates that all the related PE Pathway should be considered Double Term Semester,
+0 or Empty : Indicates that all the related PE Pathway should NOT be considered Double Term Semester
+
+If using Special Values, please do not put other values in the field (ie: do not put -1,1 ) to avoid confusion.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Term numbers that are considered to be part of Double Term Semester for PE Pathway stored in comma-separated values
+ex: 1,2 indicates that PE Pathway with My Term = 1 or 2 which are linked with the Program Enrolment of this Program Plan should be considered a Double Term Semester
+|
+Special values:
+-1 : Indicates that all the related PE Pathway should be considered Double Term Semester,
+0 or Empty : Indicates that all the related PE Pathway should NOT be considered Double Term Semester</inlineHelpText>
+    <label>Semester Number (Double Term)</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

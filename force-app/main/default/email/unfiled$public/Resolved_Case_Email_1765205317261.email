@@ -1,0 +1,35 @@
+<html>
+ <head>
+  <title></title>
+ </head>
+ <body style="height: auto; min-height: auto;">
+  <p>Dear {{{Case.Student_Name__c}}}</p>
+  <p>Thank you for reaching out. Your mail with the subject line “ {{{Case.Subject}}} “. assigned with ticket ID {{{Case.CaseNumber}}} is reopened.&#xa0; Please wait for our Helpdesk counsellor to address it and send the reply. For all future correspondence regarding this do not change the Ticket ID and the subject line.&#xa0;</p>
+  <p>
+   <br />
+   For any communication, please write only to the helpdesk at <a href="helpdesk@dsuonline.com">helpdesk@dsuonline.com</a> . You can also call @ +919880148004 (Timings: 8:45 am to 4:45 pm, Monday to Saturday).
+  </p>
+  <p><img alt="DSU logo" src="{[devName:DSU_logo]}" style="font-size: 8px; text-align: center; max-width: 1308.72px; width: 262.643px; height: 87.9948px;" title="DSU logo" />
+   <br />
+   Centre for Distance and Online Education (CDOE)<span style="text-align: center;">&#xa0; &#xa0;&#xa0;</span></p>
+  <div style="text-align: center;">
+   <table cellpadding="0" cellspacing="0">
+    <tbody>
+     <tr>
+      <td>
+       <table cellpadding="0" cellspacing="0" id="contentRegion">
+        <tbody>
+         <tr>
+          <td><a href="https://dsuonline.com/">https://dsuonline.com</a></td>
+         </tr>
+        </tbody>
+       </table>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+  <div id="" style="left: 475.495px; top: 139.635px;">&#xa0;</div>
+  <div id="" style="left: 475.495px; top: 139.635px;">&#xa0;</div>
+ </body>
+</html>

@@ -1,0 +1,4 @@
+<!-- PKDSU-199: overrides the New button on Announcement so the audience (Accounts, Program Plans) can be chosen while creating it. -->
+<aura:component implements="lightning:actionOverride" access="global">
+    <c:announcementNew />
+</aura:component>

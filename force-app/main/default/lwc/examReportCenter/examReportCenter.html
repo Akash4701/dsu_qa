@@ -1,0 +1,241 @@
+<template>
+    <div class="erc-page">
+        <!-- Header + tabs -->
+        <div class="erc-header">
+            <h1 class="erc-title">{cardTitle}</h1>
+            <div class="erc-tabs">
+                <button class={dashboardTabClass} data-tab="dashboard" onclick={handleTabClick}>Dashboard</button>
+                <button class={reportsTabClass} data-tab="reports" onclick={handleTabClick}>Reports</button>
+            </div>
+        </div>
+
+        <!-- Shared filter bar — Program → Program Plan → Semester → Apply/Refresh -->
+        <div class="erc-filterbar">
+            <div class="erc-filter-field">
+                <span class="erc-filter-label">Program</span>
+                <template lwc:if={loadingPrograms}>
+                    <lightning-spinner size="x-small" alternative-text="Loading" class="erc-inline-spinner"></lightning-spinner>
+                </template>
+                <template lwc:else>
+                    <lightning-combobox
+                        variant="label-hidden"
+                        name="program"
+                        value={selectedProgramId}
+                        placeholder="Select Program"
+                        options={programOptions}
+                        onchange={handleProgramChange}
+                        class="erc-combo">
+                    </lightning-combobox>
+                </template>
+            </div>
+            <div class="erc-filter-field">
+                <span class="erc-filter-label">Program Plan</span>
+                <template lwc:if={loadingProgramPlans}>
+                    <lightning-spinner size="x-small" alternative-text="Loading" class="erc-inline-spinner"></lightning-spinner>
+                </template>
+                <template lwc:else>
+                    <lightning-combobox
+                        variant="label-hidden"
+                        name="programPlan"
+                        value={selectedProgramPlanId}
+                        placeholder="Select Program Plan"
+                        options={programPlanOptions}
+                        disabled={disableProgramPlan}
+                        onchange={handleProgramPlanChange}
+                        class="erc-combo">
+                    </lightning-combobox>
+                </template>
+            </div>
+            <div class="erc-filter-field">
+                <span class="erc-filter-label">Semester</span>
+                <template lwc:if={loadingTerms}>
+                    <lightning-spinner size="x-small" alternative-text="Loading" class="erc-inline-spinner"></lightning-spinner>
+                </template>
+                <template lwc:else>
+                    <lightning-combobox
+                        variant="label-hidden"
+                        name="term"
+                        value={selectedTermId}
+                        placeholder="Select Semester"
+                        options={termOptions}
+                        disabled={disableTerm}
+                        onchange={handleTermChange}
+                        class="erc-combo">
+                    </lightning-combobox>
+                </template>
+            </div>
+            <button class="erc-btn erc-btn-primary erc-btn-tiny" title="Apply / Refresh" disabled={disableApply} onclick={handleApply}>
+                <lightning-icon icon-name="utility:refresh" size="xx-small" class="erc-btn-icon"></lightning-icon>
+                Apply / Refresh
+            </button>
+            <template lwc:if={hasAnyFilterSelected}>
+                <button class="erc-btn erc-btn-ghost erc-btn-tiny" title="Clear Filters" onclick={handleClearAllFilters}>Clear Filters</button>
+            </template>
+        </div>
+
+        <template lwc:if={error}>
+            <div class="erc-error">
+                <lightning-icon icon-name="utility:error" variant="error" size="small"></lightning-icon>
+                <span>{error}</span>
+            </div>
+        </template>
+
+        <!-- ══════════════════════════ DASHBOARD VIEW ══════════════════════════ -->
+        <template lwc:if={isDashboardTab}>
+            <template lwc:if={loadingDashboard}>
+                <div class="erc-loading"><lightning-spinner size="medium" alternative-text="Loading dashboard"></lightning-spinner></div>
+            </template>
+            <template lwc:elseif={hasDashboardData}>
+                <div class="erc-kpi-grid">
+                    <template for:each={kpiTiles} for:item="tile">
+                        <div key={tile.key} class={tile.cssClass}>
+                            <span class="erc-kpi-label">{tile.label}</span>
+                            <span class="erc-kpi-value">{tile.value}</span>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="erc-chart-grid">
+                    <div class="erc-chart-card">
+                        <h3 class="erc-chart-title">Grade Distribution</h3>
+                        <template lwc:if={hasGradeBars}>
+                            <div class="erc-bar-list">
+                                <template for:each={gradeBars} for:item="b">
+                                    <div key={b.key} class="erc-bar-row">
+                                        <span class="erc-bar-label">{b.label}</span>
+                                        <div class="erc-bar-track"><div class="erc-bar-fill" style={b.widthStyle}></div></div>
+                                        <span class="erc-bar-value">{b.value}</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <template lwc:else><p class="erc-chart-empty">No graded results yet.</p></template>
+                    </div>
+
+                    <div class="erc-chart-card">
+                        <h3 class="erc-chart-title">Pass / Fail</h3>
+                        <template lwc:if={hasPassFailData}>
+                            <div class="erc-donut-wrap">
+                                <div class="erc-donut" style={passFailDonutStyle}>
+                                    <div class="erc-donut-hole">
+                                        <span class="erc-donut-total">{passFailTotal}</span>
+                                        <span class="erc-donut-total-label">Total</span>
+                                    </div>
+                                </div>
+                                <div class="erc-donut-legend">
+                                    <template for:each={passFailLegend} for:item="l">
+                                        <div key={l.key} class="erc-legend-row">
+                                            <span class="erc-legend-swatch" style={l.swatchStyle}></span>
+                                            <span class="erc-legend-label">{l.label}</span>
+                                            <span class="erc-legend-value">{l.value} ({l.pct})</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                        <template lwc:else><p class="erc-chart-empty">No results recorded yet.</p></template>
+                    </div>
+
+                    <div class="erc-chart-card">
+                        <h3 class="erc-chart-title">Exam Cycles by Type</h3>
+                        <template lwc:if={hasCycleBars}>
+                            <div class="erc-bar-list">
+                                <template for:each={cycleBars} for:item="b">
+                                    <div key={b.key} class="erc-bar-row">
+                                        <span class="erc-bar-label">{b.label}</span>
+                                        <div class="erc-bar-track"><div class="erc-bar-fill" style={b.widthStyle}></div></div>
+                                        <span class="erc-bar-value">{b.value}</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <template lwc:else><p class="erc-chart-empty">No exam cycles for this semester.</p></template>
+                    </div>
+                </div>
+            </template>
+        </template>
+
+        <!-- ══════════════════════════ REPORTS VIEW ══════════════════════════ -->
+        <template lwc:if={isReportsTab}>
+            <template lwc:if={filtersIncomplete}>
+                <div class="erc-empty-state">
+                    <lightning-icon icon-name="utility:date_input" size="small"></lightning-icon>
+                    <p>Select a Program, Program Plan and Semester, then click Apply / Refresh to run the Student Result Sheet.</p>
+                </div>
+            </template>
+            <template lwc:elseif={loadingReport}>
+                <div class="erc-loading"><lightning-spinner size="medium" alternative-text="Loading report"></lightning-spinner></div>
+            </template>
+            <template lwc:elseif={hasReportData}>
+                <div class="erc-report-head">
+                    <div class="erc-report-title-wrap">
+                        <h2 class="erc-report-title">Student Semester Result Sheet</h2>
+                        <span class="erc-report-scope">{reportScopeLabel}</span>
+                        <span class="erc-row-count">{rowCountLabel}</span>
+                    </div>
+                    <div class="erc-report-actions">
+                        <button class="erc-btn erc-btn-primary" onclick={handleExportExcel} disabled={disableExport}>
+                            <lightning-icon icon-name="utility:download" size="xx-small" class="erc-btn-icon"></lightning-icon>
+                            Export Excel
+                        </button>
+                    </div>
+                </div>
+
+                <div class="erc-toolbar">
+                    <div class="erc-search">
+                        <lightning-icon icon-name="utility:search" size="xx-small" class="erc-search-icon"></lightning-icon>
+                        <input type="text" class="erc-search-input" data-id="searchInput"
+                               placeholder="Search USN, name or any mark…" value={searchTerm} oninput={handleSearch} />
+                    </div>
+                    <template lwc:if={hasActiveFilter}>
+                        <button class="erc-btn erc-btn-ghost erc-btn-tiny" onclick={handleClearFilters}>Clear filters</button>
+                    </template>
+                </div>
+
+                <div class="erc-table-scroll">
+                    <table class="erc-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="erc-th erc-th-pinned" data-idx="0" onclick={handleSort}>{usnSortLabel}</th>
+                                <th rowspan="2" class="erc-th erc-th-pinned" data-idx="1" onclick={handleSort}>{nameSortLabel}</th>
+                                <template for:each={courseGroups} for:item="g">
+                                    <th key={g.key} colspan={g.span} class="erc-th erc-th-group" title={g.title}>{g.code}</th>
+                                </template>
+                            </tr>
+                            <tr>
+                                <template for:each={subHeaderCells} for:item="c">
+                                    <th key={c.key} class="erc-th erc-th-sub">{c.label}</th>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={displayRows} for:item="row">
+                                <tr key={row.id}>
+                                    <td class="erc-td-pinned">{row.usn}</td>
+                                    <td class="erc-td-pinned">{row.studentName}</td>
+                                    <template for:each={row.cells} for:item="cell">
+                                        <td key={cell.key}>{cell.value}</td>
+                                    </template>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+
+                    <template lwc:if={isEmptyResult}>
+                        <div class="erc-empty">
+                            <lightning-icon icon-name="utility:search" size="small"></lightning-icon>
+                            <p>No students match your filters.</p>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <template lwc:else>
+                <div class="erc-empty-state">
+                    <lightning-icon icon-name="utility:warning" size="small"></lightning-icon>
+                    <p>No Program Enrolments found for {reportScopeLabel}.</p>
+                </div>
+            </template>
+        </template>
+
+    </div>
+</template>

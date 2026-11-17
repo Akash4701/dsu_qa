@@ -1,0 +1,245 @@
+<template>
+    <!-- Filters -->
+    <div class="slds-grid slds-gutters slds-m-bottom_medium">
+        
+        <div class="slds-col">
+            <lightning-combobox name="academicProgram" label="Academic Program" value={selectedProgram}
+                placeholder="Select an Option" options={programOptions} onchange={handleProgramChange}>
+            </lightning-combobox>
+        </div>
+        <div class="slds-col">
+            <lightning-combobox name="programPlan" label="Program Plan" value={selectedPlan}
+                placeholder="Select an Option" options={planOptions} onchange={handlePlanChange}>
+            </lightning-combobox>
+        </div>
+        <c-searchable-multi-select
+    label="Academic Term (Optional Filter)"
+    placeholder="Search Academic Terms"
+    options={termOptions}
+    onchange={handleTermChange}>
+</c-searchable-multi-select>
+
+    </div>
+
+    <!-- Accordion Terms -->
+    <template if:true={terms}>
+        <template for:each={terms} for:item="term">
+            <div key={term.Id} class="slds-box slds-m-bottom_medium">
+               
+                <!-- Term Header -->
+<div class="slds-grid slds-gutters slds-grid_align-spread">
+    <div class="slds-col slds-size_3-of-12">
+        <div class="slds-grid">
+            <div class="slds-col slds-size_1-of-12">
+                <lightning-button-icon icon-name={term.iconName} alternative-text="Toggle details"
+                    onclick={handleToggleExpand} data-term-id={term.Id} variant="bare">
+                </lightning-button-icon>
+            </div>
+            <div class="slds-col slds-size_11-of-12">
+                <div class="slds-text-heading_small">{term.Name}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-col slds-size_9-of-12">
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_2-of-12">
+                <lightning-input type="text" value={term.Term_Duration__c} disabled
+                    label="Semester duration">
+                </lightning-input>
+            </div>
+            <div class="slds-col slds-size_4-of-12">
+                <lightning-input type="date" value={term.hed__Start_Date__c} disabled
+                    label="Start Date">
+                </lightning-input>
+            </div>
+            <div class="slds-col slds-size_4-of-12">
+                <lightning-input type="date" value={term.hed__End_Date__c} disabled
+                    label="End Date">
+                </lightning-input>
+            </div>
+            <div class="slds-col slds-size_2-of-12">
+                <lightning-combobox name="PathwayType" label="Pathway Type"
+                    value={value}
+                    placeholder="Select Pathway Type"
+                    options={options}
+                    onchange={handleChange}>
+                </lightning-combobox>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                <!-- Inner Sections -->
+                <template if:true={term.isExpanded}>
+                    <div class="slds-p-left_medium slds-p-top_small">
+                        <template for:each={term.innerSections} for:item="section">
+    <div key={section.id}
+     class="slds-box slds-theme_shade slds-m-vertical_x-small {section.styleClass}">
+     
+    <div class="slds-grid slds-grid_align-spread">
+        <div class="slds-col">
+            <lightning-button-icon icon-name={section.iconName}
+                alternative-text="Toggle subsection"
+                onclick={handleToggleInnerSection}
+                data-term-id={term.Id}
+                data-section-id={section.id}
+                variant="bare"
+                disabled={section.isDisabled}>
+            </lightning-button-icon>
+            <span class={section.labelClass}>
+    {section.title}
+</span>
+
+
+        </div>
+    </div>
+
+        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+            <template if:true={section.isExpanded}>
+                <div class="slds-m-top_small slds-grid slds-gutters">
+                    
+
+                    <!-- Add Courses -->
+                    <div class="slds-col">
+                        <lightning-button label="Add Courses" variant="brand"
+                            data-term-id={term.Id}
+                            data-section-id={section.id}
+                            onclick={handleAddCourses}>
+                        </lightning-button>
+                    </div>
+
+                    <!-- Add Clusters (only if not core) -->
+                    <template if:true={section.titleIsNotCore}>
+                        <div class="slds-col">
+                            <lightning-button label="Add Clusters" variant="neutral"
+                                data-term-id={term.Id}
+                                data-section-id={section.id}
+                                onclick={handleAddClusters}>
+                            </lightning-button>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>
+
+                    </div>
+                </template>
+            </div>
+        </template>
+    </template>
+
+    <!-- Modal for Add Courses -->
+    <template if:true={showModal}>
+        <c-modal-popup-utility-component modal-size="large" onclosepopup={handleModalClose}>
+            <div slot="header">
+                <h2 class="slds-text-heading_medium">Create Program Pathway</h2>
+            </div>
+
+            <div class="slds-p-around_medium">
+
+                <!-- Row 1: Pathway Master and Program Plan -->
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox name="PathwayMaster" label="Pathway Master" value={selectedPathwayMaster}
+                            options={pathwayMasterOptions} onchange={handleInputChange} data-field="Pathway_Master__c">
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox name="ProgramPlan" label="Program Plan" value={selectedPlan}
+                            options={planOptions} onchange={handleInputChange} data-field="Program_Plan__c" disabled>
+                        </lightning-combobox>
+                    </div>
+                </div>
+
+                <!-- Row 2: Course and Maximum Credits -->
+                <div class="slds-grid slds-gutters slds-m-top_small">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox name="Course" label="Course" value={selectedCourse} options={courseOptions}
+                            onchange={handleInputChange} data-field="Course__c">
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input type="number" label="Maximum Credits" value={maximumCredits}
+                            onchange={handleInputChange} data-field="Maximum_Credits__c">
+                        </lightning-input>
+                    </div>
+                </div>
+
+                <!-- Row 3: Specialization Type and CGPA Rule -->
+                <div class="slds-grid slds-gutters slds-m-top_small">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox name="SpecializationType" label="Specialization Type"
+                            value={specializationType} options={specializationTypeOptions} onchange={handleInputChange}
+                            data-field="Specialization_Type__c">
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox name="CGPARule" label="CGPA Rule" value={cgpaRule} options={cgpaRuleOptions}
+                            onchange={handleInputChange} data-field="CGPA_Rule__c">
+                        </lightning-combobox>
+                    </div>
+                </div>
+
+                <!-- Row 4: Starting Semester and Ending Semester -->
+                <div class="slds-grid slds-gutters slds-m-top_small">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox name="StartingSemester" label="Starting Semester" value={startingSemester}
+                            options={startingSemesterOptions} onchange={handleInputChange}
+                            data-field="Starting_Semester__c">
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox name="EndingSemester" label="Ending Semester" value={endingSemester}
+                            options={endingSemesterOptions} onchange={handleInputChange}
+                            data-field="Ending_Semester__c">
+                        </lightning-combobox>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div slot="footer" class="slds-modal__footer">
+                <lightning-button label="Cancel" onclick={handleModalClose}></lightning-button>
+                <lightning-button label="Save" variant="brand" onclick={handleSaveProgramPathway}></lightning-button>
+            </div>
+        </c-modal-popup-utility-component>
+    </template>
+
+    <!-- Modal for Add Cluster -->
+    <!-- Modal for Add Clusters -->
+    <template if:true={showClusterModal}>
+        <c-modal-popup-utility-component modal-size="medium" onclosepopup={handleModalClose}>
+            <div slot="header">
+                <h2 class="slds-text-heading_medium">Add New Cluster to {selectedSectionIdForPopup}</h2>
+            </div>
+
+            <div class="slds-p-around_medium">
+                <lightning-input label="Cluster Name" value={clusterName} onchange={handleClusterInputChange}
+                    data-field="clusterName">
+                </lightning-input>
+
+                <lightning-input label="Minimum Courses" type="number" value={minCourses}
+                    onchange={handleClusterInputChange} data-field="minCourses">
+                </lightning-input>
+
+                <lightning-input label="Maximum Courses" type="number" value={maxCourses}
+                    onchange={handleClusterInputChange} data-field="maxCourses">
+                </lightning-input>
+            </div>
+
+            <div slot="footer">
+                <lightning-button label="Cancel" onclick={handleModalClose}></lightning-button>
+                <lightning-button label="Add Cluster" variant="brand" onclick={handleSaveCluster}></lightning-button>
+            </div>
+        </c-modal-popup-utility-component>
+    </template>
+
+
+
+
+</template>

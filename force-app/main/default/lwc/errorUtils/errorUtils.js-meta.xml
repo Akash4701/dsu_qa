@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <isExposed>false</isExposed>
+    <description>Shared error-handling module: turns any error a component can catch (Apex, UI API, JavaScript, network) into readable messages and toasts. Import from c/errorUtils.</description>
+</LightningComponentBundle>

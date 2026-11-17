@@ -1,0 +1,8 @@
+.custom-container{
+	color : black;
+}
+
+.slds-modal__container {
+    width: 50%;
+    max-width: 50%;
+}

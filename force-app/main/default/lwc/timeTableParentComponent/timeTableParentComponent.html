@@ -1,0 +1,224 @@
+<template>
+    <template if:true={showToast}>
+        <div class="slds-notify_container slds-is-fixed">
+            <div class={toastClasses} role="status">
+                <span class="slds-assistive-text">{toastVariant}</span>
+                <span class="slds-icon_container slds-icon-utility-success slds-m-right_small">
+                    <lightning-icon icon-name={toastIconName} size="small" variant="inverse"></lightning-icon>
+                </span>
+                <div class="slds-notify__content">
+                    <h2 class="slds-text-heading_small">{toastMessage}</h2>
+                </div>
+                <div class="slds-notify__close">
+                    <lightning-button-icon icon-name="utility:close" size="small" variant="bare-inverse"
+                        onclick={closeToast} title="Close" alternative-text="Close">
+                    </lightning-button-icon>
+                </div>
+            </div>
+        </div>
+    </template>
+    <div class="slds-grid slds-grid_vertical slds-height_full">
+
+
+        <!-- Main Content Area -->
+        <div class="slds-grid slds-grow timetable-container">
+
+
+            <!-- Left Sidebar: Setup Section -->
+            <div class="setup-section slds-size_1-of-4 slds-p-around_medium slds-border_right">
+                <div class="setup-title">Timetable Setup</div>
+
+
+                <!-- Academic Program -->
+                <div class="form-group">
+                    <label>Academic program</label>
+                    <template if:true={isLoadingPrograms}>
+                        <lightning-spinner alternative-text="Loading programs" size="small"></lightning-spinner>
+                    </template>
+                    <template if:false={isLoadingPrograms}>
+                        <lightning-combobox name="program" value={selectedProgramId} options={programOptions}
+                            onchange={handleProgramChange}>
+                        </lightning-combobox>
+                    </template>
+                </div>
+
+
+                <!-- Program Plan -->
+                <div class="form-group">
+                    <label>Program plan</label>
+                    <template if:true={isLoadingPlans}>
+                        <lightning-spinner alternative-text="Loading plans" size="small"></lightning-spinner>
+                    </template>
+                    <template if:false={isLoadingPlans}>
+                        <lightning-combobox name="plan" value={selectedPlanId} options={planOptions}
+                            onchange={handlePlanChange}>
+                        </lightning-combobox>
+                    </template>
+                </div>
+
+
+                <!-- Term -->
+                <div class="form-group">
+                    <label>Term</label>
+                    <template if:true={isLoadingTerms}>
+                        <lightning-spinner alternative-text="Loading terms" size="small"></lightning-spinner>
+                    </template>
+                    <template if:false={isLoadingTerms}>
+                        <lightning-combobox name="term" value={selectedTermId} options={termOptions}
+                            onchange={handleTermChange}>
+                        </lightning-combobox>
+                    </template>
+                </div>
+
+
+                <!-- Section -->
+                <div class="form-group">
+                    <label>Section</label>
+                    <template if:true={isLoadingSections}>
+                        <lightning-spinner alternative-text="Loading sections" size="small"></lightning-spinner>
+                    </template>
+                    <template if:false={isLoadingSections}>
+                        <lightning-combobox name="section" value={selectedSectionId} options={sectionOptions}
+                            onchange={handleSectionChange}>
+                        </lightning-combobox>
+                    </template>
+                </div>
+
+
+                <!-- Subjects -->
+                <div class="form-group">
+                    <label>Subjects</label>
+                    <template if:true={isLoadingSubjects}>
+                        <lightning-spinner alternative-text="Loading subjects" size="small"></lightning-spinner>
+                    </template>
+                    <template if:false={isLoadingSubjects}>
+                        <div class="checkbox-group">
+                            <lightning-input type="checkbox" label="All Subjects" name="allSubjects"
+                                checked={allSubjectsSelected} onchange={handleAllSubjectsChange}>
+                            </lightning-input>
+
+
+                            <!-- In your parent timetable component HTML -->
+                            <!-- In your parent timetable component HTML -->
+                            <template for:each={subjects} for:item="subject">
+                                <div key={subject.id} class="slds-p-vertical_x-small">
+                                    <lightning-input type="checkbox" class="subject-checkbox"
+                                        label={subject.displayName} checked={subject.selected} name={subject.id}
+                                        data-id={subject.id} data-name={subject.displayName} data-code={subject.code}
+                                        onchange={handleSubjectChange}>
+                                    </lightning-input>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+
+                <!-- Clear Filters Button -->
+                <lightning-button label="Clear filters" onclick={handleClearFilters} variant="neutral"
+                    class="clear-filters-button slds-m-top_medium">
+                </lightning-button>
+            </div>
+
+
+            <!-- Right Side: Calendar Section -->
+            <div class="calendar-section slds-size_3-of-4 slds-p-around_medium">
+                <!-- View toggle + nav -->
+                <div class="calendar-nav">
+                    <div class="nav-buttons">
+                        <button class="nav-button prev" onclick={handlePreviousPeriod}>
+                            <lightning-icon icon-name="utility:chevronleft" size="x-small"></lightning-icon>
+                        </button>
+                        <button class="today-button" onclick={handleToday}>Today</button>
+                        <button class="nav-button next" onclick={handleNextPeriod}>
+                            <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                        </button>
+                    </div>
+
+
+                    <div class="month-title">{formattedCalendarTitle}</div>
+
+
+                    <div class="view-toggle-calendar">
+                        <lightning-button label="Day" onclick={handleDayView} variant={dayButtonVariant}
+                            class="day-button"></lightning-button>
+                        <lightning-button label="Week" onclick={handleWeekView} variant={weekButtonVariant}
+                            class="week-button"></lightning-button>
+                        <lightning-button label="Month" onclick={handleMonthView} variant={monthButtonVariant}
+                            class="month-button"></lightning-button>
+                    </div>
+                </div>
+
+
+                <!-- Calendar Header Actions -->
+                <div class="slds-grid slds-grid_align-end slds-p-bottom_small">
+                    <div class="slds-button-group" role="group">
+                        <lightning-button label="Faculty" onclick={handleFacultyClick} variant={facultyButtonVariant}
+                            class="faculty-button">
+                        </lightning-button>
+                        <lightning-button label="Facility" onclick={handleFacilityClick} variant={facilityButtonVariant}
+                            class="facility-button slds-m-right_x-small">
+                        </lightning-button>
+                        <lightning-button label="Clear" onclick={handleClear} variant="neutral"
+                            class="clear-button"></lightning-button>
+                    </div>
+                </div>
+
+
+                <!-- Calendar View -->
+                <div class="calendar-content">
+                    <template if:true={isMonthView}>
+                        <!-- Add these event handlers in your MonthViewComponent reference in the parent template -->
+                        <c-month-view-component current-date={currentDate} events={events} selected-view={currentView}
+                            hide-view-selector="true" subject-options-from-parent={subjectOptionsForMonthView}
+                            selected-plan-id={selectedPlanId} ondayclick={handleMonthViewDayClick}
+                            oneventclick={handleMonthViewEventClick} onmonthchange={handleMonthViewMonthChange}
+                            onsessionsave={handleMonthViewSessionSave} onrefreshfromserver={handleRefreshFromServer}>
+                        </c-month-view-component>
+
+
+                    </template>
+
+
+                    <template if:true={isWeekView}>
+                        <c-week-view-component current-date={currentDate} events={events} faculty-list-raw={facultyList}
+                            selected-view={currentView} onweekchange={handleWeekChange} onviewchange={handleViewChange}>
+                        </c-week-view-component>
+                    </template>
+                    <template if:true={isDayView}>
+                        <!-- <c-day-view-component current-date={currentDate} events={events} faculty-list-raw={facultyList}
+                            selected-view="day" ondaychange={handleDayChange} onviewchange={handleViewChange}
+                            oneventclick={handleEventClick}>
+                        </c-day-view-component> -->
+                        <c-day-view-component current-date={currentDate} events={events} faculty-list-raw={facultyList}
+                            facility-list-raw={facilityList} show-faculty={showFaculty} show-facility={showFacility}
+                            selected-view="day" ondaychange={handleDayChange} onviewchange={handleViewChange}
+                            oneventclick={handleEventClick}>
+                        </c-day-view-component>
+                    </template>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Full Width Footer -->
+        <div class="slds-p-around_medium slds-border_top slds-grid slds-grid_align-spread">
+            <div>
+                <lightning-button label="Cancel" onclick={handleCancel} variant="neutral"></lightning-button>
+            </div>
+            <div class="slds-button-group" role="group">
+                <lightning-button label="Save as draft" onclick={handleSaveAsDraft} variant="neutral">
+                </lightning-button>
+                <lightning-button label="Save details" onclick={handleSaveDetails} variant="brand"
+                    class="slds-m-left_x-small">
+                </lightning-button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</template>

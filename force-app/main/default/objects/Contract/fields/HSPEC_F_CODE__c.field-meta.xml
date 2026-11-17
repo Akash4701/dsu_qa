@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HSPEC_F_CODE__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE( HSPEC__c , 
+	&quot;Anaesthetics&quot;, &apos;01&apos;,
+	&quot;Obstetrics &amp; Gynaecology&quot;, &apos;02&apos;,
+	&quot;Ophthalmology&quot;, &apos;03&apos;,
+	&quot;Paediatrics &amp; Child health&quot;, &apos;04&apos;,
+	&quot;Pathology&quot;, &apos;05&apos;,
+	&quot;Psychiatry&quot;, &apos;06&apos;,
+	&quot;Radiology&quot;, &apos;07&apos;,
+	&quot;Surgery&quot;, &apos;08&apos;,
+	&quot;Physicians/Medicine&quot;, &apos;09&apos;,
+	&quot;Public health medicine&quot;, &apos;10&apos;,
+	&quot;Occupational medicine&quot;, &apos;11&apos;,
+	&quot;Dentistry&quot;, &apos;12&apos;,
+	&quot;General practice&quot;, &apos;13&apos;,
+	&quot;Infection/Microbiology&quot;, &apos;15&apos;,
+	&quot;Oncology&quot;, &apos;16&apos;,
+	&quot;Medical education&quot;, &apos;17&apos;,
+	&quot;Emergency medicine&quot;, &apos;18&apos;,
+	&quot;Others in medicine or dentistry&quot;, &apos;21&apos;,
+	&quot;Nursing&quot;, &apos;31&apos;,
+	&quot;Midwifery&quot;, &apos;32&apos;,
+	&quot;Health visiting&quot;, &apos;33&apos;,
+	&quot;Physiotherapy&quot;, &apos;34&apos;,
+	&quot;Radiography&quot;, &apos;35&apos;,
+	&quot;Occupational therapy&quot;, &apos;36&apos;,
+	&quot;Podiatry&quot;, &apos;37&apos;,
+	&quot;Speech &amp; language therapy&quot;, &apos;38&apos;,
+	&quot;Art therapy&quot;, &apos;39&apos;,
+	&quot;Paramedic&quot;, &apos;40&apos;,
+	&quot;Orthoptics&quot;, &apos;41&apos;,
+	&quot;Prosthetics &amp; orthotics&quot;, &apos;42&apos;,
+	&quot;Dietetics&quot;, &apos;43&apos;,
+	&quot;Healthcare scientists&quot;, &apos;44&apos;,
+	&quot;Pharmacy&quot;, &apos;45&apos;,
+	&quot;Clinical psychology&quot;, &apos;46&apos;,
+	&quot;Others&quot;, &apos;51&apos;,
+null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>HSPEC CODE</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

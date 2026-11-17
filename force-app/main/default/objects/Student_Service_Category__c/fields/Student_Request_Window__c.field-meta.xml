@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Student_Request_Window__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Student Request Window</label>
+    <referenceTo>Student_Service_Request_Application__c</referenceTo>
+    <relationshipLabel>Student Service Categories</relationshipLabel>
+    <relationshipName>Student_Service_Categories</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

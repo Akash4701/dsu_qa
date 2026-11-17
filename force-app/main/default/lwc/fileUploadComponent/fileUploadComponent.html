@@ -1,0 +1,71 @@
+<!--
+  @description       : 
+  @author            : Ken42
+  @group             : 
+  @last modified on  : 27-10-2025
+  @last modified by  : Ken42
+-->
+<template>
+    <div class="slds-modal__content slds-p-around_medium">
+        <!-- Section Heading -->
+        <div class="slds-text-heading_medium slds-text-align_center slds-m-bottom_small">
+            Upload File or Enter URL
+        </div>
+        <div class="slds-border_bottom slds-m-bottom_medium"></div>
+
+        <!-- URL Input -->
+        <lightning-input type="url"
+                         label="Enter URL"
+                         value={fileUrl}
+                         onchange={handleUrlChange}
+                         disabled={disableUrl}>
+        </lightning-input>
+
+        <div class="slds-text-align_center slds-m-top_small">-- OR --</div>
+
+        <!-- Upload section -->
+        <div class="slds-grid slds-wrap slds-m-top_small">
+            <!-- Upload File Input -->
+            <lightning-input type="file"
+                             label="Upload File"
+                             onchange={handleFileChange}
+                             disabled={disableFile}
+                             accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx">
+            </lightning-input>
+
+            <!-- Selected File Display -->
+            <template if:true={selectedFile}>
+                <div class="slds-box slds-box_x-small slds-m-left_medium slds-m-top_large slds-wrap">
+                    <span class="slds-truncate slds-m-right_x-small" title={fileName}>{fileName}</span>
+                    <lightning-button-icon icon-name="utility:delete"
+                                           alternative-text="Remove file"
+                                           variant="bare"
+                                           class="slds-icon-text-error"
+                                           onclick={removeSelectedFile}>
+                    </lightning-button-icon>
+                </div>
+            </template>
+        </div>
+
+        <!-- File Name -->
+        <lightning-input type="text"
+                         label="File Name"
+                         value={fileName}
+                         onchange={handleNameChange}>
+        </lightning-input>
+
+        <!-- Buttons -->
+        <div class="slds-clearfix slds-m-top_medium">
+            <div class="slds-float_right">
+                <lightning-button class="slds-m-right_small"
+                                  label="Cancel"
+                                  onclick={handleCancel}>
+                </lightning-button>
+                <lightning-button variant="brand"
+                                  label="Save"
+                                  onclick={handleSave}>
+                </lightning-button>
+            </div>
+        </div>
+    </div>
+</template>

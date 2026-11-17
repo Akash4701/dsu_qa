@@ -1,0 +1,20 @@
+<template>
+    <nav class="pager" aria-label="Pagination">
+        <span class="fh-small fh-muted range" aria-live="polite">{rangeLabel}</span>
+        <div class="controls">
+            <select class="fh-select size" aria-label="Rows per page" onchange={handleSize}>
+                <template for:each={sizeOptions} for:item="option">
+                    <option key={option.value} value={option.value} selected={option.selected}>{option.label}</option>
+                </template>
+            </select>
+            <button type="button" class="fh-btn fh-btn_icon" title="First page" aria-label="First page" disabled={atFirst} onclick={handleFirst}>«</button>
+            <button type="button" class="fh-btn fh-btn_icon" title="Previous page" aria-label="Previous page" disabled={atFirst} onclick={handlePrev}>‹</button>
+            <span class="fh-small page">{pageLabel}</span>
+            <button type="button" class="fh-btn fh-btn_icon" title="Next page" aria-label="Next page" disabled={atLast} onclick={handleNext}>›</button>
+            <button type="button" class="fh-btn fh-btn_icon" title="Last page" aria-label="Last page" disabled={atLast} onclick={handleLast}>»</button>
+        </div>
+    </nav>
+    <p lwc:if={showTruncated} class="fh-small truncated" role="status">
+        More {noun}s match than can be paged through. Use search or filters to narrow the list.
+    </p>
+</template>

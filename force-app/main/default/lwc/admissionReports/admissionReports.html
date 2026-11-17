@@ -1,0 +1,371 @@
+<template>
+    <div class="adr-page">
+        <!-- Header + top-level view switcher (Dashboard / Reports) -->
+        <div class="adr-header">
+            <h1 class="adr-title">{cardTitle}</h1>
+            <div class="adr-tabs">
+                <template for:each={viewTabs} for:item="v">
+                    <button key={v.key} class={v.cssClass} data-view={v.key} onclick={handleViewClick}>
+                        {v.label}
+                    </button>
+                </template>
+            </div>
+        </div>
+
+        <!-- Second level: which report, shown only inside Reports -->
+        <template lwc:if={isReportsView}>
+            <div class="adr-subtabs">
+                <template for:each={reportTabs} for:item="t">
+                    <button key={t.key} class={t.cssClass} data-tab={t.key} title={t.title} onclick={handleTabClick}>
+                        {t.label}
+                    </button>
+                </template>
+            </div>
+        </template>
+
+        <!-- Filter bar — Academic Year / Program are shared; Batch + Semester and the
+             Admission Status scope each belong to only some of the three reports. -->
+        <div class="adr-filterbar">
+            <div class="adr-filter-field">
+                <span class="adr-filter-label">Academic Year</span>
+                <template lwc:if={loadingYears}>
+                    <lightning-spinner size="x-small" alternative-text="Loading" class="adr-inline-spinner"></lightning-spinner>
+                </template>
+                <template lwc:else>
+                    <lightning-combobox
+                        variant="label-hidden"
+                        name="academicYear"
+                        value={selectedAcademicYear}
+                        placeholder="All Academic Years"
+                        options={academicYearOptions}
+                        onchange={handleAcademicYearChange}
+                        class="adr-combo">
+                    </lightning-combobox>
+                </template>
+            </div>
+
+            <div class="adr-filter-field">
+                <span class="adr-filter-label">Program</span>
+                <template lwc:if={loadingPrograms}>
+                    <lightning-spinner size="x-small" alternative-text="Loading" class="adr-inline-spinner"></lightning-spinner>
+                </template>
+                <template lwc:else>
+                    <lightning-combobox
+                        variant="label-hidden"
+                        name="program"
+                        value={selectedProgramId}
+                        placeholder="All Programs"
+                        options={programOptions}
+                        onchange={handleProgramChange}
+                        class="adr-combo">
+                    </lightning-combobox>
+                </template>
+            </div>
+
+            <template lwc:if={showStatusFilter}>
+                <div class="adr-filter-field">
+                    <span class="adr-filter-label">Admission Status</span>
+                    <lightning-combobox
+                        variant="label-hidden"
+                        name="statusScope"
+                        value={selectedStatusScope}
+                        options={statusScopeOptions}
+                        onchange={handleStatusScopeChange}
+                        class="adr-combo">
+                    </lightning-combobox>
+                </div>
+            </template>
+
+            <template lwc:if={showBatchFilter}>
+                <div class="adr-filter-field">
+                    <span class="adr-filter-label">Batch (Program Plan)</span>
+                    <template lwc:if={loadingProgramPlans}>
+                        <lightning-spinner size="x-small" alternative-text="Loading" class="adr-inline-spinner"></lightning-spinner>
+                    </template>
+                    <template lwc:else>
+                        <lightning-combobox
+                            variant="label-hidden"
+                            name="programPlan"
+                            value={selectedProgramPlanId}
+                            placeholder="Select Batch"
+                            options={programPlanOptions}
+                            onchange={handleProgramPlanChange}
+                            class="adr-combo">
+                        </lightning-combobox>
+                    </template>
+                </div>
+                <div class="adr-filter-field">
+                    <span class="adr-filter-label">Semester</span>
+                    <template lwc:if={loadingTerms}>
+                        <lightning-spinner size="x-small" alternative-text="Loading" class="adr-inline-spinner"></lightning-spinner>
+                    </template>
+                    <template lwc:else>
+                        <lightning-combobox
+                            variant="label-hidden"
+                            name="term"
+                            value={selectedTermId}
+                            placeholder="All Semesters"
+                            options={termOptions}
+                            disabled={disableTerm}
+                            onchange={handleTermChange}
+                            class="adr-combo">
+                        </lightning-combobox>
+                    </template>
+                </div>
+            </template>
+
+            <button class="adr-btn adr-btn-primary adr-btn-tiny" title="Apply / Refresh" disabled={disableApply} onclick={handleApply}>
+                <lightning-icon icon-name="utility:refresh" size="xx-small" class="adr-btn-icon"></lightning-icon>
+                Apply / Refresh
+            </button>
+            <template lwc:if={hasAnyFilterSelected}>
+                <button class="adr-btn adr-btn-ghost adr-btn-tiny" onclick={handleClearAllFilters}>Clear Filters</button>
+            </template>
+        </div>
+
+        <template lwc:if={error}>
+            <div class="adr-error">
+                <lightning-icon icon-name="utility:error" variant="error" size="small"></lightning-icon>
+                <span>{error}</span>
+            </div>
+        </template>
+
+        <!-- ══════════════════════════ DASHBOARD ══════════════════════════ -->
+        <template lwc:if={isDashboardView}>
+            <template lwc:if={loadingDashboard}>
+                <div class="adr-loading"><lightning-spinner size="medium" alternative-text="Loading dashboard"></lightning-spinner></div>
+            </template>
+            <template lwc:elseif={hasDashboard}>
+                <div class="adr-report-head">
+                    <div class="adr-report-title-wrap">
+                        <h2 class="adr-report-title">Admissions Overview</h2>
+                        <span class="adr-report-scope">{dashboard.scopeLabel}</span>
+                    </div>
+                </div>
+
+                <div class="adr-kpi-grid">
+                    <template for:each={kpiTiles} for:item="k">
+                        <div key={k.key} class={k.cssClass}>
+                            <span class="adr-kpi-label">{k.label}</span>
+                            <span class="adr-kpi-value">{k.value}</span>
+                            <template lwc:if={k.hint}>
+                                <span class="adr-kpi-hint">{k.hint}</span>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- One card per chart; the form differs per chart because the question
+                     does. Every legend row carries its label and value, so nothing is
+                     identified by colour alone. -->
+                <div class="adr-chart-grid">
+                    <template for:each={dashboardCharts} for:item="chart">
+                        <div key={chart.key} class="adr-chart-card">
+                            <h3 class="adr-chart-title">{chart.title}</h3>
+
+                            <template lwc:if={chart.hasData}>
+                                <!-- Horizontal bars: magnitude across long-named programmes -->
+                                <template lwc:if={chart.isBar}>
+                                    <div class="adr-bars">
+                                        <template for:each={chart.bars} for:item="b">
+                                            <div key={b.key} class="adr-bar-row">
+                                                <span class="adr-bar-label" title={b.label}>{b.label}</span>
+                                                <div class="adr-bar-plot">
+                                                    <span class="adr-bar" style={b.style}></span>
+                                                    <span class="adr-bar-value">{b.value}</span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+
+                                <!-- Donut: a split of one total -->
+                                <template lwc:elseif={chart.isDonut}>
+                                    <div class="adr-donut-wrap">
+                                        <svg class="adr-donut" viewBox="0 0 120 120" role="img" focusable="false">
+                                            <template for:each={chart.slices} for:item="s">
+                                                <path key={s.key} d={s.d} fill={s.fill}>
+                                                    <title>{s.title}</title>
+                                                </path>
+                                            </template>
+                                            <text x="60" y="58" class="adr-donut-total">{chart.centerValue}</text>
+                                            <text x="60" y="71" class="adr-donut-caption">total</text>
+                                        </svg>
+                                        <ul class="adr-legend">
+                                            <template for:each={chart.slices} for:item="s">
+                                                <li key={s.key} class="adr-legend-row">
+                                                    <span class="adr-swatch" style={s.swatchStyle}></span>
+                                                    <span class="adr-legend-label" title={s.label}>{s.label}</span>
+                                                    <span class="adr-legend-value">{s.value}</span>
+                                                    <span class="adr-legend-pct">{s.pct}</span>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </template>
+
+                                <!-- Stacked bar: a breakdown that has to add up -->
+                                <template lwc:elseif={chart.isStacked}>
+                                    <div class="adr-stack">
+                                        <template for:each={chart.segments} for:item="s">
+                                            <span key={s.key} class="adr-stack-seg" style={s.style} title={s.title}></span>
+                                        </template>
+                                    </div>
+                                    <ul class="adr-legend adr-legend--wide">
+                                        <template for:each={chart.segments} for:item="s">
+                                            <li key={s.key} class="adr-legend-row">
+                                                <span class="adr-swatch" style={s.swatchStyle}></span>
+                                                <span class="adr-legend-label" title={s.label}>{s.label}</span>
+                                                <span class="adr-legend-value">{s.value}</span>
+                                                <span class="adr-legend-pct">{s.pct}</span>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </template>
+
+                                <!-- Columns: a short magnitude comparison -->
+                                <template lwc:elseif={chart.isColumn}>
+                                    <div class="adr-columns">
+                                        <template for:each={chart.columns} for:item="c">
+                                            <div key={c.key} class="adr-col-slot">
+                                                <span class="adr-col-value">{c.value}</span>
+                                                <div class="adr-col-plot">
+                                                    <span class="adr-col" style={c.style} title={c.label}></span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <!-- Labels live below the baseline, so the baseline is a
+                                         single unbroken line under the columns themselves. -->
+                                    <div class="adr-col-labels">
+                                        <template for:each={chart.columns} for:item="c">
+                                            <span key={c.key} class="adr-col-label" title={c.label}>{c.label}</span>
+                                        </template>
+                                    </div>
+                                </template>
+                            </template>
+                            <template lwc:else>
+                                <p class="adr-chart-empty">{chart.emptyMessage}</p>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <template lwc:if={hasDashboardSourceNote}>
+                    <div class="adr-note">
+                        <lightning-icon icon-name="utility:info" size="xx-small" class="adr-note-icon"></lightning-icon>
+                        <span>{dashboardSourceNote}</span>
+                    </div>
+                </template>
+            </template>
+            <template lwc:else>
+                <div class="adr-empty-state">
+                    <lightning-icon icon-name="utility:warning" size="small"></lightning-icon>
+                    <p>No applications found for the selected filters.</p>
+                </div>
+            </template>
+        </template>
+
+        <!-- ══════════════════════════ REPORT ══════════════════════════ -->
+        <template lwc:elseif={needsBatch}>
+            <div class="adr-empty-state">
+                <lightning-icon icon-name="utility:date_input" size="small"></lightning-icon>
+                <p>Select a Batch (Program Plan), then click Apply / Refresh to run the Result Analysis.</p>
+            </div>
+        </template>
+        <template lwc:elseif={loading}>
+            <div class="adr-loading"><lightning-spinner size="medium" alternative-text="Loading report"></lightning-spinner></div>
+        </template>
+        <template lwc:elseif={hasGrid}>
+            <div class="adr-report-head">
+                <div class="adr-report-title-wrap">
+                    <h2 class="adr-report-title">{grid.title}</h2>
+                    <span class="adr-report-scope">{grid.scopeLabel}</span>
+                    <span class="adr-row-count">{rowCountLabel}</span>
+                </div>
+                <div class="adr-report-actions">
+                    <button class="adr-btn adr-btn-primary" onclick={handleExport} disabled={disableExport}>
+                        <lightning-icon icon-name="utility:download" size="xx-small" class="adr-btn-icon"></lightning-icon>
+                        Export Excel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Which Contact field each demographic column was counted from, so a
+                 reviewer can tell an empty column from a missing field. -->
+            <template lwc:if={hasSourceNotes}>
+                <div class="adr-note">
+                    <lightning-icon icon-name="utility:info" size="xx-small" class="adr-note-icon"></lightning-icon>
+                    <span>{sourceNote}</span>
+                </div>
+            </template>
+            <template lwc:if={grid.truncated}>
+                <div class="adr-warn">
+                    <lightning-icon icon-name="utility:warning" size="xx-small" class="adr-note-icon"></lightning-icon>
+                    <span>This report hit the platform's 2,000-group aggregate ceiling and may be partial. Narrow it with the Academic Year or Program filter.</span>
+                </div>
+            </template>
+
+            <div class="adr-toolbar">
+                <div class="adr-search">
+                    <lightning-icon icon-name="utility:search" size="xx-small" class="adr-search-icon"></lightning-icon>
+                    <input type="text" class="adr-search-input" data-id="searchInput"
+                           placeholder="Search any column…" value={searchTerm} oninput={handleSearch} />
+                </div>
+                <template lwc:if={searchTerm}>
+                    <button class="adr-btn adr-btn-ghost adr-btn-tiny" onclick={handleClearSearch}>Clear search</button>
+                </template>
+            </div>
+
+            <div class="adr-table-scroll">
+                <table class="adr-table">
+                    <thead>
+                        <tr>
+                            <template for:each={headerRow1} for:item="h">
+                                <th key={h.key} colspan={h.colspan} rowspan={h.rowspan} class={h.cssClass}>{h.label}</th>
+                            </template>
+                        </tr>
+                        <template lwc:if={hasHeaderRow2}>
+                            <tr>
+                                <template for:each={headerRow2} for:item="h">
+                                    <th key={h.key} class="adr-th adr-th-sub">{h.label}</th>
+                                </template>
+                            </tr>
+                        </template>
+                    </thead>
+                    <tbody>
+                        <template for:each={displayRows} for:item="row">
+                            <tr key={row.id}>
+                                <template for:each={row.cells} for:item="c">
+                                    <td key={c.key} class={c.cssClass}>{c.value}</td>
+                                </template>
+                            </tr>
+                        </template>
+                    </tbody>
+                    <tfoot>
+                        <template lwc:if={hasTotalsRow}>
+                            <tr>
+                                <template for:each={totalCells} for:item="c">
+                                    <td key={c.key} class={c.cssClass}>{c.value}</td>
+                                </template>
+                            </tr>
+                        </template>
+                    </tfoot>
+                </table>
+
+                <template lwc:if={isEmptyResult}>
+                    <div class="adr-empty">
+                        <lightning-icon icon-name="utility:search" size="small"></lightning-icon>
+                        <p>No rows match your search.</p>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template lwc:else>
+            <div class="adr-empty-state">
+                <lightning-icon icon-name="utility:warning" size="small"></lightning-icon>
+                <p>{noDataMessage}</p>
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,313 @@
+.day-view-container {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding-bottom: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header styles */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.nav-button {
+    background: none;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+.today-button {
+    background-color: #0070d2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    margin-left: 4px;
+}
+
+.schedule-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #181818;
+}
+
+.view-selector {
+    display: flex;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.view-button {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+.view-button.selected {
+    background-color: #0070d2;
+    color: white;
+}
+
+/* Timetable container */
+.timetable-container {
+    display: flex;
+    flex: 1;
+    height: calc(100% - 60px);
+    overflow: hidden;
+}
+
+/* Faculty sidebar */
+.faculty-sidebar {
+    width: 180px;
+    border-right: 1px solid #e0e0e0;
+    height: 100%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.faculty-header {
+    padding: 0.5rem;
+    font-weight: 500;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center;
+}
+
+.search-container {
+    padding: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.faculty-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.faculty-row {
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.faculty-row:hover {
+    background-color: #f8f8f8;
+}
+
+.faculty-row.selected {
+    background-color: #f0f7ff;
+    border-left: 3px solid #0070d2;
+}
+
+.faculty-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.faculty-shortname {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+/* Horizontal view container */
+.horizontal-view-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.day-info {
+    font-weight: 500;
+    color: #444;
+    font-size: 1rem;
+}
+
+.week-indicator {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #666;
+    padding: 0.25rem 0.5rem;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+/* Legend */
+.legend-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 1rem;
+    padding: 0.5rem 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+    font-size: 0.75rem;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.slot-filled {
+    background-color: #90caf9;
+}
+
+.not-available {
+    background-color: #ef9a9a;
+}
+
+.available {
+    border: 1px solid #ccc;
+    width: 10px;
+    height: 10px;
+}
+
+/* Horizontal grid container */
+.horizontal-grid-container {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+/* Time grid and header styling */
+.time-header-row {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.time-header-cell {
+    flex: 0 0 60px;
+    width: 60px; /* Fixed width for each hour cell */
+    text-align: center;
+    padding: 0.5rem 0;
+    font-size: 0.75rem;
+    color: #666;
+    font-weight: 500;
+    border-right: 1px solid #e0e0e0;
+}
+
+.faculty-header-cell {
+    width: 180px;
+    flex: none;
+    font-weight: 500;
+    text-align: center;
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    background-color: #f5f5f5;
+    border-right: 1px solid #e0e0e0;
+}
+
+/* Faculty schedule row */
+.faculty-schedule-row {
+    display: flex;
+    border-bottom: 1px solid #f0f0f0;
+    height: 60px;
+}
+
+.faculty-name-cell {
+    width: 180px;
+    flex: none;
+    padding: 0.5rem;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.faculty-time-grid {
+    flex: 1;
+    position: relative;
+    display: flex;
+    background-image: repeating-linear-gradient(to right, 
+        #e0e0e0 0px, #e0e0e0 1px, 
+        transparent 1px, transparent 60px);
+    min-width: 1440px; /* 24 hours x 60px */
+}
+
+/* Event styling */
+.event {
+    position: absolute;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 4px;
+    height: 40px;
+    margin-top: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    z-index: 5;
+}
+
+.event-filled {
+    background-color: #90caf9;
+}
+
+.event-not-available {
+    background-color: #ef9a9a;
+}
+
+.event-title {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    color: #333;
+}
+
+/* For better mobile responsiveness */
+@media (max-width: 768px) {
+    .faculty-sidebar {
+        width: 120px;
+    }
+    
+    .faculty-header-cell {
+        width: 120px;
+    }
+    
+    .faculty-name-cell {
+        width: 120px;
+    }
+}

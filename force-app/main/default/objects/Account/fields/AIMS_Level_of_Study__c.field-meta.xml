@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AIMS_Level_of_Study__c</fullName>
+    <label>AIMS Level of Study</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>PG</fullName>
+                <default>false</default>
+                <label>PG</label>
+            </value>
+            <value>
+                <fullName>UG</fullName>
+                <default>false</default>
+                <label>UG</label>
+            </value>
+            <value>
+                <fullName>PHD</fullName>
+                <default>false</default>
+                <label>PHD</label>
+            </value>
+            <value>
+                <fullName>PUC</fullName>
+                <default>false</default>
+                <label>PUC</label>
+            </value>
+            <value>
+                <fullName>DIPLOMA</fullName>
+                <default>false</default>
+                <label>DIPLOMA</label>
+            </value>
+            <value>
+                <fullName>VOCATIONAL PROGRAMS</fullName>
+                <default>false</default>
+                <label>VOCATIONAL PROGRAMS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

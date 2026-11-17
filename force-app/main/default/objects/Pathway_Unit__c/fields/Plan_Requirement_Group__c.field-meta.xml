@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Plan_Requirement_Group__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Plan Requirement (Group)</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>The selected record is not a valid &quot;Group&quot; plan requirement.</errorMessage>
+        <filterItems>
+            <field>hed__Plan_Requirement__c.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Group</value>
+        </filterItems>
+        <infoMessage>Please select a &quot;Group&quot; plan requirement.</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>hed__Plan_Requirement__c</referenceTo>
+    <relationshipLabel>Pathway Units (Plan Requirement (Group))</relationshipLabel>
+    <relationshipName>Pathway_Units1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

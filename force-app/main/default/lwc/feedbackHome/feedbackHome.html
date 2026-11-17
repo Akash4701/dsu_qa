@@ -1,0 +1,58 @@
+<template>
+    <div class="page">
+        <nav class="tabbar" role="tablist" aria-label="Feedback Management sections" onkeydown={handleTabKeydown}>
+            <template for:each={tabs} for:item="tab">
+                <button key={tab.value} type="button" class="tab" role="tab" aria-selected={tab.selected} tabindex={tab.tabindex} data-value={tab.value} onclick={handleTabClick}>
+                    <span class="tab__icon"><lightning-icon icon-name={tab.icon} size="xx-small" alternative-text=""></lightning-icon></span>
+                    <span class="tab__label">{tab.label}</span>
+                    <span lwc:if={tab.hasCount} class="tab__count">{tab.count}</span>
+                </button>
+            </template>
+        </nav>
+
+        <div class="body">
+            <header class="head">
+                <div class="head__text">
+                    <p class="fh-eyebrow">Feedback Management</p>
+                    <h1 class="head__title">{greetingText}</h1>
+                    <p class="head__sub">Build parameter sections, schedule feedback rounds and track responses, all in one place.</p>
+                    <p class="head__meta fh-small fh-muted">{todayLabel}<span lwc:if={updatedLabel}> · {updatedLabel}</span></p>
+                </div>
+                <div class="head__actions">
+                    <button type="button" class="fh-btn fh-btn_icon" title="Refresh" aria-label="Refresh" onclick={handleRefresh}>
+                        <lightning-icon icon-name="utility:refresh" size="x-small" alternative-text="Refresh"></lightning-icon>
+                    </button>
+                    <button type="button" class="fh-btn" onclick={handleNewSection}>
+                        <lightning-icon icon-name="utility:layers" size="x-small" alternative-text=""></lightning-icon>
+                        New Section
+                    </button>
+                    <button type="button" class="fh-btn fh-btn_primary" onclick={handleNewSchedule}>
+                        <lightning-icon icon-name="utility:add" size="x-small" variant="inverse" alternative-text=""></lightning-icon>
+                        New Schedule
+                    </button>
+                </div>
+            </header>
+
+            <main class="content">
+                <div lwc:if={isOverview} role="tabpanel" aria-label="Overview">
+                    <c-feedback-overview-panel overview={overview} loading={loading} error={overviewError} onretry={handleRefresh} onopenresponses={handleOpenResponses} onopentab={handleOpenTab}></c-feedback-overview-panel>
+                </div>
+                <div lwc:if={isSections} role="tabpanel" aria-label="Parameter Sections">
+                    <c-feedback-sections-panel onopenparameters={handleOpenParameters}></c-feedback-sections-panel>
+                </div>
+                <div lwc:if={isParameters} role="tabpanel" aria-label="Parameters">
+                    <c-feedback-parameters-panel section-id={sectionId}></c-feedback-parameters-panel>
+                </div>
+                <div lwc:if={isScheduling} role="tabpanel" aria-label="Scheduling">
+                    <c-feedback-schedules-panel onopenresponses={handleOpenResponses}></c-feedback-schedules-panel>
+                </div>
+                <div lwc:if={isResponses} role="tabpanel" aria-label="Responses">
+                    <c-feedback-responses-panel scheduler-id={schedulerId}></c-feedback-responses-panel>
+                </div>
+                <div lwc:if={isReports} role="tabpanel" aria-label="Reports">
+                    <c-feedback-report-panel></c-feedback-report-panel>
+                </div>
+            </main>
+        </div>
+    </div>
+</template>

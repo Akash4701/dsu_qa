@@ -1,0 +1,14 @@
+@import 'c/feedbackHomeStyles';
+
+.group__head { display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 1rem 1.25rem; background: transparent; border: 0; font: inherit; color: inherit; cursor: pointer; text-align: left; border-radius: var(--fh-r-md); }
+.group__head:hover { background: var(--fh-surface-alt); }
+.group__head:focus-visible { outline: 2px solid var(--fh-brand); outline-offset: -2px; }
+.group__name { flex: 1 1 auto; }
+.params { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--fh-border); }
+.param { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 1.25rem; border-bottom: 1px solid var(--fh-border); }
+.param:last-child { border-bottom: 0; }
+.param_off { opacity: 0.7; }
+.param__pos { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; min-width: 1.75rem; height: 1.75rem; padding: 0 0.25rem; border-radius: 50%; background: var(--fh-brand-soft); color: var(--fh-brand-strong); font-size: 0.75rem; font-weight: 700; }
+.param__body { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.param__title { font-size: 0.875rem; line-height: 1.5; font-weight: 600; color: var(--fh-text); }
+.param__meta { display: flex; gap: 0.5rem; flex-wrap: wrap; }

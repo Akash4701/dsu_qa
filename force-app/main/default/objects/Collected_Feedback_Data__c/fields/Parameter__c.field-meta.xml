@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Parameter__c</fullName>
+    <label>Parameter</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Command Over the Subject</fullName>
+                <default>false</default>
+                <label>Command Over the Subject</label>
+            </value>
+            <value>
+                <fullName>Communication</fullName>
+                <default>false</default>
+                <label>Communication</label>
+            </value>
+            <value>
+                <fullName>Control over the Class</fullName>
+                <default>false</default>
+                <label>Control over the Class</label>
+            </value>
+            <value>
+                <fullName>Punctuality</fullName>
+                <default>false</default>
+                <label>Punctuality</label>
+            </value>
+            <value>
+                <fullName>Online Conduction</fullName>
+                <default>false</default>
+                <label>Online Conduction</label>
+            </value>
+            <value>
+                <fullName>Faculty Expertise</fullName>
+                <default>false</default>
+                <label>Faculty Expertise</label>
+            </value>
+            <value>
+                <fullName>Curriculum</fullName>
+                <default>false</default>
+                <label>Curriculum</label>
+            </value>
+            <value>
+                <fullName>Industry Exposure</fullName>
+                <default>false</default>
+                <label>Industry Exposure</label>
+            </value>
+            <value>
+                <fullName>Infrastructure</fullName>
+                <default>false</default>
+                <label>Infrastructure</label>
+            </value>
+            <value>
+                <fullName>Overall Program</fullName>
+                <default>false</default>
+                <label>Overall Program</label>
+            </value>
+            <value>
+                <fullName>Course Structure</fullName>
+                <default>false</default>
+                <label>Course Structure</label>
+            </value>
+            <value>
+                <fullName>Planning + Coordination</fullName>
+                <default>false</default>
+                <label>Planning + Coordination</label>
+            </value>
+            <value>
+                <fullName>Student Behaviour</fullName>
+                <default>false</default>
+                <label>Student Behaviour</label>
+            </value>
+            <value>
+                <fullName>Resources + Support</fullName>
+                <default>false</default>
+                <label>Resources + Support</label>
+            </value>
+            <value>
+                <fullName>Tech Infrastructure</fullName>
+                <default>false</default>
+                <label>Tech Infrastructure</label>
+            </value>
+            <value>
+                <fullName>Regularity in Class</fullName>
+                <default>false</default>
+                <label>Regularity in Class</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

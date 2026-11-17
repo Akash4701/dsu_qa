@@ -1,0 +1,15 @@
+@import 'c/feedbackHomeStyles';
+
+.donut { position: relative; margin: 0 auto; }
+.track { stroke: var(--fh-surface-alt); }
+.ring { transition: stroke-dashoffset 900ms var(--fh-ease); }
+.ring_success { stroke: var(--fh-success); }
+.ring_warning { stroke: var(--fh-warning); }
+.ring_error { stroke: var(--fh-error); }
+.ring_info { stroke: var(--fh-brand); }
+.center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 1.5rem; }
+.pct { font-size: 1.75rem; font-weight: 800; line-height: 1.1; }
+.sign { font-size: 1rem; font-weight: 700; color: var(--fh-text-muted); }
+.lbl { font-size: 0.75rem; font-weight: 700; color: var(--fh-text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.sub { font-size: 0.75rem; color: var(--fh-text-muted); }
+@media (prefers-reduced-motion: reduce) { .ring { transition: none; } }

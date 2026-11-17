@@ -1,0 +1,25 @@
+<template>
+    <lightning-input
+        type="search"
+        label={label}
+        placeholder={placeholder}
+        value={searchTerm}
+        onchange={handleSearch}
+        onfocus={showDropdown}
+        onblur={handleBlur}>
+    </lightning-input>
+
+    <template if:true={showOptions}>
+        <div class="dropdown">
+            <template for:each={filteredOptions} for:item="opt">
+                <div key={opt.value} class="dropdown-option" onclick={handleSelect} data-value={opt.value}>
+                    {opt.label}
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <template if:true={selectedValues.length}>
+        <lightning-pill-container items={selectedPills} onitemremove={handleRemove}></lightning-pill-container>
+    </template>
+</template>

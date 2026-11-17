@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fee_Preference__c</fullName>
+    <label>Fee Preference</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Semester-wise fee</fullName>
+                <default>true</default>
+                <label>Semester-wise fee</label>
+            </value>
+            <value>
+                <fullName>Year-wise fee</fullName>
+                <default>false</default>
+                <label>Year-wise fee</label>
+            </value>
+            <value>
+                <fullName>Total program fee</fullName>
+                <default>false</default>
+                <label>Total program fee</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

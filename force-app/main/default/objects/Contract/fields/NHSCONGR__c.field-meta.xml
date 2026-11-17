@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NHSCONGR__c</fullName>
+    <description>This field records the NHS grade for clinical staff</description>
+    <label>NHSCONGR</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Consultant</fullName>
+                <default>false</default>
+                <label>Consultant</label>
+            </value>
+            <value>
+                <fullName>Specialist registrar</fullName>
+                <default>false</default>
+                <label>Specialist registrar</label>
+            </value>
+            <value>
+                <fullName>Staff grade</fullName>
+                <default>false</default>
+                <label>Staff grade</label>
+            </value>
+            <value>
+                <fullName>Associate specialist</fullName>
+                <default>false</default>
+                <label>Associate specialist</label>
+            </value>
+            <value>
+                <fullName>General practitioner</fullName>
+                <default>false</default>
+                <label>General practitioner</label>
+            </value>
+            <value>
+                <fullName>Senior house officer</fullName>
+                <default>false</default>
+                <label>Senior house officer</label>
+            </value>
+            <value>
+                <fullName>Clinical assistant</fullName>
+                <default>false</default>
+                <label>Clinical assistant</label>
+            </value>
+            <value>
+                <fullName>Foundation programme doctor</fullName>
+                <default>false</default>
+                <label>Foundation programme doctor</label>
+            </value>
+            <value>
+                <fullName>Speciality registrar</fullName>
+                <default>false</default>
+                <label>Speciality registrar</label>
+            </value>
+            <value>
+                <fullName>Speciality doctor</fullName>
+                <default>false</default>
+                <label>Speciality doctor</label>
+            </value>
+            <value>
+                <fullName>Non-medical grade</fullName>
+                <default>false</default>
+                <label>Non-medical grade</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

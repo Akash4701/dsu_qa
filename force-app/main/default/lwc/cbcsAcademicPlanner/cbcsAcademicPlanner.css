@@ -1,0 +1,23 @@
+:host {
+    display: block;
+    background-color: #f7f7f7;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #e1e5ea;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.disabled-term {
+    opacity: 0.5;
+    pointer-events: none;
+    background-color: #f3f3f3;
+    border: 1px solid #d8dde6;
+}
+
+.disabled-term .slds-text-heading_small {
+    color: #706e6b;
+}
+
+.disabled-checkbox {
+    opacity: 0.4;
+}

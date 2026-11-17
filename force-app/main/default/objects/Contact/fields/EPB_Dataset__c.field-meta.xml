@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EPB_Dataset__c</fullName>
+    <label>EPB Dataset</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Scoring Enrollment</fullName>
+                <default>false</default>
+                <label>Scoring Enrollment</label>
+            </value>
+            <value>
+                <fullName>Enrolled Last Year</fullName>
+                <default>false</default>
+                <label>Enrolled Last Year</label>
+            </value>
+            <value>
+                <fullName>Didn&apos;t Enroll Last Year</fullName>
+                <default>false</default>
+                <label>Didn&apos;t Enroll Last Year</label>
+            </value>
+            <value>
+                <fullName>Didn&apos;t Donate Last Year</fullName>
+                <default>false</default>
+                <label>Didn&apos;t Donate Last Year</label>
+            </value>
+            <value>
+                <fullName>Scoring Advancement</fullName>
+                <default>false</default>
+                <label>Scoring Advancement</label>
+            </value>
+            <value>
+                <fullName>Donated Last Year</fullName>
+                <default>false</default>
+                <label>Donated Last Year</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,115 @@
+<template>
+    <template if:true={isLoading}>
+        <div class="loading-container">
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </div>
+    </template>
+
+    <lightning-card title="Grade Distribution" icon-name="standard:account" variant="narrow">
+        <div class="card-content">
+            <template if:true={gradeResult}>
+                <div class="fields-container">
+                    
+                    <div class="field">
+                        <div class="label">Term:</div>
+                        <div class="value">{gradeResult.courseDetail.termName}</div>
+                    </div>
+
+                    <template if:false={section}>
+                        <div class="field">
+                            <div class="label">Course:</div>
+                            <div class="value">{gradeResult.courseDetail.courseName}</div>
+                        </div>
+                    </template>
+
+                    <template if:true={section}>
+                        <div class="field">
+                            <div class="label">Course Offering:</div>
+                            <div class="value">{gradeResult.courseDetail.courseOfferingName}</div>
+                        </div>
+                    </template>
+
+                    <div class="field">
+                        <div class="label">No of Students:</div>
+                        <div class="value">{totalNumberOfStudents}</div>
+                    </div>
+
+                    <div class="field">
+                        <div class="label">Grade Scheme Type:</div>
+                        <div class="value">{gradeResult.courseDetail.gradeName}</div>
+                    </div>
+
+                    <div class="field">
+                        <div class="label">Grade Type:</div>
+                        <div class="value">{gradeResult.courseDetail.gradeType}</div>
+                    </div>
+
+                    <div class="field">
+                        <div class="label">Mechanism:</div>
+                        <div class="value">{gradeResult.courseDetail.mechanism}</div>
+                    </div>
+
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+
+    <div class="container top-section">
+        <div class="parallel-components">
+            <template if:true={isGradeChartLoaded}>
+        <div class="slds-grid slds-gutters slds-wrap top-grid" style="padding-bottom:35px">
+
+            <div class="slds-col slds-size_1-of-2 top-col" style="height: calc(70vh - 130px);">
+                 <c-grade-moderation child-property={gradeSpreadRaw}></c-grade-moderation>
+            </div>
+
+            <div class="slds-col slds-size_1-of-2 top-col">
+                <c-grade-setting child-property={gradeData}></c-grade-setting>
+            </div>
+
+        </div>
+            </template>
+        </div>
+    </div>
+
+    <div class="container section-gap tabs-container">
+
+        <template if:true={isGradeChartLoaded}>
+            <div class="slds-grid slds-gutters">
+
+                <div class="slds-col slds-size_5-of-12">
+                    <lightning-card title="Grade Spread">
+                        <c-consolidated-grades child-property={gradeSpreadRaw}></c-consolidated-grades>
+                    </lightning-card>
+                </div>
+
+                <template if:true={isStatisticsLoaded}>
+                    <div class="slds-col slds-size_2-of-12">
+                        <lightning-card title=" Statistics Summary">
+                            <c-statistics child-property={statistics}></c-statistics>
+                        </lightning-card>
+                    </div>
+                </template>
+
+                <div class="slds-col slds-size_5-of-12">
+                    <lightning-card title="Consolidated Grades">
+                        <c-consolidated-grades child-property={consolidatedGradeMod}></c-consolidated-grades>
+                    </lightning-card>
+                </div>
+
+            </div>
+        </template>
+
+        <div class="tabs-container list-space">
+            <template if:true={isGradeChartLoaded}>
+                <lightning-tabset>
+                    <lightning-tab label="Student List">
+                        <c-student-list child-property={gradeData} onrefresh={handleRefresh}></c-student-list>
+                    </lightning-tab>
+                </lightning-tabset>
+            </template>
+        </div>
+
+    </div>
+
+</template>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MEC_Layout</fullName>
+    <fields>Course__c</fields>
+    <fields>Course_Offering__c</fields>
+    <fields>Institute__c</fields>
+    <fields>Maximum_Component__c</fields>
+    <fields>Maximum_Marks__c</fields>
+    <label>MEC Layout</label>
+</CompactLayout>

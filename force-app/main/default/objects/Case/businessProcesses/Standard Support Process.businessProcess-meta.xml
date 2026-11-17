@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BusinessProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Standard Support Process</fullName>
+    <description>Support process used by the Case record type</description>
+    <isActive>true</isActive>
+    <values>
+        <fullName>Awaiting Reply From Student</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Closed</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>In Progress</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>New</fullName>
+        <default>true</default>
+    </values>
+    <values>
+        <fullName>Reopened</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Resolved</fullName>
+        <default>false</default>
+    </values>
+</BusinessProcess>

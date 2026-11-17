@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TERMS__c</fullName>
+    <description>This field records the terms of employment of the contract</description>
+    <label>TERMS</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Open-ended/Permanent</fullName>
+                <default>false</default>
+                <label>Open-ended/Permanent</label>
+            </value>
+            <value>
+                <fullName>Fixed-term</fullName>
+                <default>false</default>
+                <label>Fixed-term</label>
+            </value>
+            <value>
+                <fullName>Atypical</fullName>
+                <default>false</default>
+                <label>Atypical</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

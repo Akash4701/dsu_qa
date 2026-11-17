@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <label>Application Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Admitted</fullName>
+                <default>false</default>
+                <label>Admitted</label>
+            </value>
+            <value>
+                <fullName>Enrolled</fullName>
+                <default>false</default>
+                <label>Enrolled</label>
+            </value>
+            <value>
+                <fullName>Enrolled with Documents</fullName>
+                <default>false</default>
+                <label>Enrolled with Documents</label>
+            </value>
+            <value>
+                <fullName>Enrollment Failed</fullName>
+                <default>false</default>
+                <label>Enrollment Failed</label>
+            </value>
+            <value>
+                <fullName>Application on hold</fullName>
+                <default>false</default>
+                <label>Application on hold</label>
+            </value>
+            <value>
+                <fullName>Approved for USN</fullName>
+                <default>false</default>
+                <label>Approved for USN</label>
+            </value>
+            <value>
+                <fullName>Application rejected</fullName>
+                <default>false</default>
+                <label>Application rejected</label>
+            </value>
+            <value>
+                <fullName>CRM Enrolled</fullName>
+                <default>true</default>
+                <label>CRM Enrolled</label>
+            </value>
+            <value>
+                <fullName>Generate Letter of Admission</fullName>
+                <default>false</default>
+                <label>Generate Letter of Admission</label>
+            </value>
+            <value>
+                <fullName>Withdrawn</fullName>
+                <default>false</default>
+                <label>Withdrawn</label>
+            </value>
+            <value>
+                <fullName>Application Conversion</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Application Conversion</label>
+            </value>
+            <value>
+                <fullName>Application Fees Paid</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Application Fees Paid</label>
+            </value>
+            <value>
+                <fullName>Application Initiated</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Application Initiated</label>
+            </value>
+            <value>
+                <fullName>Final Admission Conversion</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Final Admission Conversion</label>
+            </value>
+            <value>
+                <fullName>Incomplete</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Incomplete</label>
+            </value>
+            <value>
+                <fullName>Provisional Admission</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Provisional Admission</label>
+            </value>
+            <value>
+                <fullName>Provisional Admission Cancellation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Provisional Admission Cancellation</label>
+            </value>
+            <value>
+                <fullName>Provisional Follow Up</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Provisional Follow Up</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,79 @@
+<template>
+    <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_medium" aria-labelledby="announcement-new-heading">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h1 id="announcement-new-heading" class="slds-modal__title slds-hyphenate">New Announcement</h1>
+            </div>
+
+            <div class="slds-modal__content slds-p-around_medium">
+                <template lwc:if={isSaving}>
+                    <lightning-spinner alternative-text="Saving" size="medium"></lightning-spinner>
+                </template>
+
+                <lightning-record-edit-form object-api-name="Announcement__c" onsuccess={handleSuccess}
+                    onerror={handleError}>
+                    <lightning-messages></lightning-messages>
+
+                    <h3 class="slds-section__title slds-theme_shade slds-p-horizontal_small slds-m-bottom_small">Information</h3>
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Title__c"></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Description__c"></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="Start_Date__c"></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="End_Date__c"></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field field-name="IsActive__c" value={isActiveDefault}></lightning-input-field>
+                        </div>
+                    </div>
+
+                    <h3 class="slds-section__title slds-theme_shade slds-p-horizontal_small slds-m-vertical_small">Announcement Audience</h3>
+                    <p class="slds-m-bottom_x-small">
+                        Select the Accounts and Program Plans that should see this announcement.
+                        Leave both empty to show it to all students.
+                    </p>
+                    <p class="slds-text-title_bold slds-m-bottom_small">{audienceSummary}</p>
+
+                    <lightning-dual-listbox
+                        name="accounts"
+                        label="Account"
+                        source-label="Available"
+                        selected-label="Selected"
+                        options={accountOptions}
+                        value={selectedAccountIds}
+                        onchange={handleAccountChange}
+                        size="5">
+                    </lightning-dual-listbox>
+
+                    <lightning-dual-listbox
+                        class="slds-m-top_medium"
+                        name="programPlans"
+                        label="Program Plan"
+                        source-label="Available"
+                        selected-label="Selected"
+                        field-level-help="Shows the Program Plans of the selected Accounts, or all Program Plans when no Account is selected."
+                        options={programPlanOptions}
+                        value={selectedProgramPlanIds}
+                        onchange={handleProgramPlanChange}
+                        size="6">
+                    </lightning-dual-listbox>
+
+                    <button class="slds-hide" type="submit" data-id="submit"></button>
+                </lightning-record-edit-form>
+            </div>
+
+            <div class="slds-modal__footer">
+                <lightning-button variant="neutral" label="Cancel" onclick={handleCancel} disabled={isSaving}></lightning-button>
+                <lightning-button variant="brand" label="Save" class="slds-m-left_x-small" onclick={handleSave}
+                    disabled={isSaving}></lightning-button>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

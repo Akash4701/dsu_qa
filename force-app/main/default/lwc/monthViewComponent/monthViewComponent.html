@@ -1,0 +1,646 @@
+<!-- HTML Template Section -->
+<template>
+    <div class="month-view-container">
+        <!-- Calendar Navigation -->
+        <div class="calendar-navigation">
+            <div class="left-nav">
+                <button class="nav-button" onclick={handlePrevious}>
+                    <lightning-icon icon-name="utility:chevronleft" size="small"></lightning-icon>
+                </button>
+                <button class="nav-button" onclick={handleNext}>
+                    <lightning-icon icon-name="utility:chevronright" size="small"></lightning-icon>
+                </button>
+                <button class="today-button" onclick={handleToday}>Today</button>
+            </div>
+            <div class="calendar-title">
+                {calendarTitle}
+            </div>
+            <!-- View Selector - Hidden when hideViewSelector is true -->
+            <template if:false={hideViewSelector}>
+                <div class="view-selector">
+                    <div class="view-buttons">
+                        <button class={dayButtonClass} onclick={handleDayView}>Day</button>
+                        <button class={weekButtonClass} onclick={handleWeekView}>Week</button>
+                        <button class={monthButtonClass} onclick={handleMonthView}>Month</button>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- Calendar Weekday Headers -->
+        <div class="weekday-header">
+            <template for:each={weekdays} for:item="day">
+                <div key={day} class="weekday-cell">{day}</div>
+            </template>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="calendar-grid">
+            <template for:each={weeks} for:item="week">
+                <div key={week.id} class="week-row">
+                    <div class="week-number">W{week.weekNumber}</div>
+                    <template for:each={week.days} for:item="day">
+                        <div key={day.id} class={day.className} data-date={day.date} onclick={handleDayClick}>
+                            <div class="day-number">{day.dayNumber}</div>
+                            <!-- Show "Click to add" for all days -->
+                            <div class="day-add-text">Click to add</div>
+                            <!-- Display events for this day if any -->
+                            <template if:true={day.hasEvents}>
+                                <template for:each={day.events} for:item="event">
+                                    <div key={event.id} class={event.className} data-event-id={event.id}
+                                        onclick={handleEventClick}>
+                                        {event.title}
+                                    </div>
+                                </template>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+
+        <!-- Modal Popup for Adding Session -->
+        <template if:true={isModalOpen}>
+            <c-modal-popup-utility-component modal-size="medium" onclosepopup={handleModalClose}>
+                <!-- Header Slot -->
+                <div slot="header">
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Add Session</h2>
+                </div>
+
+                <!-- Main Content Slot - Add Session Form -->
+                <div class="add-session-container">
+                    <div class="required-info">
+                        <span class="red-asterisk">*</span> = Required Information
+                    </div>
+
+                    <!-- Loading spinner while data is being fetched -->
+                    <template if:true={isLoading}>
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                    </template>
+
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <!-- Type of activity -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="activity-type">
+                                    <abbr class="slds-required" title="required">*</abbr> Type of activity
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select id="activity-type" class="slds-select"
+                                            onchange={handleActivityTypeChange} required>
+                                            <option value="">Select</option>
+                                            <template for:each={activityTypeOptions} for:item="option">
+                                                <option key={option.value} value={option.value}>{option.label}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="subject">
+                                    <abbr class="slds-required" title="required">*</abbr> Subject
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select id="subject" class="slds-select" onchange={handleSubjectChange}
+                                            required>
+                                            <option value="">Select</option>
+                                            <template for:each={subjectOptions} for:item="option">
+                                                <option key={option.value} value={option.value}>{option.label}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Faculty -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="faculty">
+                                    <abbr class="slds-required" title="required">*</abbr> Faculty
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select id="faculty" class="slds-select" onchange={handleFacultyChange}
+                                            required>
+                                            <option value="">Select</option>
+                                            <template for:each={facultyOptions} for:item="option">
+                                                <option key={option.value} value={option.value}>{option.label}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Facility -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="facility">
+                                    <abbr class="slds-required" title="required">*</abbr> Facility
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select id="facility" class="slds-select" onchange={handleFacilityChange}
+                                            required>
+                                            <option value="">Select</option>
+                                            <template for:each={facilityOptions} for:item="option">
+                                                <option key={option.value} value={option.value}>{option.label}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recurrent session -->
+                        <div class="slds-col slds-size_1-of-1 slds-p-vertical_small">
+                            <lightning-input type="checkbox" label="Recurrent session" checked={isRecurring}
+                                onchange={handleRecurrentToggle}>
+                            </lightning-input>
+                        </div>
+
+                        <!-- Working days section - Only visible when isRecurring is true -->
+                        <!-- Working days section - Only visible when isRecurring is true -->
+                        <template if:true={isRecurring}>
+                            <div class="slds-col slds-size_1-of-1 slds-p-vertical_small">
+                                <p>
+                                    <strong>Working days of the term:</strong> {workingDaysLabel}
+                                </p>
+
+                                <!-- Day checkboxes -->
+                                <div class="slds-p-vertical_small slds-box slds-theme_shade">
+                                    <div class="slds-grid">
+                                        <div class="slds-col slds-p-around_xx-small">
+                                            <lightning-input type="checkbox" label="Sun" checked={isSunChecked}
+                                                data-day="Sunday" onchange={handleDayToggle}>
+                                            </lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-p-around_xx-small">
+                                            <lightning-input type="checkbox" label="Mon" checked={isMonChecked}
+                                                data-day="Monday" onchange={handleDayToggle}>
+                                            </lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-p-around_xx-small">
+                                            <lightning-input type="checkbox" label="Tue" checked={isTueChecked}
+                                                data-day="Tuesday" onchange={handleDayToggle}>
+                                            </lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-p-around_xx-small">
+                                            <lightning-input type="checkbox" label="Wed" checked={isWedChecked}
+                                                data-day="Wednesday" onchange={handleDayToggle}>
+                                            </lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-p-around_xx-small">
+                                            <lightning-input type="checkbox" label="Thurs" checked={isThursChecked}
+                                                data-day="Thursday" onchange={handleDayToggle}>
+                                            </lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-p-around_xx-small">
+                                            <lightning-input type="checkbox" label="Fri" checked={isFriChecked}
+                                                data-day="Friday" onchange={handleDayToggle}>
+                                            </lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-p-around_xx-small">
+                                            <lightning-input type="checkbox" label="Sat" checked={isSatChecked}
+                                                data-day="Saturday" onchange={handleDayToggle}>
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Time inputs for each selected day -->
+                                <template for:each={selectedDaysForDisplay} for:item="day">
+                                    <div key={day.value} class="slds-m-top_medium">
+                                        <div class="slds-text-heading_small slds-m-bottom_x-small">{day.label}</div>
+                                        <div class="slds-grid slds-gutters">
+                                            <div class="slds-col">
+                                                <label class="slds-form-element__label">Start time</label>
+                                                <lightning-input type="time" data-day={day.value} data-type="start"
+                                                    value={day.startTime} onchange={handleDayTimeChange}>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-col">
+                                                <label class="slds-form-element__label">End time</label>
+                                                <lightning-input type="time" data-day={day.value} data-type="end"
+                                                    value={day.endTime} onchange={handleDayTimeChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <!-- Start date -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="start-date">
+                                    <abbr class="slds-required" title="required">*</abbr> Start date
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input type="date" id="start-date" name="startDate"
+                                        value={sessionData.startDate} onchange={handleStartDateChange} required>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- End date -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element" class:slds-has-error={endDateError}>
+                                <label class="slds-form-element__label" for="end-date">
+                                    <abbr class="slds-required" title="required">*</abbr> End date
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input type="date" id="end-date" name="endDate"
+                                        value={sessionData.endDate} onchange={handleEndDateChange} required>
+                                    </lightning-input>
+                                </div>
+                                <!-- Error message -->
+                                <template if:true={endDateError}>
+                                    <div class="slds-form-element__help slds-text-color_error">{endDateError}</div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Start time and End time - Only visible when isRecurring is false -->
+                        <template if:false={isRecurring}>
+                            <!-- Start time -->
+                            <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="start-time">
+                                        Start time
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input type="time" id="start-time" name="startTime"
+                                            value={sessionData.startTime} onchange={handleStartTimeChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- End time -->
+                            <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="end-time">
+                                        End time
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input type="time" id="end-time" name="endTime"
+                                            value={sessionData.endTime} onchange={handleEndTimeChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Skip holidays -->
+                        <div class="slds-col slds-size_1-of-1 slds-p-vertical_small">
+                            <lightning-input type="checkbox" label="Skip Holidays" checked={sessionData.skipHolidays}
+                                onchange={handleSkipHolidaysChange}>
+                            </lightning-input>
+
+                            <!-- Loading spinner while checking holidays -->
+                            <template if:true={isCheckingHolidays}>
+                                <div class="slds-m-top_x-small">
+                                    <lightning-spinner alternative-text="Checking holidays"
+                                        size="small"></lightning-spinner>
+                                    <div class="slds-text-color_weak slds-text-body_small">Checking for holidays...
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- Display holiday warning message if there are holidays in the date range -->
+                            <template if:true={holidayWarningMessage}>
+                                <div class="slds-m-top_x-small slds-box slds-theme_warning slds-theme_alert-texture">
+                                    <div class="slds-media">
+                                        <div class="slds-media__figure">
+                                            <lightning-icon icon-name="utility:warning" alternative-text="Warning"
+                                                size="small" variant="warning"></lightning-icon>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <div class="slds-text-body_small">{holidayWarningMessage}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Slot -->
+                <div slot="footer">
+                    <div class="slds-grid slds-grid_align-end">
+                        <button class="slds-button slds-button_neutral" onclick={handleCancel}>Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick={handleSave}
+                            disabled={endDateError}>Save</button>
+                    </div>
+                </div>
+            </c-modal-popup-utility-component>
+        </template>
+
+        <!-- Session Detail Modal Popup -->
+        <!-- Completely Redesigned Session Details Modal -->
+        <template if:true={isSessionDetailModalOpen}>
+            <c-modal-popup-utility-component modal-size="medium" onclosepopup={handleSessionDetailModalClose}>
+                <!-- Header Slot -->
+                <div slot="header">
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Session Details</h2>
+                </div>
+
+                <!-- Main Content Slot - Session Details -->
+                <div class="session-details-container slds-p-around_medium">
+                    <!-- Loading spinner while data is being fetched -->
+                    <template if:true={isLoading}>
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                    </template>
+
+                    <!-- First row: Type of activity and Subject -->
+                    <div class="slds-grid slds-gutters slds-wrap slds-m-bottom_medium">
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label">Type of activity</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">{selectedEvent.sessionData.activityTypeLabel}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label">Subject</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">{selectedEvent.sessionData.subjectLabel}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Second row: Faculty and Facility -->
+                    <div class="slds-grid slds-gutters slds-wrap slds-m-bottom_medium">
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label">Faculty</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">{selectedEvent.sessionData.facultyLabel}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label">Facility</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">{selectedEvent.sessionData.facilityLabel}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Third row: Start date and End date -->
+                    <div class="slds-grid slds-gutters slds-wrap slds-m-bottom_medium">
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label">Start date</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">{formattedStartDate}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label">End date</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">{formattedEndDate}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fourth row: Start time and End time -->
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label">Start time</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">{formattedStartTime}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label">End time</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">{formattedEndTime}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Slot -->
+                <div slot="footer">
+                    <div class="slds-grid slds-grid_align-end">
+                        <button class="slds-button slds-button_destructive"
+                            onclick={handleDeleteSession}>Delete</button>
+                        <button class="slds-button slds-button_brand slds-m-left_x-small"
+                            onclick={handleEditSession}>Edit details</button>
+                    </div>
+                </div>
+            </c-modal-popup-utility-component>
+        </template>
+        <!-- Session Edit Modal Popup -->
+        <template if:true={isSessionEditModalOpen}>
+            <c-modal-popup-utility-component modal-size="medium" onclosepopup={handleSessionEditModalClose}>
+                <!-- Header Slot -->
+                <div slot="header">
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Edit Session</h2>
+                </div>
+
+                <!-- Main Content Slot - Edit Session Form -->
+                <div class="edit-session-container">
+                    <div class="required-info">
+                        <span class="red-asterisk">*</span> = Required Information
+                    </div>
+
+                    <!-- Loading spinner while data is being fetched -->
+                    <template if:true={isLoading}>
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                    </template>
+
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <!-- Type of activity -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="edit-activity-type">
+                                    <abbr class="slds-required" title="required">*</abbr> Type of activity
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select id="edit-activity-type" class="slds-select"
+                                            onchange={handleEditActivityTypeChange} required>
+                                            <option value="">Select</option>
+                                            <template for:each={activityTypeOptions} for:item="option">
+                                                <option key={option.value} value={option.value}
+                                                    selected={option.selected}>
+                                                    {option.label}
+                                                </option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="edit-subject">
+                                    <abbr class="slds-required" title="required">*</abbr> Subject
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select id="edit-subject" class="slds-select" onchange={handleEditSubjectChange}
+                                            required>
+                                            <option value="">Select</option>
+                                            <template for:each={subjectOptions} for:item="option">
+                                                <option key={option.value} value={option.value}
+                                                    selected={option.selected}>
+                                                    {option.label}
+                                                </option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Faculty -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="edit-faculty">
+                                    <abbr class="slds-required" title="required">*</abbr> Faculty
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select id="edit-faculty" class="slds-select" onchange={handleEditFacultyChange}
+                                            required>
+                                            <option value="">Select</option>
+                                            <template for:each={facultyOptions} for:item="option">
+                                                <option key={option.value} value={option.value}
+                                                    selected={option.selected}>
+                                                    {option.label}
+                                                </option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Facility -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="edit-facility">
+                                    <abbr class="slds-required" title="required">*</abbr> Facility
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select id="edit-facility" class="slds-select"
+                                            onchange={handleEditFacilityChange} required>
+                                            <option value="">Select</option>
+                                            <template for:each={facilityOptions} for:item="option">
+                                                <option key={option.value} value={option.value}
+                                                    selected={option.selected}>
+                                                    {option.label}
+                                                </option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Start date -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="edit-start-date">
+                                    <abbr class="slds-required" title="required">*</abbr> Start date
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input type="date" id="edit-start-date" name="editStartDate"
+                                        value={editSessionData.startDate} onchange={handleEditStartDateChange} required>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- End date -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element" class:slds-has-error={editEndDateError}>
+                                <label class="slds-form-element__label" for="edit-end-date">
+                                    <abbr class="slds-required" title="required">*</abbr> End date
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input type="date" id="edit-end-date" name="editEndDate"
+                                        value={editSessionData.endDate} onchange={handleEditEndDateChange} required>
+                                    </lightning-input>
+                                </div>
+                                <!-- Error message -->
+                                <template if:true={editEndDateError}>
+                                    <div class="slds-form-element__help slds-text-color_error">{editEndDateError}</div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Start time -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="edit-start-time">
+                                    Start time
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input type="time" id="edit-start-time" name="editStartTime"
+                                        value={editSessionData.startTime} onchange={handleEditStartTimeChange}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- End time -->
+                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="edit-end-time">
+                                    End time
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input type="time" id="edit-end-time" name="editEndTime"
+                                        value={editSessionData.endTime} onchange={handleEditEndTimeChange}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Slot -->
+                <div slot="footer">
+                    <div class="slds-grid slds-grid_align-end">
+                        <button class="slds-button slds-button_neutral" onclick={handleEditCancel}>Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick={handleUpdateSession}
+                            disabled={editEndDateError}>Save</button>
+                    </div>
+                </div>
+            </c-modal-popup-utility-component>
+        </template>
+    </div>
+</template>

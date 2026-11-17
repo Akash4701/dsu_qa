@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Status__c</fullName>
+    <label>Application Status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Admitted</fullName>
+                <default>false</default>
+                <label>Admitted</label>
+            </value>
+            <value>
+                <fullName>Application Initiated</fullName>
+                <default>false</default>
+                <label>Application Initiated</label>
+            </value>
+            <value>
+                <fullName>Application Fee Paid</fullName>
+                <default>false</default>
+                <label>Application Fee Paid</label>
+            </value>
+            <value>
+                <fullName>Offer Letter</fullName>
+                <default>false</default>
+                <label>Offer Letter</label>
+            </value>
+            <value>
+                <fullName>Application Completed</fullName>
+                <default>false</default>
+                <label>Application Completed</label>
+            </value>
+            <value>
+                <fullName>Home Based Test</fullName>
+                <default>false</default>
+                <label>Home Based Test</label>
+            </value>
+            <value>
+                <fullName>Interview</fullName>
+                <default>false</default>
+                <label>Interview</label>
+            </value>
+            <value>
+                <fullName>MET</fullName>
+                <default>false</default>
+                <label>MET</label>
+            </value>
+            <value>
+                <fullName>Application Conversion</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Application Conversion</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

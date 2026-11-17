@@ -1,0 +1,317 @@
+<template>
+    <div class="slds-card">
+        <!-- Card Header -->
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:feedback" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span class="slds-text-heading_medium">Create Feedback Scheduler</span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        
+        <div class="slds-card__body slds-card__body_inner slds-p-around_large">
+            
+            <!-- Section: Feedback Details -->
+            <div class="slds-m-bottom_large">
+                <h3 class="slds-text-heading_small slds-p-bottom_small slds-border_bottom">
+                    Feedback Details
+                </h3>
+                
+                <lightning-record-edit-form object-api-name="Feedback_Scheduler__c">
+                    <div class="slds-grid slds-wrap slds-gutters_small slds-m-top_medium">
+                        
+                        <!-- Feedback Master -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input-field
+                                field-name="Feedback_Master__c"
+                                value={feedbackMasterId}
+                                onchange={handleFeedbackMasterChange}
+                                variant="label-stacked">
+                            </lightning-input-field>
+                        </div>
+
+                        <!-- Term -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input-field
+                                field-name="Term__c"
+                                value={termId}
+                                onchange={handleTermChange}
+                                variant="label-stacked">
+                            </lightning-input-field>
+                    </div>
+                    <!-- Description (optional) -->
+<div class="slds-col slds-size_1-of-1">
+<lightning-input-field
+    field-name="Description__c"
+    value={description}
+    onchange={handleDescriptionChange}
+    variant="label-stacked">
+</lightning-input-field>
+</div>
+
+                    </div>
+                </lightning-record-edit-form>
+            </div>
+
+            <!-- Section: Schedule Dates -->
+            <div class="slds-m-bottom_large">
+                <h3 class="slds-text-heading_small slds-p-bottom_small slds-border_bottom">
+                    Schedule Dates
+                </h3>
+                
+                <lightning-record-edit-form object-api-name="Feedback_Scheduler__c">
+                    <div class="slds-grid slds-wrap slds-gutters_small slds-m-top_medium">
+                        
+                        <!-- Start Date -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input-field
+                                field-name="Start_Date__c"
+                                value={startDate}
+                                onchange={handleStartDateChange}
+                                variant="label-stacked">
+                            </lightning-input-field>
+                        </div>
+
+                        <!-- Due Date -->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input-field
+                                field-name="End_Date__c"
+                                value={endDate}
+                                onchange={handleEndDateChange}
+                                variant="label-stacked">
+                            </lightning-input-field>
+                        </div>
+
+                    </div>
+                </lightning-record-edit-form>
+            </div>
+
+            <!-- Section: Summary Preview (Course Offerings) -->
+            <template if:true={showCourseOfferingsSection}>
+                <div class="slds-m-bottom_large">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-p-bottom_small slds-border_bottom">
+                        <div class="slds-col slds-grow">
+                            <h3 class="slds-text-heading_small">
+                                Summary Preview
+                            </h3>
+                        </div>
+                        <div class="slds-col slds-no-flex">
+                            <lightning-button
+                                label="Select Course Offerings"
+                                icon-name="utility:add"
+                                onclick={openCourseOfferingModal}
+                                variant="brand">
+                            </lightning-button>
+                        </div>
+                    </div>
+
+                    <div class="slds-m-top_medium">
+                        <template if:true={hasSelectedOfferings}>
+                            <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_x-small">
+                                Feedback Master — <span class="slds-text-color_default">Selected</span>
+                            </div>
+                            <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_x-small">
+                                Term — <span class="slds-text-color_default">Selected</span>
+                            </div>
+                            <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium">
+                                Schedule — <span class="slds-text-color_default">Configured</span>
+                            </div>
+                            
+                            <div class="slds-grid slds-wrap slds-gutters_xx-small">
+                                <template for:each={selectedOfferingsDisplay} for:item="offering">
+                                    <div key={offering.id} class="slds-col slds-size_1-of-1">
+                                        <lightning-pill
+                                            label={offering.name}
+                                            name={offering.id}
+                                            onremove={handleRemoveOffering}>
+                                        </lightning-pill>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <template if:false={hasSelectedOfferings}>
+                            <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_x-small">
+                                Feedback Master —
+                            </div>
+                            <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_x-small">
+                                Term —
+                            </div>
+                            <div class="slds-text-body_small slds-text-color_weak">
+                                Schedule —
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Action Buttons -->
+            <div class="slds-grid slds-grid_align-end slds-gutters_small slds-border_top slds-p-top_medium">
+                <div class="slds-col slds-no-flex">
+                    <lightning-button
+                        variant="neutral"
+                        label="Cancel"
+                        onclick={handleCancel}
+                        disabled={isSaving}>
+                    </lightning-button>
+                </div>
+                <div class="slds-col slds-no-flex">
+                    <lightning-button
+                        variant="brand"
+                        label="Save"
+                        onclick={handleSave}
+                        disabled={isSaving}>
+                    </lightning-button>
+                </div>
+            </div>
+
+            <!-- Spinner -->
+            <template if:true={isSaving}>
+                <div class="slds-m-top_medium slds-align_absolute-center">
+                    <lightning-spinner alternative-text="Saving..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+        </div>
+    </div>
+
+    <!-- Course Offering Selection Modal -->
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+
+                <!-- Modal Header -->
+                <header class="slds-modal__header">
+                    <button
+                        class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close"
+                        onclick={closeCourseOfferingModal}>
+                        <lightning-icon icon-name="utility:close" size="small" alternative-text="close"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-modal__title slds-hyphenate">
+                        <lightning-icon icon-name="standard:course" size="small" class="slds-m-right_x-small"></lightning-icon>
+                        Select Course Offerings
+                    </h2>
+                    <p class="slds-m-top_x-small slds-text-body_small">Choose the course offerings for this feedback scheduler</p>
+                </header>
+
+                <!-- Modal Body -->
+                <div class="slds-modal__content slds-p-around_medium" style="min-height: 300px;">
+                    
+                    <!-- Loading State -->
+                    <template if:true={isLoadingOfferings}>
+                        <div class="slds-align_absolute-center" style="height: 300px;">
+                            <lightning-spinner alternative-text="Loading..." size="medium" variant="brand"></lightning-spinner>
+                        </div>
+                    </template>
+
+                    <!-- Loaded Content -->
+                    <template if:false={isLoadingOfferings}>
+                        <template if:true={hasCourseOfferings}>
+                            
+                            <!-- Select All Section -->
+                            <div class="slds-box slds-box_x-small slds-theme_shade slds-m-bottom_small">
+                                <lightning-input
+                                    type="checkbox"
+                                    label="Select All Course Offerings"
+                                    checked={isAllSelected}
+                                    onchange={handleSelectAll}
+                                    class="slds-text-heading_small">
+                                </lightning-input>
+                            </div>
+
+                            <!-- Course Offerings List -->
+                            <div class="slds-scrollable_y" style="max-height: 450px;">
+                                <template for:each={courseOfferings} for:item="offering">
+                                    <div key={offering.Id} class="slds-box slds-box_x-small slds-m-bottom_x-small">
+                                        <div class="slds-grid slds-grid_vertical-align-start">
+                                            
+                                            <!-- Checkbox Column -->
+                                            <div class="slds-col slds-no-flex slds-m-right_small">
+                                                <lightning-input
+                                                    type="checkbox"
+                                                    name={offering.Id}
+                                                    checked={offering.isSelected}
+                                                    onchange={handleOfferingSelection}
+                                                    variant="label-hidden">
+                                                </lightning-input>
+                                            </div>
+
+                                            <!-- Details Column -->
+                                            <div class="slds-col slds-grow">
+                                                <div class="slds-text-heading_small slds-text-color_default slds-m-bottom_xx-small">
+                                                    {offering.Name}
+                                                </div>
+
+                                                <template if:true={offering.courseName}>
+                                                    <div class="slds-text-body_small slds-text-color_default">
+                                                        <lightning-icon icon-name="utility:education" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                                                        <strong>Course:</strong> {offering.courseName}
+                                                        <template if:true={offering.courseCode}>
+                                                            <span class="slds-text-color_weak"> ({offering.courseCode})</span>
+                                                        </template>
+                                                    </div>
+                                                </template>
+
+                                                <template if:true={offering.facultyName}>
+                                                    <div class="slds-text-body_small slds-text-color_default slds-m-top_xx-small">
+                                                        <lightning-icon icon-name="utility:user" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                                                        <strong>Faculty:</strong> {offering.facultyName}
+                                                    </div>
+                                                </template>
+
+                                                <template if:true={offering.dateRange}>
+                                                    <div class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small">
+                                                        <lightning-icon icon-name="utility:date_time" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                                                        {offering.dateRange}
+                                                    </div>
+                                                </template>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <!-- Empty State -->
+                        <template if:false={hasCourseOfferings}>
+                            <div class="slds-text-align_center slds-p-vertical_xx-large">
+                                <lightning-icon icon-name="utility:info" size="large" class="slds-m-bottom_small"></lightning-icon>
+                                <p class="slds-text-heading_small slds-m-bottom_x-small">No Course Offerings Found</p>
+                                <p class="slds-text-body_regular slds-text-color_weak">
+                                    There are no course offerings available for the selected term.
+                                </p>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+
+                <!-- Modal Footer -->
+                <footer class="slds-modal__footer slds-theme_default">
+                    <lightning-button
+                        variant="neutral"
+                        label="Cancel"
+                        onclick={closeCourseOfferingModal}
+                        class="slds-m-right_x-small">
+                    </lightning-button>
+
+                    <lightning-button
+                        variant="brand"
+                        label="Confirm Selection"
+                        onclick={handleConfirmSelection}
+                        disabled={isConfirmDisabled}>
+                    </lightning-button>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

@@ -1,0 +1,7 @@
+/* customCard.css */
+.custom-card {
+  background-color: var(--card-background-color, #FFFFFF); /* Define the default background color */
+  border-radius: 5px;
+  padding: 15px;
+  margin: 10px; /* Add margin for spacing */
+}

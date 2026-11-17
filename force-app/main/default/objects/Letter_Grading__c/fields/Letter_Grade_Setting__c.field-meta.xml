@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Letter_Grade_Setting__c</fullName>
+    <label>Letter Grade Setting</label>
+    <referenceTo>Letter_Grade_Setting__c</referenceTo>
+    <relationshipLabel>Letter Grade Range</relationshipLabel>
+    <relationshipName>Letter_Grade_Range</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

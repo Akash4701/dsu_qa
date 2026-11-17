@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Default_Terms</fullName>
+    <fields>Name</fields>
+    <fields>hed__Account__c</fields>
+    <fields>Program_Plan__c</fields>
+    <fields>hed__Start_Date__c</fields>
+    <fields>hed__End_Date__c</fields>
+    <label>Default Terms</label>
+</CompactLayout>

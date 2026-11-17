@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Use_Amazon_SES__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>When checked (and Use SSO is unchecked), student OTP emails are sent through Amazon SES (AmazonSesOtpService), so they do not count against the Salesforce daily email limit. When both Use SSO and Use Amazon SES are unchecked, the original Salesforce email is used.</description>
+    <inlineHelpText>Checked = send OTP emails through Amazon SES. Ignored when Use SSO is checked.</inlineHelpText>
+    <label>Use Amazon SES</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

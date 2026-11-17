@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <label>Document Type</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Aadhaar Card</fullName>
+                <default>false</default>
+                <label>Aadhaar Card</label>
+            </value>
+            <value>
+                <fullName>Class Xth/SSC Marksheet</fullName>
+                <default>false</default>
+                <label>Class Xth/SSC Marksheet</label>
+            </value>
+            <value>
+                <fullName>Class XIIth/HSC Marksheet</fullName>
+                <default>false</default>
+                <label>Class XIIth/HSC Marksheet</label>
+            </value>
+            <value>
+                <fullName>Diploma Marksheet</fullName>
+                <default>false</default>
+                <label>Diploma Marksheet</label>
+            </value>
+            <value>
+                <fullName>Graduation Marksheet</fullName>
+                <default>false</default>
+                <label>Graduation Marksheet</label>
+            </value>
+            <value>
+                <fullName>Entrance Examination Scorecard</fullName>
+                <default>false</default>
+                <label>Entrance Examination Scorecard</label>
+            </value>
+            <value>
+                <fullName>Passport</fullName>
+                <default>false</default>
+                <label>Passport</label>
+            </value>
+            <value>
+                <fullName>Passport Size Photo</fullName>
+                <default>false</default>
+                <label>Passport Size Photo</label>
+            </value>
+            <value>
+                <fullName>Signature</fullName>
+                <default>false</default>
+                <label>Signature</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

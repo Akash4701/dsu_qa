@@ -1,0 +1,113 @@
+<template>
+    <template lwc:if={error}>
+        <c-feedback-message variant="error" title="We couldn't load the overview" message={error} action-label="Try again" onaction={handleRetry}></c-feedback-message>
+    </template>
+    <template lwc:elseif={showSkeleton}>
+        <div class="fh-stack">
+            <c-feedback-skeleton variant="stats" count="4"></c-feedback-skeleton>
+            <c-feedback-skeleton variant="rows" count="4"></c-feedback-skeleton>
+        </div>
+    </template>
+    <template lwc:elseif={hasData}>
+        <div class="fh-stack fh-fade-in">
+            <div class="fh-grid fh-grid_stats">
+                <template for:each={stats} for:item="stat">
+                    <c-feedback-stat-card key={stat.label} label={stat.label} value={stat.value} sub={stat.sub} tone={stat.tone} icon-name={stat.iconName}></c-feedback-stat-card>
+                </template>
+            </div>
+
+            <div class="fh-split">
+                <section class="fh-card fh-card_pad" aria-labelledby="health-title">
+                    <div class="fh-spread head">
+                        <div>
+                            <h2 id="health-title" class="fh-subtitle">Response health</h2>
+                            <p class="fh-small fh-muted">Latest schedules against the {targetLabel} goal</p>
+                        </div>
+                        <button type="button" class="fh-link" data-tab="scheduling" onclick={handleOpenTab}>All schedules</button>
+                    </div>
+                    <div class="health">
+                        <div class="ring">
+                            <c-feedback-donut value={responseRate} tone={responseTone} label="Responded" sublabel={donutSub} size="170"></c-feedback-donut>
+                            <div class="legend">
+                                <span class="fh-chip fh-chip_success">{counts.submitted} submitted</span>
+                                <span class="fh-chip fh-chip_warning">{counts.pending} pending</span>
+                            </div>
+                            <p class="fh-small fh-muted gap">{gapLabel}</p>
+                        </div>
+                        <div class="bars">
+                            <template lwc:if={hasHealth}>
+                                <ul class="bars__list">
+                                    <template for:each={health} for:item="row">
+                                        <li key={row.id} class="bars__item">
+                                            <div class="fh-spread">
+                                                <button type="button" class="fh-link" data-id={row.id} onclick={handleOpenResponses}>{row.name}</button>
+                                                <c-feedback-badge label={row.status} tone={row.statusTone}></c-feedback-badge>
+                                            </div>
+                                            <c-feedback-rate value={row.rate} tone={row.rateTone} target={target} compact></c-feedback-rate>
+                                            <div class="fh-small fh-muted">{row.responseLabel} responded · {row.caption} · {row.window}</div>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </template>
+                            <template lwc:else>
+                                <c-feedback-message title="No schedules yet" message="Create a feedback schedule to start collecting responses." icon-name="utility:event"></c-feedback-message>
+                            </template>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="fh-stack">
+                    <section class="fh-card fh-card_pad" aria-labelledby="alerts-title">
+                        <h2 id="alerts-title" class="fh-subtitle head">Needs attention</h2>
+                        <template lwc:if={hasAlerts}>
+                            <ul class="alerts">
+                                <template for:each={alerts} for:item="alert">
+                                    <li key={alert.key}>
+                                        <button type="button" class={alert.rowClass} data-id={alert.recordId} onclick={handleAlertClick}>
+                                            <lightning-icon icon-name={alert.iconName} size="x-small" alternative-text={alert.tone}></lightning-icon>
+                                            <span class="alert__text">
+                                                <span class="fh-body fh-strong">{alert.title}</span>
+                                                <span class="fh-small fh-muted">{alert.detail}</span>
+                                            </span>
+                                        </button>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                        <template lwc:else>
+                            <p class="fh-body fh-muted allclear">
+                                <lightning-icon icon-name="utility:success" size="x-small" alternative-text=""></lightning-icon>
+                                Everything is on track.
+                            </p>
+                        </template>
+                    </section>
+
+                    <section class="fh-card fh-card_pad" aria-labelledby="types-title">
+                        <div class="fh-spread head">
+                            <h2 id="types-title" class="fh-subtitle">Sections by type</h2>
+                            <button type="button" class="fh-link" data-tab="sections" onclick={handleOpenTab}>View</button>
+                        </div>
+                        <template lwc:if={hasTypeBars}>
+                            <div class="stack_bar" role="img" aria-label="Active Parameter Sections by record type">
+                                <template for:each={typeBars} for:item="bar">
+                                    <span key={bar.key} class="stack_bar__seg" data-tone={bar.tone} style={bar.style}></span>
+                                </template>
+                            </div>
+                            <ul class="types">
+                                <template for:each={typeBars} for:item="bar">
+                                    <li key={bar.key} class="fh-spread">
+                                        <span class="fh-body">{bar.label}</span>
+                                        <span class="fh-body fh-strong">{bar.count}</span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                        <template lwc:else>
+                            <p class="fh-body fh-muted">No active Parameter Sections yet.</p>
+                        </template>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

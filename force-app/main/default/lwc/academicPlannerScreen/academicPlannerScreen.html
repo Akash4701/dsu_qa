@@ -1,0 +1,550 @@
+<!-- academicPlannerScreen.html -->
+<template>
+
+    <div class="slds-grid slds-gutters slds-m-around_medium">
+        <!-- Academic Program Selection -->
+        <div class="slds-col">
+            <lightning-combobox label="Academic program" value={selectedAcademicProgramId}
+                options={academicProgramOptions} onchange={handleAcademicProgramChange}></lightning-combobox>
+        </div>
+
+        <!-- Program Plan Selection -->
+        <div class="slds-col">
+            <lightning-combobox label="Program plan" value={selectedProgramPlanId} options={programPlanOptions}
+                onchange={handleProgramPlanChange}></lightning-combobox>
+        </div>
+
+        <!-- Working Days Display -->
+        <div class="slds-col">
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">Working Days:</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-text-body_regular">{workingDays}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Holiday List Button -->
+        <div class="slds-col slds-align-middle">
+            <lightning-button label="Holiday list" variant="brand" onclick={handleHolidayList}
+                class="slds-m-top_small"></lightning-button>
+        </div>
+    </div>
+
+    <!-- Terms Display -->
+    <div if:true={terms} class="slds-m-around_medium">
+        <template for:each={terms} for:item="term">
+            <div key={term.Id} class="slds-box slds-m-bottom_medium">
+                <div class="slds-grid slds-gutters slds-grid_align-spread">
+                    <!-- Term Name on Left -->
+                    <div class="slds-col slds-size_3-of-12">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-12">
+                                <lightning-button-icon icon-name={term.iconName} alternative-text="Toggle details"
+                                    onclick={handleToggleExpand} data-term-id={term.Id}
+                                    variant="bare"></lightning-button-icon>
+                            </div>
+                            <div class="slds-col slds-size_11-of-12">
+                                <div class="slds-text-heading_small">{term.Name}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Term Details on Right -->
+                    <div class="slds-col slds-size_9-of-12">
+                        <div class="slds-grid slds-gutters">
+                            <!-- Term Duration -->
+                            <!-- <div class="slds-col slds-size_2-of-12">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Term duration:</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-text-body_regular">{term.Term_Duration__c} weeks </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="slds-col slds-size_2-of-12">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Semester duration (in weeks):</label>
+                                    <lightning-input type="text" value={term.Term_Duration__c} data-term-id={term.Id}
+                                        disabled suffix="weeks"></lightning-input>
+                                </div>
+                            </div>
+
+                            <!-- Start Date -->
+                            <div class="slds-col slds-size_5-of-12">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Start date:</label>
+                                    <lightning-input type="date" date-style="short" value={term.hed__Start_Date__c}
+                                        data-term-id={term.Id} disabled></lightning-input>
+                                </div>
+                            </div>
+
+                            <!-- End Date -->
+                            <div class="slds-col slds-size_5-of-12">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">End date:</label>
+                                    <lightning-input type="date" date-style="short" value={term.hed__End_Date__c}
+                                        data-term-id={term.Id} disabled></lightning-input>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Offerings Section -->
+                <div if:true={term.isExpanded} class="slds-p-top_medium">
+                    <!-- Subject Header and Action Buttons -->
+                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                        <div class="slds-col">
+                            <h3 class="slds-text-heading_small">Courses</h3>
+                        </div>
+                        <div class="slds-col slds-grid slds-grid_align-end">
+                            <lightning-button label="Delete all" variant="destructive-text" class="slds-m-right_x-small"
+                                onclick={handleDeleteAllCourseOfferings} data-term-id={term.Id}></lightning-button>
+                            <!-- <lightning-button label="Download" variant="neutral" class="slds-m-right_x-small"
+                                onclick={handleDownloadCourseOfferings} data-term-id={term.Id}></lightning-button> -->
+                            <lightning-button label="Import curriculum" variant="neutral" class="slds-m-right_x-small"
+                                onclick={handleImportCurriculum} data-term-id={term.Id}>
+                            </lightning-button>
+                            <lightning-button label="Add Courses" variant="brand" onclick={handleAddSubjects}
+                                data-term-id={term.Id}></lightning-button>
+                        </div>
+                    </div>
+
+                    <!-- Loading Spinner -->
+                    <div if:true={term.isLoadingCourses} class="slds-is-relative slds-p-around_medium">
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                    </div>
+
+                    <!-- Data Table -->
+                    <template if:true={term.courseOfferings}>
+                        <div class="slds-box slds-p-around_none" data-term-id={term.Id}>
+                            <!-- Replace the existing datatable with this one in the template -->
+                            <!-- Updated datatable with draftValues binding -->
+                            <lightning-datatable key-field="Id" data={term.courseOfferings} columns={courseColumns}
+                                hide-checkbox-column resize-column-disabled min-column-width="120"
+                                onrowaction={handleRowAction} onsave={handleCellEdit} draft-values={draftValues}
+                                onsort={handleSort} sorted-by={sortedBy} sorted-direction={sortDirection}
+                                default-sort-direction={defaultSortDirection} data-term-id={term.Id}
+                                class="slds-table_bordered">
+                            </lightning-datatable>
+                        </div>
+                    </template>
+                    <template if:false={term.courseOfferings}>
+                        <div class="slds-text-align_center slds-p-around_medium">
+                            No course offerings found for this term
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <!-- Navigation Buttons 
+    <div class="slds-grid slds-gutters slds-m-around_medium">
+        <div class="slds-col slds-size_1-of-2">
+            <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+        </div>
+        <div class="slds-col slds-size_1-of-2 slds-text-align_right">
+            <lightning-button label="Previous step" onclick={handlePreviousStep}
+                class="slds-m-right_small"></lightning-button>
+            <lightning-button label="Next step" variant="brand" onclick={handleNextStep}></lightning-button>
+        </div>
+    </div> -->
+
+
+    <div class="slds-grid slds-grid_align-spread slds-m-top_medium">
+        <div>
+            <lightning-button label="Previous" onclick={goToPrevious}></lightning-button>
+
+        </div>
+        <!-- <div>
+            <lightning-button label="Next" onclick={goToNext}></lightning-button>
+        </div> -->
+    </div>
+
+    <!-- Holiday List Modal -->
+    <template if:true={showHolidayModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeHolidayModal}>
+                        <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Holiday List</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <template if:true={isLoadingHolidays}>
+                        <div class="slds-is-relative slds-p-around_medium">
+                            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                        </div>
+                    </template>
+                    <template if:false={isLoadingHolidays}>
+                        <template if:true={holidays.length}>
+                            <div class="slds-table_bordered">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th class="slds-text-title_caps" scope="col">
+                                                <div class="slds-truncate" title="Holiday Name">Holiday Name</div>
+                                            </th>
+                                            <th class="slds-text-title_caps" scope="col">
+                                                <div class="slds-truncate" title="Start Date">Start Date</div>
+                                            </th>
+                                            <th class="slds-text-title_caps" scope="col">
+                                                <div class="slds-truncate" title="End Date">End Date</div>
+                                            </th>
+                                            <th class="slds-text-title_caps" scope="col">
+                                                <div class="slds-truncate" title="Days">Days</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={holidays} for:item="holiday">
+                                            <tr key={holiday.Id}>
+                                                <td data-label="Holiday Name">
+                                                    <div class="slds-truncate" title={holiday.Name}>{holiday.Name}</div>
+                                                </td>
+                                                <td data-label="Start Date">
+                                                    <div class="slds-truncate" title={holiday.formattedStartDate}>
+                                                        {holiday.formattedStartDate}</div>
+                                                </td>
+                                                <td data-label="End Date">
+                                                    <div class="slds-truncate" title={holiday.formattedEndDate}>
+                                                        {holiday.formattedEndDate}</div>
+                                                </td>
+                                                <td data-label="Days">
+                                                    <div class="slds-truncate" title={holiday.days}>{holiday.days}</div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </template>
+                        <template if:false={holidays.length}>
+                            <div class="slds-text-align_center slds-p-around_medium">
+                                No holidays found for this term
+                            </div>
+                        </template>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Close" variant="neutral" onclick={closeHolidayModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Add Subjects Modal -->
+
+    <!-- Add Subjects Modal - Replace the existing modal content with this -->
+
+    <!-- Add Subjects Modal with null check fix -->
+
+    <template if:true={showAddSubjectsModal}>
+        <c-modal-popup-utility-component modal-size="medium" onclosepopup={closeAddSubjectsModal}>
+            <div slot="header">
+                <h2 class="slds-text-heading_medium">Add Courses</h2>
+            </div>
+
+            <div class="slds-p-around_medium">
+                <!-- Required Information Text -->
+                <!-- <div class="slds-text-align_right slds-m-bottom_small">
+                    <span class="slds-text-color_error">*</span> = Required Information
+                </div> -->
+
+                <!-- Loading Spinner -->
+                <template if:true={isLoadingSubjects}>
+                    <div class="slds-is-relative slds-p-around_medium">
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                    </div>
+                </template>
+
+                <!-- Form -->
+                <template if:false={isLoadingSubjects}>
+                    <!-- First Row: Subject and Course ID -->
+                    <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                        <div class="slds-col">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="subject-combobox">
+                                    <abbr class="slds-required" title="required">*</abbr> Add Courses
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-combobox name="subject" value={selectedSubjectId}
+                                        options={availableSubjects} onchange={handleSubjectChange}
+                                        dropdown-alignment="auto" id="subject-combobox">
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="course-id-input">
+                                    Course ID
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input name="courseId" value={courseId} disabled
+                                        readonly></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Second Row: Credits and Section ID (with null check) -->
+                    <!-- Second Row: Capacity and Section ID -->
+                    <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                        <div class="slds-col">
+                            <!-- Fixed typo in Capacity label -->
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="section-id-input">
+                                    <abbr class="slds-required" title="required">*</abbr>Section ID
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input name="sectionId" value={sectionId} id="section-id-input"
+                                        onchange={handleSectionIdChange}></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <div class="slds-form-element">
+
+                                <label class="slds-form-element__label" for="capacity-input">
+                                    <abbr class="slds-required" title="required">*</abbr> Section Strength
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input name="capacity" value={capacity} id="capacity-input"
+                                        onchange={handleCapacityChange} type="number">
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Third Row: Start Date and End Date -->
+                    <!-- <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="start-date">
+                                    <abbr class="slds-required" title="required">*</abbr> Start date
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input type="date" id="start-date" placeholder="dd-mm-yyyy"
+                                        value={subjectStartDate} onchange={handleStartDateChange}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="end-date">
+                                    <abbr class="slds-required" title="required">*</abbr> End date
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input type="date" id="end-date" placeholder="dd-mm-yyyy"
+                                        value={subjectEndDate} onchange={handleEndDateChange}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- Update the date input fields in the Add Subjects modal -->
+                    <div class="slds-grid slds-gutters">
+                        <!-- Start Date -->
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element" class:slds-has-error={showDateError}>
+                                <label class="slds-form-element__label" for="startDate">
+                                    <abbr class="slds-required" title="required">*</abbr> Start date
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input type="date" id="startDate" value={subjectStartDate}
+                                        data-field="startDate" onchange={handleSubjectDateChange}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- End Date -->
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element" class:slds-has-error={showDateError}>
+                                <label class="slds-form-element__label" for="endDate">
+                                    <abbr class="slds-required" title="required">*</abbr> End date
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-input type="date" id="endDate" value={subjectEndDate}
+                                        data-field="endDate" onchange={handleSubjectDateChange}>
+                                    </lightning-input>
+                                    <!-- Format hint -->
+                                    <div class="slds-text-color_weak slds-text-body_small">
+
+                                    </div>
+
+                                    <!-- Error message - displayed only when there's a date validation error -->
+                                    <template if:true={showDateError}>
+                                        <div class="slds-form-element__help slds-text-color_error">
+                                            {dateError}
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div slot="footer" class="slds-modal__footer">
+                <lightning-button label="Cancel" onclick={closeAddSubjectsModal} class="slds-m-right_x-small">
+                </lightning-button>
+                <lightning-button label="Save & new" variant="brand" onclick={saveAndNewSubject}
+                    class="slds-m-right_x-small">
+                </lightning-button>
+                <lightning-button label="Save" variant="brand" onclick={saveSubject}>
+                </lightning-button>
+            </div>
+        </c-modal-popup-utility-component>
+    </template>
+
+    <!-- Import Curriculum Modal -->
+
+    <template if:true={showImportCurriculumModal}>
+        <c-modal-popup-utility-component modal-size="large" onclosepopup={closeImportCurriculumModal}>
+            <div slot="header">
+                <h2 class="slds-text-heading_medium">Master Courses Import</h2>
+            </div>
+
+            <div class="slds-p-around_medium">
+                <!-- Required Information Text -->
+                <!-- <div class="slds-text-align_right slds-m-bottom_small">
+                    <span class="slds-text-color_error">*</span> = Required Information
+                </div> -->
+
+                <!-- Loading Spinner -->
+                <template if:true={isLoadingPlanRequirements}>
+                    <div class="slds-is-relative slds-p-around_medium">
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                    </div>
+                </template>
+
+                <!-- Plan Requirements Table -->
+                <template if:false={isLoadingPlanRequirements}>
+                    <!-- FILTER DROPDOWN REMOVED -->
+
+                    <template if:true={displayedPlanRequirements.length}>
+                        <div class="slds-table_bordered slds-m-top_small">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="slds-text-title_caps" scope="col" style="width: 50px;">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control">
+                                                    <lightning-input type="checkbox" checked={allSelected}
+                                                        onchange={handleSelectAll}>
+                                                    </lightning-input>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col" style="width: 120px;">
+                                            <div class="slds-truncate" title="Subject Code">Course code</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Subject">Course</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Specialisation">Specialisation</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col" style="width: 100px;">
+                                            <div class="slds-truncate" title="Credits">Credits</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col" style="width: 120px;">
+                                            <div class="slds-truncate" title="Credit Hours">Credit hours</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col" style="width: 120px;">
+                                            <div class="slds-truncate" title="Category">Category</div>
+                                        </th>
+                                        <!-- <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Master Group">Master Group</div>
+                                        </th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={displayedPlanRequirements} for:item="planReq">
+                                        <tr key={planReq.id} class="slds-hint-parent">
+                                            <td>
+                                                <div class="slds-form-element">
+                                                    <div class="slds-form-element__control">
+                                                        <lightning-input type="checkbox" checked={planReq.checked}
+                                                            data-row-id={planReq.id} onchange={handleCheckboxChange}>
+                                                        </lightning-input>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={planReq.subjectCode}>
+                                                    {planReq.subjectCode}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={planReq.subject}>{planReq.subject}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={planReq.specialisation}>
+                                                    {planReq.specialisation}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={planReq.credits}>{planReq.credits}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={planReq.creditHours}>
+                                                    {planReq.creditHours}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={planReq.category}>
+                                                    {planReq.category}</div>
+                                            </td>
+                                            <!-- <td>
+                                                <div class="slds-truncate" title={planReq.masterGroup}>
+                                                    {planReq.masterGroup}</div>
+                                            </td> -->
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Selected Count Display -->
+                        <div class="slds-text-align_right slds-m-top_small">
+                            <span>{selectedPlanRequirements.length} of {planRequirements.length} items selected</span>
+                        </div>
+                    </template>
+
+                    <!-- No Results Message -->
+                    <template if:false={displayedPlanRequirements.length}>
+                        <div class="slds-text-align_center slds-p-around_medium">
+                            <template if:true={searchTerm}>
+                                No plan requirements found matching your search criteria.
+                            </template>
+                            <template if:false={searchTerm}>
+                                No master unit plan requirements found for this term.
+                            </template>
+                        </div>
+                    </template>
+                </template>
+            </div>
+
+            <div slot="footer" class="slds-modal__footer">
+                <lightning-button label="Cancel" onclick={closeImportCurriculumModal} class="slds-m-right_x-small">
+                </lightning-button>
+                <lightning-button label="Import" variant="brand" onclick={importSelectedCurriculum}
+                    disabled={isLoadingPlanRequirements}>
+                </lightning-button>
+            </div>
+        </c-modal-popup-utility-component>
+
+    </template>
+</template>

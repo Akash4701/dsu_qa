@@ -1,0 +1,73 @@
+<template>
+    <div class="fh-toolbar">
+        <div class="fh-search">
+            <lightning-icon icon-name="utility:search" size="xx-small" alternative-text=""></lightning-icon>
+            <input type="search" class="fh-input" placeholder="Search sections by name" aria-label="Search Parameter Sections" value={searchText} oninput={handleSearch} />
+        </div>
+        <div class="fh-seg" role="group" aria-label="Filter by record type">
+            <template for:each={typeChips} for:item="chip">
+                <button key={chip.label} type="button" class="fh-seg__btn" aria-pressed={chip.pressed} data-value={chip.value} onclick={handleType}>{chip.label}</button>
+            </template>
+        </div>
+        <div class="fh-seg" role="group" aria-label="Status">
+            <button type="button" class="fh-seg__btn" aria-pressed={activeOnlyPressed} onclick={handleToggleActive}>Active only</button>
+        </div>
+        <button lwc:if={hasFilters} type="button" class="fh-link" onclick={handleClear}>Clear filters</button>
+        <div class="fh-toolbar__end">
+            <span class="fh-small fh-muted">{resultLabel}</span>
+            <button type="button" class="fh-btn fh-btn_icon" title="Refresh" aria-label="Refresh" onclick={handleRefresh}>
+                <lightning-icon icon-name="utility:refresh" size="x-small" alternative-text="Refresh"></lightning-icon>
+            </button>
+            <button type="button" class="fh-btn fh-btn_primary" onclick={handleNew}>
+                <lightning-icon icon-name="utility:add" size="x-small" variant="inverse" alternative-text=""></lightning-icon>
+                New Section
+            </button>
+        </div>
+    </div>
+
+    <template lwc:if={error}>
+        <c-feedback-message variant="error" title="We couldn't load the sections" message={error} action-label="Try again" onaction={handleRefresh}></c-feedback-message>
+    </template>
+    <template lwc:elseif={showSkeleton}>
+        <c-feedback-skeleton variant="rows" count="8"></c-feedback-skeleton>
+    </template>
+    <template lwc:elseif={isEmpty}>
+        <c-feedback-message title="No sections to show" message={emptyMessage} icon-name="utility:layers" action-label="New Section" onaction={handleNew}></c-feedback-message>
+    </template>
+    <template lwc:elseif={hasRows}>
+        <section class="fh-card fh-fade-in">
+            <div class={wrapClass}>
+                <table class="fh-table" aria-label="Parameter Sections" aria-busy={loading}>
+                    <thead>
+                        <tr>
+                            <th scope="col">Section</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Feedback type</th>
+                            <th scope="col">Academic</th>
+                            <th scope="col">Mode</th>
+                            <th scope="col">Parameters</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={rows} for:item="row">
+                            <tr key={row.id} class={row.rowClass}>
+                                <td><button type="button" class="fh-link" data-id={row.id} onclick={handleOpenRecord}>{row.name}</button></td>
+                                <td><c-feedback-badge label={row.recordTypeLabel} tone={row.typeTone}></c-feedback-badge></td>
+                                <td>{row.feedbackType}</td>
+                                <td>{row.academic}</td>
+                                <td>{row.mode}</td>
+                                <td>
+                                    <button type="button" class="fh-link" data-id={row.id} onclick={handleOpenParameters}>{row.parameterLabel}</button>
+                                    <span lwc:if={row.emptyParams} class="fh-chip fh-chip_warning warn">Needs parameters</span>
+                                </td>
+                                <td><c-feedback-badge label={row.activeLabel} tone={row.activeTone}></c-feedback-badge></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <c-feedback-pager page-number={page.pageNumber} page-size={page.pageSize} total={total} total-pages={totalPages} truncated={truncated} noun="section" onpagechange={handlePageChange} onsizechange={handleSizeChange}></c-feedback-pager>
+        </section>
+    </template>
+</template>

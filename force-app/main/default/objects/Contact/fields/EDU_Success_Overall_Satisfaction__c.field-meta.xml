@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EDU_Success_Overall_Satisfaction__c</fullName>
+    <label>Overall Satisfaction</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>6-Excellent</fullName>
+                <default>false</default>
+                <label>6-Excellent</label>
+            </value>
+            <value>
+                <fullName>5-Good</fullName>
+                <default>false</default>
+                <label>5-Good</label>
+            </value>
+            <value>
+                <fullName>4-Fair</fullName>
+                <default>false</default>
+                <label>4-Fair</label>
+            </value>
+            <value>
+                <fullName>3-Neutral</fullName>
+                <default>false</default>
+                <label>3-Neutral</label>
+            </value>
+            <value>
+                <fullName>2-Poor</fullName>
+                <default>false</default>
+                <label>2-Poor</label>
+            </value>
+            <value>
+                <fullName>1-Terrible</fullName>
+                <default>false</default>
+                <label>1-Terrible</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

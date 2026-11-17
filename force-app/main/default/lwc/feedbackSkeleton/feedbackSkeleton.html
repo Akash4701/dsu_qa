@@ -1,0 +1,34 @@
+<template>
+    <div role="status" aria-label="Loading">
+        <template lwc:if={isStats}>
+            <div class="fh-grid fh-grid_stats">
+                <template for:each={items} for:item="item">
+                    <div key={item.key} class="fh-card fh-card_pad">
+                        <div class="fh-skeleton line_sm"></div>
+                        <div class="fh-skeleton line_lg"></div>
+                        <div class="fh-skeleton line_md"></div>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template lwc:if={isCards}>
+            <div class="fh-grid">
+                <template for:each={items} for:item="item">
+                    <div key={item.key} class="fh-card fh-card_pad">
+                        <div class="fh-skeleton line_md"></div>
+                        <div class="fh-skeleton line_lg"></div>
+                        <div class="fh-skeleton line_sm"></div>
+                        <div class="fh-skeleton line_md"></div>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template lwc:if={isRows}>
+            <div class="fh-card fh-card_pad">
+                <template for:each={items} for:item="item">
+                    <div key={item.key} class="fh-skeleton row"></div>
+                </template>
+            </div>
+        </template>
+    </div>
+</template>

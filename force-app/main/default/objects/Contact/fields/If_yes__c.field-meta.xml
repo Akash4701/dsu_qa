@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>If_yes__c</fullName>
+    <label>If yes</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>PIO (PERSON OF INDIAN ORIGIN)/OCI (OVERSEAS CITIZENSHIP OF INDIA)</fullName>
+                <default>false</default>
+                <label>PIO (PERSON OF INDIAN ORIGIN)/OCI (OVERSEAS CITIZENSHIP OF INDIA)</label>
+            </value>
+            <value>
+                <fullName>NRI</fullName>
+                <default>false</default>
+                <label>NRI</label>
+            </value>
+            <value>
+                <fullName>SAARC NATIONAL</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SAARC NATIONAL</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

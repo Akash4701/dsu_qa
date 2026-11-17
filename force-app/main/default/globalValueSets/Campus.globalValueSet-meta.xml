@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Ascent College</fullName>
+        <default>false</default>
+        <label>Ascent College</label>
+    </customValue>
+    <customValue>
+        <fullName>College of Engineering and Design</fullName>
+        <default>false</default>
+        <label>College of Engineering and Design</label>
+    </customValue>
+    <customValue>
+        <fullName>School of Business</fullName>
+        <default>false</default>
+        <label>School of Business</label>
+    </customValue>
+    <customValue>
+        <fullName>School of Law</fullName>
+        <default>false</default>
+        <label>School of Law</label>
+    </customValue>
+    <customValue>
+        <fullName>School of Liberal Arts</fullName>
+        <default>false</default>
+        <label>School of Liberal Arts</label>
+    </customValue>
+    <masterLabel>Campus</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

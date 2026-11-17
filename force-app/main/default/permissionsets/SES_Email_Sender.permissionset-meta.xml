@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>AdminOneTimePasswordServiceRestApi</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AmazonSesOtpService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PFSOneTimePasswordServiceRestApi</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <description>Assign to the portal API user that calls the OTP REST APIs. Salesforce only lets a user call Amazon SES through the AWS_SES_Credential if a permission set grants that credential, so without this the OTP email falls back to Salesforce email.</description>
+    <externalCredentialPrincipalAccesses>
+        <enabled>true</enabled>
+        <externalCredentialPrincipal>AWS_SES_Credential-SES_Principal</externalCredentialPrincipal>
+    </externalCredentialPrincipalAccesses>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>SES Email Sender</label>
+</PermissionSet>

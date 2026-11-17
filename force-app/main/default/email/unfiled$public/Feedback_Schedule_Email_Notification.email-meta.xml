@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>When Feedback Schedule is created to the related Students in Feedback Items this email is sended</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Feedback_Schedule_Email_Notification</name>
+    <relatedEntityType>Contact</relatedEntityType>
+    <style>none</style>
+    <subject>Feedback Is Live!</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

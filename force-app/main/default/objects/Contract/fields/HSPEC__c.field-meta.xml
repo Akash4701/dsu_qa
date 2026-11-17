@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HSPEC__c</fullName>
+    <description>This field identifies the specialty of a clinical contract</description>
+    <label>HSPEC</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Anaesthetics</fullName>
+                <default>false</default>
+                <label>Anaesthetics</label>
+            </value>
+            <value>
+                <fullName>Obstetrics &amp; Gynaecology</fullName>
+                <default>false</default>
+                <label>Obstetrics &amp; Gynaecology</label>
+            </value>
+            <value>
+                <fullName>Ophthalmology</fullName>
+                <default>false</default>
+                <label>Ophthalmology</label>
+            </value>
+            <value>
+                <fullName>Paediatrics &amp; Child health</fullName>
+                <default>false</default>
+                <label>Paediatrics &amp; Child health</label>
+            </value>
+            <value>
+                <fullName>Pathology</fullName>
+                <default>false</default>
+                <label>Pathology</label>
+            </value>
+            <value>
+                <fullName>Psychiatry</fullName>
+                <default>false</default>
+                <label>Psychiatry</label>
+            </value>
+            <value>
+                <fullName>Radiology</fullName>
+                <default>false</default>
+                <label>Radiology</label>
+            </value>
+            <value>
+                <fullName>Surgery</fullName>
+                <default>false</default>
+                <label>Surgery</label>
+            </value>
+            <value>
+                <fullName>Physicians/Medicine</fullName>
+                <default>false</default>
+                <label>Physicians/Medicine</label>
+            </value>
+            <value>
+                <fullName>Public health medicine</fullName>
+                <default>false</default>
+                <label>Public health medicine</label>
+            </value>
+            <value>
+                <fullName>Occupational medicine</fullName>
+                <default>false</default>
+                <label>Occupational medicine</label>
+            </value>
+            <value>
+                <fullName>Dentistry</fullName>
+                <default>false</default>
+                <label>Dentistry</label>
+            </value>
+            <value>
+                <fullName>General practice</fullName>
+                <default>false</default>
+                <label>General practice</label>
+            </value>
+            <value>
+                <fullName>Infection/Microbiology</fullName>
+                <default>false</default>
+                <label>Infection/Microbiology</label>
+            </value>
+            <value>
+                <fullName>Oncology</fullName>
+                <default>false</default>
+                <label>Oncology</label>
+            </value>
+            <value>
+                <fullName>Medical education</fullName>
+                <default>false</default>
+                <label>Medical education</label>
+            </value>
+            <value>
+                <fullName>Emergency medicine</fullName>
+                <default>false</default>
+                <label>Emergency medicine</label>
+            </value>
+            <value>
+                <fullName>Others in medicine or dentistry</fullName>
+                <default>false</default>
+                <label>Others in medicine or dentistry</label>
+            </value>
+            <value>
+                <fullName>Nursing</fullName>
+                <default>false</default>
+                <label>Nursing</label>
+            </value>
+            <value>
+                <fullName>Midwifery</fullName>
+                <default>false</default>
+                <label>Midwifery</label>
+            </value>
+            <value>
+                <fullName>Health visiting</fullName>
+                <default>false</default>
+                <label>Health visiting</label>
+            </value>
+            <value>
+                <fullName>Physiotherapy</fullName>
+                <default>false</default>
+                <label>Physiotherapy</label>
+            </value>
+            <value>
+                <fullName>Radiography</fullName>
+                <default>false</default>
+                <label>Radiography</label>
+            </value>
+            <value>
+                <fullName>Occupational therapy</fullName>
+                <default>false</default>
+                <label>Occupational therapy</label>
+            </value>
+            <value>
+                <fullName>Podiatry</fullName>
+                <default>false</default>
+                <label>Podiatry</label>
+            </value>
+            <value>
+                <fullName>Speech &amp; language therapy</fullName>
+                <default>false</default>
+                <label>Speech &amp; language therapy</label>
+            </value>
+            <value>
+                <fullName>Art therapy</fullName>
+                <default>false</default>
+                <label>Art therapy</label>
+            </value>
+            <value>
+                <fullName>Paramedic</fullName>
+                <default>false</default>
+                <label>Paramedic</label>
+            </value>
+            <value>
+                <fullName>Orthoptics</fullName>
+                <default>false</default>
+                <label>Orthoptics</label>
+            </value>
+            <value>
+                <fullName>Prosthetics &amp; orthotics</fullName>
+                <default>false</default>
+                <label>Prosthetics &amp; orthotics</label>
+            </value>
+            <value>
+                <fullName>Dietetics</fullName>
+                <default>false</default>
+                <label>Dietetics</label>
+            </value>
+            <value>
+                <fullName>Healthcare scientists</fullName>
+                <default>false</default>
+                <label>Healthcare scientists</label>
+            </value>
+            <value>
+                <fullName>Pharmacy</fullName>
+                <default>false</default>
+                <label>Pharmacy</label>
+            </value>
+            <value>
+                <fullName>Clinical psychology</fullName>
+                <default>false</default>
+                <label>Clinical psychology</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

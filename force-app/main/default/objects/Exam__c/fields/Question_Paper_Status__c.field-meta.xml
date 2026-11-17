@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Question_Paper_Status__c</fullName>
+    <label>Question Paper Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Submitted</fullName>
+                <default>false</default>
+                <label>Submitted</label>
+            </value>
+            <value>
+                <fullName>Assigned</fullName>
+                <default>false</default>
+                <label>Assigned</label>
+            </value>
+            <value>
+                <fullName>Alteration Requested</fullName>
+                <default>false</default>
+                <label>Alteration Requested</label>
+            </value>
+            <value>
+                <fullName>Pending</fullName>
+                <default>true</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Finalized</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Finalized</label>
+            </value>
+            <value>
+                <fullName>Received</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Received</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

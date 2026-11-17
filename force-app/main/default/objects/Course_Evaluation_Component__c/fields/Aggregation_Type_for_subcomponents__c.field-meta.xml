@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Aggregation_Type_for_subcomponents__c</fullName>
+    <label>Aggregation Type for subcomponents</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Average</fullName>
+                <default>false</default>
+                <label>Average</label>
+            </value>
+            <value>
+                <fullName>Sum</fullName>
+                <default>false</default>
+                <label>Sum</label>
+            </value>
+            <value>
+                <fullName>Mean</fullName>
+                <default>false</default>
+                <label>Mean</label>
+            </value>
+            <value>
+                <fullName>Median</fullName>
+                <default>false</default>
+                <label>Median</label>
+            </value>
+            <value>
+                <fullName>Lowest</fullName>
+                <default>false</default>
+                <label>Lowest</label>
+            </value>
+            <value>
+                <fullName>Highest</fullName>
+                <default>false</default>
+                <label>Highest</label>
+            </value>
+            <value>
+                <fullName>Mode</fullName>
+                <default>false</default>
+                <label>Mode</label>
+            </value>
+            <value>
+                <fullName>Weighted Mean</fullName>
+                <default>false</default>
+                <label>Weighted Mean</label>
+            </value>
+            <value>
+                <fullName>Simple Weighted Mean</fullName>
+                <default>false</default>
+                <label>Simple Weighted Mean</label>
+            </value>
+            <value>
+                <fullName>Natural</fullName>
+                <default>false</default>
+                <label>Natural</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

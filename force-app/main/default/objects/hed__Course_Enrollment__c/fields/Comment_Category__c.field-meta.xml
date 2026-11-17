@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Comment_Category__c</fullName>
+    <label>Comment Category</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Academic Performance</fullName>
+                <default>false</default>
+                <label>Academic Performance</label>
+            </value>
+            <value>
+                <fullName>Attendance</fullName>
+                <default>false</default>
+                <label>Attendance</label>
+            </value>
+            <value>
+                <fullName>Behavior</fullName>
+                <default>false</default>
+                <label>Behavior</label>
+            </value>
+            <value>
+                <fullName>Enrollment Issues</fullName>
+                <default>false</default>
+                <label>Enrollment Issues</label>
+            </value>
+            <value>
+                <fullName>Fee Payment</fullName>
+                <default>false</default>
+                <label>Fee Payment</label>
+            </value>
+            <value>
+                <fullName>Grading Concerns</fullName>
+                <default>false</default>
+                <label>Grading Concerns</label>
+            </value>
+            <value>
+                <fullName>Instructor Feedback</fullName>
+                <default>false</default>
+                <label>Instructor Feedback</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

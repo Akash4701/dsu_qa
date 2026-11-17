@@ -1,0 +1,91 @@
+<template>
+    <div class="day-view-container">
+        <!-- Header with navigation and title -->
+        <div class="header-container">
+            <div class="nav-buttons">
+                <button class="nav-button" onclick={handlePrevious}>
+                    <lightning-icon icon-name="utility:chevronleft" size="x-small"></lightning-icon>
+                </button>
+                <button class="nav-button" onclick={handleNext}>
+                    <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                </button>
+                <button class="today-button" onclick={handleToday}>Today</button>
+            </div>
+
+            <div class="schedule-title">Timetable Schedule</div>
+
+            <div class="view-selector">
+                <div class={dayButtonClass} onclick={handleDayView}>Day</div>
+                <div class={weekButtonClass} onclick={handleWeekView}>Week</div>
+                <div class={monthButtonClass} onclick={handleMonthView}>Month</div>
+            </div>
+        </div>
+
+        <!-- Faculty list with day header -->
+        <div class="timetable-container">
+            <!-- Horizontal day view grid -->
+            <div class="horizontal-view-container">
+                <!-- Day info and header -->
+                <div class="day-header">
+                    <div class="day-info">{formattedCurrentDate}</div>
+                    <div class="week-indicator">{weekNumber}</div>
+                </div>
+
+                <!-- Legend -->
+                <div class="legend-container">
+                    <div class="legend-item">
+                        <div class="legend-color slot-filled"></div>
+                        <span>Slot filled</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color not-available"></div>
+                        <span>Not available</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color available"></div>
+                        <span>Available</span>
+                    </div>
+                </div>
+
+                <!-- Horizontal time grid -->
+                <div class="horizontal-grid-container">
+                    <!-- Time slots header -->
+                    <div class="time-header-row">
+                        <div class="faculty-header-cell">Faculty</div>
+                        <template for:each={timeSlots} for:item="slot">
+                            <div key={slot.id} class="time-header-cell">
+                                {slot.shortLabel}
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Faculty rows with events -->
+                    <template if:true={facultyList}>
+                        <template for:each={facultyList} for:item="faculty">
+                            <div key={faculty.id} class="faculty-schedule-row">
+                                <!-- Faculty name cell - only display faculty name here -->
+                                <div class="faculty-name-cell">
+                                    <div class="faculty-name">{faculty.displayName}</div>
+                                    <div class="faculty-shortname">{faculty.shortName}</div>
+                                </div>
+
+                                <!-- Time grid cells with events -->
+                                <div class="faculty-time-grid">
+                                    <!-- Events for this faculty (absolutely positioned) -->
+                                    <template if:true={faculty.events}>
+                                        <template for:each={faculty.events} for:item="event">
+                                            <div key={event.id} class={event.className} style={event.style}
+                                                data-event-id={event.id} onclick={handleEventClick}>
+                                                <div class="event-title">{event.title}</div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

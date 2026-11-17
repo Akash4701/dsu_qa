@@ -1,0 +1,13 @@
+.signature-box {
+    display: inline-block;
+    padding: 0.5rem;
+    border: 1px solid #c9c9c9;
+    border-radius: 0.25rem;
+    background: #ffffff;
+}
+
+.signature-img {
+    display: block;
+    max-width: 320px;
+    max-height: 120px;
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recurring_End_date_validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  RecordType.DeveloperName = &apos;Recurring&apos;,
+  ISBLANK(End_Date__c)
+)</errorConditionFormula>
+    <errorMessage>If the RecordType of the Exam slot setup is Recurrig then the End date filed is required So please give the missing value.</errorMessage>
+</ValidationRule>

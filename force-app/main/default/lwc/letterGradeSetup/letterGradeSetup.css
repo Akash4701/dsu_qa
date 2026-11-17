@@ -1,0 +1,48 @@
+.parallel-components {
+    display: flex;
+  }
+
+  .parallel-components > div {
+    flex: 1;
+    padding: 10px; 
+  }
+
+  .button{
+    padding: 10px 15px;
+    align-items: center;
+    display: flex;
+  }
+
+  .activeCheckbox{
+    margin-top: 10px;
+  
+  }
+
+  /* Add this to your CSS file or style block within your component */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #fff;
+  color: #000;
+  text-align: left;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 0;
+  margin-left: -80px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}

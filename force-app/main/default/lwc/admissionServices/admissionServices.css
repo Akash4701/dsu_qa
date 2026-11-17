@@ -1,0 +1,40 @@
+.bgColor{
+    background-color: #E5E5E5;
+    padding: 24px;
+}
+.evaHeadBox{
+    padding: 10px 17px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+.evaHeading{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: #00218D;
+    line-height: 30px;
+}
+.eva_button{
+    background: #00218D;
+    width: 100%;
+}
+.tabsBoxMainButton{
+    background: #fff;
+    margin-top: 22px;
+    padding: 10px 24px;
+    border-radius: 5px;
+}
+.homeLabel{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 100%;
+    text-transform: uppercase;
+    color: #00218D;
+    margin-top: 36px;
+}
+.create_discount_model{
+    width: 60% !important;
+    max-width: 90% !important;
+    
+}

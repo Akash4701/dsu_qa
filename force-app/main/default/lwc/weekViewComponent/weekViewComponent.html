@@ -1,0 +1,128 @@
+<template>
+    <div class="week-view-container">
+        <!-- Header with navigation and title -->
+        <div class="header-container">
+            <div class="nav-buttons">
+                <button class="nav-button" onclick={handlePrevious}>
+                    <lightning-icon icon-name="utility:chevronleft" size="x-small"></lightning-icon>
+                </button>
+                <button class="nav-button" onclick={handleNext}>
+                    <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                </button>
+                <button class="today-button" onclick={handleToday}>Today</button>
+            </div>
+
+            <div class="schedule-title">Timetable Schedule</div>
+
+            <div class="view-selector">
+                <div class={dayButtonClass} onclick={handleDayView}>Day</div>
+                <div class={weekButtonClass} onclick={handleWeekView}>Week</div>
+                <div class={monthButtonClass} onclick={handleMonthView}>Month</div>
+            </div>
+        </div>
+
+        <!-- Faculty list with week days header -->
+        <div class="timetable-container">
+            <!-- Faculty list sidebar -->
+            <div class="faculty-sidebar">
+                <div class="faculty-header">Faculty</div>
+
+                <div class="search-container">
+                    <lightning-input type="search" variant="label-hidden" placeholder="Search" onchange={handleSearch}>
+                    </lightning-input>
+                </div>
+
+                <div class="faculty-list">
+                    <template if:true={facultyList}>
+                        <template for:each={facultyList} for:item="faculty">
+                            <div key={faculty.id} class={faculty.rowClass} data-id={faculty.id}
+                                onclick={handleFacultyClick}>
+                                <div class="faculty-name">{faculty.name}</div>
+                                <div class="faculty-shortname">{faculty.shortName}</div>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Week schedule grid -->
+            <div class="week-grid-container">
+                <!-- Week info and days header -->
+                <div class="week-header">
+                    <div class="week-info">W{weekNumberDisplay} ({weekDateRangeDisplay})</div>
+
+                    <div class="days-header">
+                        <template if:true={weekDays}>
+                            <template for:each={weekDays} for:item="day">
+                                <div key={day.uniqueKey} class="day-header-cell">
+                                    {day.formattedDate}
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="legend-container">
+                    <div class="legend-item">
+                        <div class="legend-color slot-filled"></div>
+                        <span>Slot filled</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color not-available"></div>
+                        <span>Not available</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color available"></div>
+                        <span>Available</span>
+                    </div>
+                </div>
+
+                <!-- Time slots grid -->
+                <div class="time-slots-grid">
+                    <!-- Time slots column -->
+                    <div class="time-slots-column">
+                        <template for:each={timeSlots} for:item="slot">
+                            <div key={slot.id} class="time-slot-label">
+                                {slot.label}
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Schedule grid -->
+                    <div class="schedule-grid">
+                        <!-- Day grid lines -->
+                        <div class="day-grid-lines">
+                            <template for:each={weekDays} for:item="day">
+                                <div key={day.uniqueKey} class="day-grid-line"></div>
+                            </template>
+                        </div>
+
+                        <!-- Time grid lines -->
+                        <div class="time-grid-lines">
+                            <template for:each={timeSlots} for:item="slot">
+                                <div key={slot.id} class="time-grid-line"></div>
+                            </template>
+                        </div>
+
+                        <!-- Faculty events -->
+                        <template if:true={facultyList}>
+                            <template for:each={facultyList} for:item="faculty">
+                                <template if:true={faculty.events}>
+                                    <template for:each={faculty.events} for:item="event">
+                                        <div if:true={event.id} key={event.id} class={event.className}
+                                            style={event.style} data-event-id={event.id} onclick={handleEventClick}>
+                                            <div class="event-title">{event.displayTitle}</div>
+                                            <div class="event-faculty" if:true={event.facultyName}>
+                                                {event.facultyName}</div>
+                                        </div>
+                                    </template>
+                                </template>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

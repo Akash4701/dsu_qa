@@ -1,0 +1,196 @@
+.container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-top: 0px;
+    box-sizing: border-box;
+}
+
+.top-section {
+    margin-top: 20px !important;
+    margin-bottom: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.top-section .top-grid > .top-col:first-child {
+    padding-top: 20px !important;   
+    box-sizing: border-box;
+}
+
+.section-gap {
+    margin-top: 0px !important;     
+    padding-top: 0px !important;
+}
+
+.list-space {
+    margin-top: 40px !important;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+.fields-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.field {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.label {
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+.value {
+    margin-left: 8px;
+}
+
+.fail-row {
+    background-color: #ffdddd !important;
+}
+
+.warning-row {
+    background-color: #fff3cd !important;
+}
+
+.top-section c-grade-moderation {
+    height: 360px !important;
+    max-height: 260px !important;
+    display: block;
+    width: 100%;
+}
+
+.top-section c-grade-moderation canvas {
+    height: 360px !important;
+    max-height: 260px !important;
+}
+
+.top-grid {
+    width: 100%;
+}
+
+.top-section .top-col {
+    min-width: 0 !important;
+    flex: 1 1 50% !important;
+    max-width: 50% !important;
+    align-self: flex-start !important;
+}
+
+.top-section .component-column {
+    min-width: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.top-section c-grade-setting {
+    display: block;
+    width: 100%;
+}
+
+
+@media print {
+
+    .container {
+        margin-top: 0 !important;
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+        box-sizing: border-box;
+    }
+
+    .top-section,
+    .section-gap {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .top-section lightning-card,
+    .section-gap lightning-card {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    .top-section .slds-grid {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: flex-start !important;
+        width: 100% !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .top-section .slds-grid > .slds-col {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        min-width: 0 !important;
+    }
+
+    .top-section c-grade-moderation {
+        display: block !important;
+        height: 260px !important;
+        max-height: 260px !important;
+    }
+
+    .top-section c-grade-moderation canvas {
+        height: 260px !important;
+        max-height: 260px !important;
+    }
+
+    .top-section div[style*="max-height: 300px"] {
+        max-height: none !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .container.section-gap {
+        margin-top: 8px !important;
+        padding-top: 0 !important;
+    }
+
+    .section-gap > .slds-grid {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: stretch !important;
+        width: 100% !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .section-gap > .slds-grid > .slds-col.slds-size_5-of-12 {
+        flex: 0 0 41.666% !important;
+        max-width: 41.666% !important;
+        min-width: 0 !important;
+    }
+
+    .section-gap > .slds-grid > .slds-col.slds-size_2-of-12 {
+        flex: 0 0 16.666% !important;
+        max-width: 16.666% !important;
+        min-width: 0 !important;
+    }
+
+    .section-gap c-consolidated-grades,
+    .section-gap c-statistics {
+        flex: 1 1 auto !important;
+        height: 100% !important;
+        display: block !important;
+    }
+
+    .tabs-container.list-space {
+        page-break-before: auto !important;
+        break-before: auto !important;
+        margin-top: 10px !important;
+    }
+}

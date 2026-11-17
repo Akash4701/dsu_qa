@@ -1,0 +1,5 @@
+.slds-dropdown_fluid {
+        width: 67% !important; 
+		margin-bottom: 20px !important;
+		margin-left: 105px !important;/* Ensures the dropdown width matches the input field width */
+    }

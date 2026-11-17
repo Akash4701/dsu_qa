@@ -1,0 +1,80 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 09-16-2025
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card title="Pathway Enrollment Manager">
+        <div class="slds-p-around_medium">
+            <!-- Action Buttons -->
+            <template if:true={showActionButtons}>
+                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                    <div class="slds-col">
+                        <lightning-button 
+                            label="Create New Enrollments" 
+                            variant="brand" 
+                            onclick={handleCreateClick}
+                            class="slds-m-right_small">
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-button 
+                            label="Update Existing Enrollments" 
+                            variant="brand" 
+                            onclick={handleUpdateClick}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </template>
+            
+            <!-- Data Table -->
+            <template if:true={showDataTable}>
+                <lightning-datatable
+                    key-field="key"
+                    data={enrollmentData}
+                    columns={columns}
+                    draft-values={draftValues}
+                    onrowselection={handleRowSelection}
+                    selected-rows={selectedRows}
+                    oncellchange={handleCellChange}
+                    suppress-bottom-bar="true">
+                </lightning-datatable>
+                
+                <!-- Save & Cancel Buttons -->
+                <div class="slds-m-top_medium">
+                    <lightning-button 
+                        label="Save Changes" 
+                        variant="brand" 
+                        onclick={handleSaveClick}
+                        disabled={isSaveDisabled}
+                        class="slds-m-right_small">
+                    </lightning-button>
+                    <lightning-button 
+                        label="Cancel" 
+                        variant="neutral" 
+                        onclick={handleCancelClick}>
+                    </lightning-button>
+                </div>
+            </template>
+            
+            <!-- Loading Spinner -->
+            <template if:true={isLoading}>
+                <div class="slds-spinner_container slds-is-relative">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            
+            <!-- Error Message -->
+            <template if:true={error}>
+                <div class="slds-notify_container slds-m-top_medium">
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture" role="alert">
+                        <span class="slds-assistive-text">Error</span>
+                        <h2>{error}</h2>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

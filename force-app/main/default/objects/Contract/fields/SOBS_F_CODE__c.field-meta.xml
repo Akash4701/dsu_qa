@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SOBS_F_CODE__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE( SOBS__c , 
+	&quot;Wholly general financed by the higher education provider&quot;, &apos;01&apos;,
+	&quot;Partly financed by the higher education provider&quot;, &apos;02&apos;,
+	&quot;NHS/General Medical or General Dental practice or Department of Health&quot;, &apos;03&apos;,
+	&quot;UK central government bodies and local authorities&quot;, &apos;07&apos;,
+	&quot;UK industry, commerce and public corporations&quot;, &apos;08&apos;,
+	&quot;EU government bodies&quot;, &apos;10&apos;,
+	&quot;EU other&quot;, &apos;11&apos;,
+	&quot;Other overseas sources&quot;, &apos;12&apos;,
+	&quot;Other sources&quot;, &apos;15&apos;,
+	&quot;Biotechnology &amp; Biological Sciences Research Council (BBSRC)&quot;, &apos;51&apos;,
+	&quot;Medical Research Council (MRC)&quot;, &apos;52&apos;,
+	&quot;Natural Environmental Research Council (NERC)&quot;, &apos;53&apos;,
+	&quot;Engineering &amp; Physical Sciences Research Council (EPSRC)&quot;, &apos;54&apos;,
+	&quot;Economic &amp; Social Research Council (ESRC)&quot;, &apos;55&apos;,
+	&quot;Arts &amp; Humanities Research Council (AHRC)&quot;, &apos;57&apos;,
+	&quot;Science &amp; Technology Facilities Council (STFC)&quot;, &apos;58&apos;,
+	&quot;Research council - not specified&quot;, &apos;59&apos;,
+	&quot;Cancer Research UK&quot;, &apos;63&apos;,
+	&quot;Wellcome Trust&quot;, &apos;64&apos;,
+	&quot;Other Association of Medical Research Charities (AMRC) charity&quot;, &apos;65&apos;,
+	&quot;Other charitable foundation&quot;, &apos;66&apos;,
+null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>SOBS CODE</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

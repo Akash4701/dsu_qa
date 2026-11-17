@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Evaluator_Assigned__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Evaluator Assigned</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Contact.RecordType.Id</field>
+            <operation>equals</operation>
+            <value>0121y000001aSk3AAE</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Retest and Revaluation Informations (Evaluator Assigned)</relationshipLabel>
+    <relationshipName>Retest_and_Revaluation_Informations1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

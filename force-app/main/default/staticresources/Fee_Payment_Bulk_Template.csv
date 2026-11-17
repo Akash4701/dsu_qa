@@ -1,0 +1,16 @@
+"INSTRUCTIONS - Read Before Filling. Delete These Instruction Lines Before Uploading."
+"1. All columns are mandatory. Do not leave any cell blank."
+"2. Do not rename, reorder, add or remove columns. Keep the header row exactly as given."
+"3. USN: Enter the student's University Seat Number exactly as in Salesforce (e.g., DSUOE25800MBA0025). Do not include spaces."
+"4. Fee Assignment: Enter the Fee Assignment number from the student's fee record (e.g., FA-0187). It must belong to the USN in the same row."
+"5. Payment Date: Use DD/MM/YYYY format only (e.g., 02/11/2026). Future dates are not allowed."
+"6. Payment Option: Enter exactly one of the following: Online, Cash, Credit Card, Debit Card, Cheque, RTGS, NEFT. Spelling must match."
+"7. Payment Amount: Enter numbers only, without the rupee symbol, commas or spaces (e.g., 50000 or 50000.00). The amount must not exceed the pending amount on the fee assignment."
+"8. Transaction ID: Enter the reference number from the payment gateway, bank, card slip or cheque number."
+"9. CRM Receipt Number: Enter the receipt number generated in CRM for this payment. It must be unique."
+"10. Settlement UTR: Enter the UTR/bank settlement reference for the payment. It must be unique."
+"11. Enter one payment per row. To pay more than one fee assignment for a student, use separate rows."
+"12. Save the file as CSV (Comma delimited) .csv, not .xlsx. Open it in Excel only for verification, as Excel may change dates and long numbers."
+"13. After uploading, click Validate. Correct any failed rows using Edit, then click Import."
+USN,Fee_Assignment,Payment_Date,Payment_Option,Payment_Amount,Transaction_ID,CRM_Receipt_Number,Settlement_UTR
+DSUOE25120BBA0004,FA-0342,28/10/2026,Cash,5000,TRANSAC1dsad764,CRMRCP989374764645,UTRTEST001

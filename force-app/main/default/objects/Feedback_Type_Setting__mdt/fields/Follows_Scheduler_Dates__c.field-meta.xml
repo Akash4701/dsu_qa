@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Follows_Scheduler_Dates__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>When ticked, the scheduler&apos;s Start/End dates are copied onto its items and re-synced when the scheduler dates change. Untick for types whose items keep their own per-course dates.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Follows Scheduler Dates</label>
+    <type>Checkbox</type>
+</CustomField>

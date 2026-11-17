@@ -1,0 +1,40 @@
+<template>
+    <lightning-quick-action-panel header="Program Plans">
+        <template lwc:if={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </template>
+
+        <p class="slds-m-bottom_small">
+            Select the Program Plans and semesters that should see this announcement.
+            Leave the Program Plans empty to show it to all students.
+        </p>
+        <p class="slds-text-title_bold slds-m-bottom_small">{visibilitySummary}</p>
+
+        <lightning-dual-listbox
+            name="programPlans"
+            label="Program Plans"
+            source-label="Available"
+            selected-label="Selected"
+            options={programPlanOptions}
+            value={selectedProgramPlanIds}
+            onchange={handleProgramPlanChange}
+            size="8">
+        </lightning-dual-listbox>
+
+        <lightning-checkbox-group
+            class="slds-m-top_medium"
+            name="semesters"
+            label="Semesters (leave empty for all semesters)"
+            options={semesterOptions}
+            value={selectedSemesters}
+            onchange={handleSemesterChange}
+            disabled={noProgramPlansSelected}>
+        </lightning-checkbox-group>
+
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Cancel" onclick={handleCancel}></lightning-button>
+            <lightning-button variant="brand" label="Save" class="slds-m-left_x-small" onclick={handleSave}
+                disabled={isLoading}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Evaluation_Name__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Evaluator</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Evaluations</relationshipLabel>
+    <relationshipName>Evaluations2</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

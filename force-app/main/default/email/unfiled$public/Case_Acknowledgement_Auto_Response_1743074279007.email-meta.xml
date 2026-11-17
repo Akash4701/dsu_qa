@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Case Acknowledgement Auto Response</name>
+    <pageDevName>Case_Acknowledgement_Auto_Response</pageDevName>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Your Case Has Been Logged: Case Number - {{{Case.CaseNumber}}} [{{{Case.Thread_Token}}}]</subject>
+    <textOnly>Dear {{{Case.Student_Name__c}}}
+
+Thank you for reaching out. Your mail with the subject line &quot;{{{Case.Subject}}}&quot;.is assigned with the ticket ID {{{Case.CaseNumber}}}. Please wait for our Helpdesk counsellor to address it and send the reply. For all future correspondence regarding this do not change the Ticket ID and the subject line. 
+
+For any communication, please write only to the helpdesk at helpdesk@dsuonline.com. You can also call @ +919880148004 (Timings: 8:45 am to 4:45 pm, Monday to Saturday).
+
+{{{Case.Thread_Token}}} 
+
+Centre for Distance and Online Education (CDOE)
+
+https://dsuonline.com</textOnly>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

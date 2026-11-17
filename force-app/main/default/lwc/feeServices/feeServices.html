@@ -1,0 +1,23 @@
+<template>
+    <!-- PAGE HEADER -->
+    <lightning-card title="">
+        <!-- NAV BUTTONS -->
+        <template if:false={displayOverTheFee}>
+            <div class="slds-m-around_medium slds-align_absolute-center">
+                <lightning-button
+                    label="Fees"
+                    variant="brand"
+                    onclick={showOverTheFee}>
+                </lightning-button>
+            </div>
+        </template>
+
+
+        <!-- DYNAMIC BODY -->
+        <template if:true={displayOverTheFee}>
+            <c-over-the-fee-counter
+                onclose={hideOverTheFee}>
+            </c-over-the-fee-counter>
+        </template>
+    </lightning-card>
+</template>

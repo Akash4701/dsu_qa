@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Applicable_Sub_Category__c</fullName>
+    <label>Applicable Sub Category</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Applicable_Category__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>General</fullName>
+                <default>false</default>
+                <label>General</label>
+            </value>
+            <value>
+                <fullName>SAGES</fullName>
+                <default>false</default>
+                <label>SAGES</label>
+            </value>
+            <value>
+                <fullName>Overseas Citizen of India (OCI) – General</fullName>
+                <default>false</default>
+                <label>Overseas Citizen of India (OCI) – General</label>
+            </value>
+            <value>
+                <fullName>Foreign</fullName>
+                <default>false</default>
+                <label>Foreign</label>
+            </value>
+            <value>
+                <fullName>NRI</fullName>
+                <default>false</default>
+                <label>NRI</label>
+            </value>
+            <value>
+                <fullName>NRI Sponsored</fullName>
+                <default>false</default>
+                <label>NRI Sponsored</label>
+            </value>
+            <value>
+                <fullName>Overseas Citizen of India (OCI) – Foreign</fullName>
+                <default>false</default>
+                <label>Overseas Citizen of India (OCI) – Foreign</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>General</controllingFieldValue>
+            <valueName>General</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General</controllingFieldValue>
+            <valueName>SAGES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General</controllingFieldValue>
+            <valueName>Overseas Citizen of India (OCI) – General</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Foreign / NRI / NRI Sponsored</controllingFieldValue>
+            <valueName>Foreign</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Foreign / NRI / NRI Sponsored</controllingFieldValue>
+            <valueName>NRI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Foreign / NRI / NRI Sponsored</controllingFieldValue>
+            <valueName>NRI Sponsored</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Foreign / NRI / NRI Sponsored</controllingFieldValue>
+            <valueName>Overseas Citizen of India (OCI) – Foreign</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

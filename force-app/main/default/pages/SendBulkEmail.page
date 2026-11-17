@@ -1,0 +1,64 @@
+<apex:page standardController="Contact"
+           recordSetVar="contacts"
+           extensions="SendEmailsFromContactsCtrl"
+           lightningStylesheets="true">
+
+    <apex:form enctype="multipart/form-data">
+
+        <apex:pageBlock title="Send Email to Contacts and Affiliation Emails">
+
+            <!-- Subject & Body -->
+            <apex:pageBlockSection columns="1">
+                <apex:inputText value="{!subject}" label="Subject"/>
+                <apex:inputTextarea value="{!body}" label="Body" rows="10" cols="80"/>
+            </apex:pageBlockSection>
+
+            <!-- Attachments -->
+            <apex:pageBlockSection title="Attachments"
+                                   columns="1"
+                                   collapsible="true">
+
+                <!-- Single file chooser -->
+                <apex:inputFile value="{!currentFile.Body}"
+                                filename="{!currentFile.Name}"
+                                contentType="{!currentFile.ContentType}"/>
+
+                <!-- Buttons to add/clear attachments -->
+                <apex:commandButton value="Add attachment"
+                                    action="{!addCurrentFile}"/>
+                <apex:commandButton value="Clear all"
+                                    action="{!clearFiles}"/>
+
+                <!-- List selected files (names only, tiny view state) -->
+                <apex:pageBlockTable value="{!savedFileNames}"
+                                     var="fname"
+                                     rendered="{!hasFiles}">
+                    <apex:column headerValue="Selected Attachments" value="{!fname}"/>
+                </apex:pageBlockTable>
+
+            </apex:pageBlockSection>
+
+            <!-- Buttons -->
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!sendNow}"
+                                    value="Send"
+                                    disabled="{!NOT(hasRecipients)}"/>
+                <apex:commandButton value="Cancel"
+                                    action="{!cancel}"
+                                    immediate="true"/>
+            </apex:pageBlockButtons>
+
+            <!-- Messages -->
+            <apex:pageMessages />
+
+            <!-- Recipients Preview -->
+            <apex:pageBlockSection title="Recipients Preview"
+                                   columns="1"
+                                   collapsible="true">
+                <apex:outputText value="{!previewRecipientsString}"/>
+            </apex:pageBlockSection>
+
+        </apex:pageBlock>
+
+    </apex:form>
+</apex:page>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HEIJOINT__c</fullName>
+    <description>This field records the UK Provider Reference Number (UKPRN) of one other higher education provider (HEP) involved in a joint contract. The UKPRN is the unique identifier allocated to HEPs by the UK Register of Learning Providers (UKRLP)</description>
+    <externalId>false</externalId>
+    <label>HEIJOINT</label>
+    <precision>8</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

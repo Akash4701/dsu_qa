@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HOURLYPAID_F_CODE__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE( HOURLYPAID__c , 
+	&quot;Salaried&quot;, &apos;1&apos;,
+	&quot;Hourly paid&quot;, &apos;2&apos;,
+	&quot;Other&quot;, &apos;3&apos;,
+null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>HOURLYPAID CODE</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

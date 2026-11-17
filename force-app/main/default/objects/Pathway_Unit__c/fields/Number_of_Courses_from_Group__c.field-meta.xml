@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Courses_from_Group__c</fullName>
+    <description>How many courses from a group (Electives) should be attempted in this term</description>
+    <externalId>false</externalId>
+    <inlineHelpText>How many courses from a group (Electives) should be attempted in this term</inlineHelpText>
+    <label>Number of Courses from Group</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

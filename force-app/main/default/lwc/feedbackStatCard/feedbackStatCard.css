@@ -1,0 +1,13 @@
+@import 'c/feedbackHomeStyles';
+
+.card { padding: 1.25rem; border-top: 3px solid var(--fh-brand); height: 100%; }
+.card_success { border-top-color: var(--fh-success); }
+.card_warning { border-top-color: var(--fh-warning); }
+.card_error { border-top-color: var(--fh-error); }
+.card_info { border-top-color: var(--fh-brand); }
+.value { font-size: 1.75rem; font-weight: 800; line-height: 1.1; margin: 0.75rem 0 0.25rem; }
+.icon { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: var(--fh-r-sm); background: var(--fh-brand); }
+.icon_success { background: var(--fh-success); }
+.icon_warning { background: var(--fh-warning); }
+.icon_error { background: var(--fh-error); }
+.icon_info { background: var(--fh-brand); }

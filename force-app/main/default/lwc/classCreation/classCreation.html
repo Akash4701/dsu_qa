@@ -1,0 +1,48 @@
+<template>
+    <lightning-card title="Class Creation" icon-name="standard:education">
+        <div class="slds-p-around_medium">
+            <p class="slds-text-heading_small slds-m-bottom_medium">
+                Total Course Connections: {totalConnections}
+            </p>
+
+            <div class="slds-grid slds-gutters slds-align-top">
+                <!-- Left Column: Number of Classes Input -->
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input
+                        label="Number of Classes"
+                        type="number"
+                        min="1"
+                        value={numClasses}
+                        onchange={handleNumClassesChange}>
+                    </lightning-input>
+                </div>
+
+                <!-- Right Column: Students Per Class + Button -->
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input
+                        label="Students Per Class"
+                        type="number"
+                        min="1"
+                        value={studentsPerClass}
+                        onchange={handleStudentsPerClassChange}>
+                    </lightning-input>
+
+                    <div class="slds-m-top_large">
+                        <lightning-button
+                            label="Create Classes"
+                            variant="brand"
+                            onclick={handleValidateAndCreate}
+                            disabled={isLoading}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+
+            <template if:true={isLoading}>
+                <div class="slds-m-top_medium">
+                    <lightning-spinner alternative-text="Processing..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

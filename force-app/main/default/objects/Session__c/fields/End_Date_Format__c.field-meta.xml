@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>End_Date_Format__c</fullName>
+    <externalId>false</externalId>
+    <formula>TEXT(YEAR( Enddate__c )) &amp; &quot;-&quot; &amp; 
+IF(MONTH( Enddate__c ) &lt; 10, &quot;0&quot; &amp; TEXT(MONTH( Enddate__c )), TEXT(MONTH( Enddate__c ))) &amp; &quot;-&quot; &amp;
+IF(DAY( Enddate__c ) &lt; 10, &quot;0&quot; &amp; TEXT(DAY( Enddate__c )), TEXT(DAY( Enddate__c )))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>End Date Format</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

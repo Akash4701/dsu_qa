@@ -1,0 +1,122 @@
+<template>
+    <section class="fh-card fh-card_pad filters" aria-label="Report filters">
+        <div class="filters__grid">
+            <div class="field field_search">
+                <label class="fh-eyebrow" for="report-search">Search</label>
+                <div class="fh-search">
+                    <lightning-icon icon-name="utility:search" size="xx-small" alternative-text=""></lightning-icon>
+                    <input id="report-search" type="search" class="fh-input" placeholder="Student, USN, question or section" value={searchText} oninput={handleSearch} />
+                </div>
+            </div>
+            <div class="field">
+                <label class="fh-eyebrow" for="report-type">Feedback type</label>
+                <select id="report-type" class="fh-select" onchange={handleType}>
+                    <option value="" selected={noType}>All types</option>
+                    <template for:each={typeOptions} for:item="option">
+                        <option key={option.value} value={option.value} selected={option.selected}>{option.label}</option>
+                    </template>
+                </select>
+            </div>
+            <div class="field">
+                <label class="fh-eyebrow" for="report-term">Semester</label>
+                <select id="report-term" class="fh-select" onchange={handleTerm}>
+                    <option value="" selected={noTerm}>All semesters</option>
+                    <template for:each={termOptions} for:item="option">
+                        <option key={option.value} value={option.value} selected={option.selected}>{option.label}</option>
+                    </template>
+                </select>
+            </div>
+            <div class="field">
+                <label class="fh-eyebrow" for="report-from">Submitted from</label>
+                <input id="report-from" type="date" class="fh-input" value={fromDate} max={toDate} onchange={handleFrom} />
+            </div>
+            <div class="field">
+                <label class="fh-eyebrow" for="report-to">Submitted to</label>
+                <input id="report-to" type="date" class="fh-input" value={toDate} min={fromDate} onchange={handleTo} />
+            </div>
+        </div>
+        <div class="filters__foot">
+            <p class="fh-small fh-muted" role="status" aria-live="polite">{resultLabel}</p>
+            <div class="fh-row">
+                <button lwc:if={hasFilters} type="button" class="fh-link" onclick={handleClear}>Clear filters</button>
+                <button type="button" class="fh-btn fh-btn_icon" title="Refresh" aria-label="Refresh" onclick={handleRefresh}>
+                    <lightning-icon icon-name="utility:refresh" size="x-small" alternative-text="Refresh"></lightning-icon>
+                </button>
+                <button type="button" class="fh-btn fh-btn_primary" disabled={cannotExport} onclick={handleExport}>
+                    <lightning-icon icon-name="utility:download" size="x-small" variant="inverse" alternative-text=""></lightning-icon>
+                    Export this page
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <template lwc:if={error}>
+        <c-feedback-message variant="error" title="We couldn't load the report" message={error} action-label="Try again" onaction={handleRefresh}></c-feedback-message>
+    </template>
+    <template lwc:elseif={showSkeleton}>
+        <c-feedback-skeleton variant="rows" count="8"></c-feedback-skeleton>
+    </template>
+    <template lwc:elseif={isEmpty}>
+        <c-feedback-message title="No answers to show" message={emptyMessage} icon-name="utility:table" action-label={emptyAction} onaction={handleClear}></c-feedback-message>
+    </template>
+    <template lwc:elseif={hasRows}>
+        <section class="fh-card fh-fade-in">
+            <div class={wrapClass}>
+                <table class="fh-table report" aria-label="Collected feedback answers" aria-busy={loading}>
+                    <thead>
+                        <tr>
+                            <th scope="col">Student</th>
+                            <th scope="col">Program</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Parameter section</th>
+                            <th scope="col" class="num">Q</th>
+                            <th scope="col" class="col-question">Question</th>
+                            <th scope="col">Answer</th>
+                            <th scope="col">Submitted</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={rows} for:item="row">
+                            <tr key={row.id}>
+                                <td>
+                                    <div class="who">
+                                        <span class="avatar" aria-hidden="true">{row.avatar}</span>
+                                        <span class="who__text">
+                                            <span class="fh-strong">{row.studentLabel}</span>
+                                            <span class={row.usnClass}>{row.usnLabel}</span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="stack">
+                                        <span>{row.programLabel}</span>
+                                        <span class="fh-small fh-muted">{row.programPlanLabel}</span>
+                                    </span>
+                                </td>
+                                <td class="fh-muted">{row.termLabel}</td>
+                                <td>
+                                    <span class="stack">
+                                        <span>{row.sectionLabel}</span>
+                                        <span class="fh-small fh-muted">{row.feedbackTypeLabel}</span>
+                                    </span>
+                                </td>
+                                <td class="num fh-muted">{row.questionNoLabel}</td>
+                                <td class="col-question">
+                                    <span class="stack">
+                                        <span class="fh-clamp-2" title={row.question}>{row.question}</span>
+                                        <span lwc:if={row.questionType}><c-feedback-badge label={row.questionType} tone="info"></c-feedback-badge></span>
+                                    </span>
+                                </td>
+                                <td class="answer"><span class="fh-strong fh-clamp-2" title={row.answerLabel}>{row.answerLabel}</span></td>
+                                <td class="fh-muted nowrap">{row.submittedLabel}</td>
+                                <td><c-feedback-badge label={row.statusLabel} tone={row.statusTone}></c-feedback-badge></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <c-feedback-pager page-number={pageNumber} page-size={pageSize} total={total} total-pages={totalPages} truncated={truncated} noun="answer" onpagechange={handlePageChange} onsizechange={handleSizeChange}></c-feedback-pager>
+        </section>
+    </template>
+</template>

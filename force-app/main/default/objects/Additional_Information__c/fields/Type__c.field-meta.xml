@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <label>Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Academics</fullName>
+                <default>false</default>
+                <label>Academics</label>
+            </value>
+            <value>
+                <fullName>Sports</fullName>
+                <default>false</default>
+                <label>Sports</label>
+            </value>
+            <value>
+                <fullName>Awards</fullName>
+                <default>false</default>
+                <label>Awards</label>
+            </value>
+            <value>
+                <fullName>Clubs</fullName>
+                <default>false</default>
+                <label>Clubs</label>
+            </value>
+            <value>
+                <fullName>Certificate</fullName>
+                <default>false</default>
+                <label>Certificate</label>
+            </value>
+            <value>
+                <fullName>Book</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Book</label>
+            </value>
+            <value>
+                <fullName>Book Authored</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Book Authored</label>
+            </value>
+            <value>
+                <fullName>CONFERENCES</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CONFERENCES</label>
+            </value>
+            <value>
+                <fullName>Conferences, Conclaves and Seminars</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Conferences, Conclaves and Seminars</label>
+            </value>
+            <value>
+                <fullName>Consulting Projects</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Consulting Projects</label>
+            </value>
+            <value>
+                <fullName>Grants</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Grants</label>
+            </value>
+            <value>
+                <fullName>Learning,Development</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Learning,Development</label>
+            </value>
+            <value>
+                <fullName>PROFESSIONAL ASSOCIATION</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>PROFESSIONAL ASSOCIATION</label>
+            </value>
+            <value>
+                <fullName>Patents</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Patents</label>
+            </value>
+            <value>
+                <fullName>Publications</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Publications</label>
+            </value>
+            <value>
+                <fullName>RESEARCH &amp; PUBLICATIONS</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>RESEARCH &amp; PUBLICATIONS</label>
+            </value>
+            <value>
+                <fullName>RESEARCH SUPERVISION</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>RESEARCH SUPERVISION</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

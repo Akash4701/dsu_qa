@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Self_Enrollment_Disabled__c</fullName>
+    <defaultValue>false</defaultValue>
+    <inlineHelpText>Prevent students from enrolling into this particular course.</inlineHelpText>
+    <label>Self Enrollment Disabled</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

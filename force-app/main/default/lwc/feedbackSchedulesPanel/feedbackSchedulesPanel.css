@@ -1,0 +1,8 @@
+@import 'c/feedbackHomeStyles';
+
+.count { opacity: 0.7; font-weight: 600; }
+.is-loading { opacity: 0.55; transition: opacity 120ms; pointer-events: none; }
+.caption_urgent { color: var(--fh-warning); font-weight: 700; }
+.resp-col { min-width: 11rem; }
+.act { white-space: nowrap; text-align: right; }
+.fh-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

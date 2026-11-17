@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Inter_Candidate_Spacing_Read_Only</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISCHANGED(Inter_Candidate_Spacing__c)</errorConditionFormula>
+    <errorDisplayField>Inter_Candidate_Spacing__c</errorDisplayField>
+    <errorMessage>Inter Candidate Spacing cannot be changed once Seating Plan is Created.</errorMessage>
+</ValidationRule>

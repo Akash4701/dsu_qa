@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Term__c</columns>
+    <columns>Student_Name__c</columns>
+    <columns>Course_Offering__c</columns>
+    <columns>Maximum_Marks__c</columns>
+    <columns>Percentage__c</columns>
+    <columns>Penalty__c</columns>
+    <columns>Pass_Fail_status__c</columns>
+    <columns>Grade_Point__c</columns>
+    <columns>Final_Letter_Grade_Relative__c</columns>
+    <columns>Credits_Earned__c</columns>
+    <columns>Calculated_Letter_Grade__c</columns>
+    <columns>Final_Letter_Grade__c</columns>
+    <columns>Marks_Obtained__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

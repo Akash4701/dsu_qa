@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ACEMPFUN__c</fullName>
+    <description>This field records the employment function of the contract for staff with contracts in SOC2010 Major Groups 1-3</description>
+    <label>ACEMPFUN</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Academic contract that is teaching only</fullName>
+                <default>false</default>
+                <label>Academic contract that is teaching only</label>
+            </value>
+            <value>
+                <fullName>Academic contract that is research only</fullName>
+                <default>false</default>
+                <label>Academic contract that is research only</label>
+            </value>
+            <value>
+                <fullName>Academic contract that is both teaching and research</fullName>
+                <default>false</default>
+                <label>Academic contract that is both teaching and research</label>
+            </value>
+            <value>
+                <fullName>Not an academic contract</fullName>
+                <default>false</default>
+                <label>Not an academic contract</label>
+            </value>
+            <value>
+                <fullName>Academic contract that is neither teaching nor research</fullName>
+                <default>false</default>
+                <label>Academic contract that is neither teaching nor research</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Shared_Group__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Links to a Plan Requirement Group from a different Program Plan</description>
+    <inlineHelpText>Links to a Plan Requirement Group from a different Program Plan</inlineHelpText>
+    <label>Shared Group</label>
+    <referenceTo>hed__Plan_Requirement__c</referenceTo>
+    <relationshipLabel>Plan Requirements (Shared Group)</relationshipLabel>
+    <relationshipName>Plan_Requirements</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

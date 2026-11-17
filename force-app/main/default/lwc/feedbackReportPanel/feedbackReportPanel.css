@@ -1,0 +1,28 @@
+@import 'c/feedbackHomeStyles';
+
+/* Filters: one card, labelled fields on a wrapping grid so they reflow instead of overflowing. */
+.filters { margin-bottom: 1rem; }
+.filters__grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+.field { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; }
+.field_search { grid-column: 1 / -1; }
+@media (min-width: 62rem) { .field_search { grid-column: span 2; } }
+.field .fh-search { max-width: none; flex: none; }
+.field .fh-select, .field .fh-input { width: 100%; }
+.filters__foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--fh-border); }
+.filters__foot p { margin: 0; }
+
+/* Table: wide by nature, so it scrolls inside its own container and never widens the page. */
+.report { min-width: 62rem; }
+.report th.num, .report td.num { text-align: right; width: 3rem; }
+.report td { vertical-align: top; }
+.col-question { min-width: 18rem; max-width: 26rem; }
+.answer { min-width: 9rem; max-width: 16rem; }
+.nowrap { white-space: nowrap; }
+.stack { display: flex; flex-direction: column; align-items: flex-start; gap: 0.25rem; min-width: 0; }
+.who { display: flex; align-items: center; gap: 0.75rem; }
+.who__text { display: flex; flex-direction: column; min-width: 0; }
+.avatar { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--fh-brand-soft); color: var(--fh-brand-strong); font-size: 0.75rem; font-weight: 700; }
+.usn { font-size: 0.75rem; line-height: 1.4; font-variant-numeric: tabular-nums; color: var(--fh-text-muted); }
+.usn_missing { font-style: italic; }
+.is-loading { opacity: 0.55; transition: opacity 120ms; pointer-events: none; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }

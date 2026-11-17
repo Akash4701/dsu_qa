@@ -1,0 +1,17 @@
+<template>
+
+<template if:true={isLoading}>
+        <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+                    background: rgba(0, 0, 0, 0.5); z-index: 1000; display: flex;
+                    flex-direction: column; justify-content: center; align-items: center;">
+            <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                <span style="color: #ffffff; font-size: 18px; font-weight: bold; margin-bottom: 50px;">
+                    We are working on it. Please wait for a while!
+                </span>
+                <div style="position: relative; display: inline-block;">
+                    <lightning-spinner alternative-text="Processing..." size="large" variant="brand"></lightning-spinner>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

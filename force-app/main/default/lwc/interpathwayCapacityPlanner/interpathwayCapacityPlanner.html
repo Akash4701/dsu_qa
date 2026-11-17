@@ -1,0 +1,153 @@
+<template>
+    <!-- Only show component if shouldShowComponent is true -->
+    <template if:true={shouldShowComponent}>
+        <div class="interpathway-container">
+            <div style="min-height: 60vh;">
+                <lightning-card title="Interpathway Capacity Planner">
+                    <template if:true={isLoading}>
+                        <div class="slds-m-around_medium slds-text-align_center">
+                            <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+                        </div>
+                    </template>
+
+                    <template if:false={isLoading}>
+                        <!-- Header Information -->
+                        <div class="slds-p-around_medium slds-border_bottom">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <p class="slds-text-heading_small">
+                                        <strong>Course Enrollment Management:</strong> {selectedCemName}
+                                    </p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-combobox
+                                        name="capacityType"
+                                        label="Capacity Type"
+                                        options={capacityTypeOptions}
+                                        value={selectedCapacityType}
+                                        onchange={handleCapacityTypeChange}
+                                        placeholder="Select Capacity Type"
+                                        disabled={isCapacityTypeDisabled}
+                                        required>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                        </div>
+
+                        <template if:true={hasCourseVersions}>
+                            <div class="slds-p-around_medium">
+                                
+                                <!-- Search Bar and Buttons Row -->
+                                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                                    <div class="slds-col slds-size_6-of-12">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <input
+                                                    type="text"
+                                                    class="slds-input"
+                                                    placeholder={searchPlaceholder}
+                                                    value={searchTerm}
+                                                    oninput={handleSearchInputChange}
+                                                    onkeydown={handleSearchKeyDown}
+                                                    disabled={isSearchDisabled} />
+                                            </div>
+                                        </div>
+                                        <!-- Suggestions dropdown -->
+                                        <template if:true={showDropdown}>
+                                            <div class="slds-dropdown slds-dropdown_left slds-is-open" 
+                                                 style="position: absolute; left: 2%; right: 0; z-index: 9999; max-height: 200px; overflow-y: auto; background: white; border: 0px solid #d8dde6; border-radius: 0.25rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                                <ul class="slds-dropdown__list" role="menu" style="max-height: 180px; overflow-y: auto;">
+                                                    <template for:each={filteredCourseSuggestions} for:item="suggestion">
+                                                        <li key={suggestion.Id} class="slds-dropdown__item" role="presentation">
+                                                            <a href="#" role="menuitem" tabindex="0"
+                                                               data-code={suggestion.CourseCode}
+                                                               onclick={handleSuggestionClick}
+                                                               class="slds-truncate">
+                                                                <span class="slds-truncate">{suggestion.CourseCode} - {suggestion.CourseName}</span>
+                                                            </a>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12" >
+                                        <template if:false={isSearchLocked}>
+                                            <lightning-button
+                                                variant="brand"
+                                                label="Search"
+                                                onclick={handleSearchButtonClick}
+                                                disabled={isSearchDisabled}
+                                                class="slds-float_right">
+                                            </lightning-button>
+                                        </template>
+                                        <template if:true={isSearchLocked}>
+                                            <lightning-button
+                                                variant="destructive"
+                                                label="Cancel"
+                                                onclick={handleCancelSearch}
+                                                class="slds-float_right">
+                                            </lightning-button>
+                                        </template>
+                                    </div>
+                                    <div class="slds-col slds-size_4-of-12">
+                                        <lightning-button
+                                            variant="success"
+                                            label="Submit"
+                                            onclick={handleCreateICP}
+                                            disabled={disableCreateButton}
+                                            class="slds-float_right">
+                                        </lightning-button>
+                                    </div>
+                                </div>
+
+                                <!-- Course Versions Table -->
+                                <template if:true={isTableVisible}>
+                                    <lightning-datatable
+                                        key-field="Id"
+                                        data={filteredCourseVersions}
+                                        columns={columns}
+                                        selected-rows={selectedRowIds}
+                                        onrowselection={handleRowSelection}
+                                        max-row-selection={maxRowSelection}>
+                                    </lightning-datatable>
+                                </template>
+                            </div>
+                        </template>
+                    </template>
+                </lightning-card>
+            </div>
+
+            <!-- Capacity Input Modal -->
+            <template if:true={showModal}>
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <lightning-button-icon icon-name="utility:close" onclick={closeModal} alternative-text="close"
+                                variant="bare-inverse" class="slds-modal__close">
+                            </lightning-button-icon>
+                            <h2 class="slds-text-heading_medium slds-hyphenate">Create Interpathway Capacity Planner</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <div class="slds-form">
+                                <lightning-input type="number" label="Capacity" value={capacity}
+                                    onchange={handleCapacityChange} step="1" min="0" required>
+                                </lightning-input>
+                                <div class="slds-m-top_medium">
+                                    <p><strong>Selected Course Versions:</strong> {selectedCount}</p>
+                                    <p><strong>Capacity Type:</strong> {capacityType}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button variant="neutral" label="Cancel" onclick={closeModal}></lightning-button>
+                            <lightning-button variant="brand" label="Create" onclick={confirmCreate}
+                                disabled={disableConfirmButton}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Use_SSO__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When checked, portals log users in with SSO and Salesforce sends no OTP emails (neither Amazon SES nor Salesforce email). Takes precedence over Use Amazon SES.</description>
+    <inlineHelpText>Checked = SSO login; OTP emails are not sent. If both Use SSO and Use Amazon SES are checked, SSO is used.</inlineHelpText>
+    <label>Use SSO</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

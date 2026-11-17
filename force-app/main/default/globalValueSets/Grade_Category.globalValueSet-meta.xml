@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Engineering</fullName>
+        <default>false</default>
+        <label>Engineering</label>
+    </customValue>
+    <customValue>
+        <fullName>Non-Engineering</fullName>
+        <default>false</default>
+        <label>Non-Engineering</label>
+    </customValue>
+    <masterLabel>Grade Category</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

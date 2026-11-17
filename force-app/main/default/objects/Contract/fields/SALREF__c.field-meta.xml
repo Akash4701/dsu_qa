@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SALREF__c</fullName>
+    <description>This field identifies the gross basic salary per annum (full-time equivalent) in pounds sterling, as stated in the contract at the reference date, or at the end of the contract, if earlier</description>
+    <externalId>false</externalId>
+    <label>SALREF</label>
+    <precision>9</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

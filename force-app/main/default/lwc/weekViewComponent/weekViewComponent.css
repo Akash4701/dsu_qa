@@ -1,0 +1,340 @@
+.week-view-container {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding-bottom: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header styles */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.nav-button {
+    background: none;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+.today-button {
+    background-color: #0070d2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    margin-left: 4px;
+}
+
+.schedule-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #181818;
+}
+
+.view-selector {
+    display: flex;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.view-button {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+.view-button.selected {
+    background-color: #0070d2;
+    color: white;
+}
+
+/* Timetable container */
+.timetable-container {
+    display: flex;
+    height: 700px;
+    overflow: hidden;
+    flex: 1;
+}
+
+/* Faculty sidebar */
+.faculty-sidebar {
+    width: 180px;
+    border-right: 1px solid #e0e0e0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.faculty-header {
+    padding: 0.5rem;
+    font-weight: 500;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.search-container {
+    padding: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0;
+}
+
+.faculty-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.faculty-row {
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.faculty-row:hover {
+    background-color: #f8f8f8;
+}
+
+.faculty-row.selected {
+    background-color: #f0f7ff;
+    border-left: 3px solid #0070d2;
+}
+
+.faculty-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.faculty-shortname {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+/* Week grid */
+.week-grid-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.week-header {
+    flex-shrink: 0;
+}
+
+.week-info {
+    padding: 0.5rem;
+    font-weight: 500;
+    text-align: center;
+    color: #444;
+}
+
+.days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.day-header-cell {
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Legend */
+.legend-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+    font-size: 0.75rem;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.slot-filled {
+    background-color: #90caf9;
+}
+
+.not-available {
+    background-color: #ef9a9a;
+}
+
+.available {
+    border: 1px solid #ccc;
+    width: 10px;
+    height: 10px;
+}
+
+/* Time slots grid */
+.time-slots-grid {
+    display: flex;
+    position: relative;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.time-slots-column {
+    width: 40px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+    background-color: #fff;
+}
+
+.time-slot-label {
+    height: 60px; /* Fixed height for each time slot */
+    min-height: 60px; /* Ensure minimum height */
+    flex-shrink: 0; /* Prevent shrinking */
+    position: relative;
+    text-align: right;
+    padding-right: 8px;
+    font-size: 0.75rem;
+    color: #666;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+.time-slot-label::after {
+    content: '';
+    position: absolute;
+    height: 1px;
+    background-color: #f0f0f0;
+    left: 0;
+    right: -9999px;
+    top: 0;
+    z-index: 1;
+}
+
+/* Schedule grid */
+.schedule-grid {
+    flex: 1;
+    position: relative;
+    border-left: 1px solid #e0e0e0;
+    overflow-y: auto;
+    min-height: 1440px; /* 24 hours * 60px */
+}
+
+/* Grid lines */
+.day-grid-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.day-grid-line {
+    border-right: 1px solid #f0f0f0;
+}
+
+.time-grid-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.time-grid-line {
+    height: 60px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Events */
+.event {
+    position: absolute;
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 4px 6px;
+    box-sizing: border-box;
+    z-index: 5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    font-size: 0.75rem;
+    color: #333;
+    transition: box-shadow 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.event:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
+}
+
+.event-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    font-size: 11px;
+}
+
+.event-faculty {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+.event-filled {
+    background-color: #90caf9;
+    border-left: 3px solid #1976d2;
+}
+
+.event-not-available {
+    background-color: #ef9a9a;
+    border-left: 3px solid #d32f2f;
+}
+
+.event-default {
+    background-color: #90caf9;
+    border-left: 3px solid #1976d2;
+}

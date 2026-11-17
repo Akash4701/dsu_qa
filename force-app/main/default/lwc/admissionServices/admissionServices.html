@@ -1,0 +1,64 @@
+<!-- <template>
+	<div class="bgColor">
+		<div class="slds-grid slds-wrap evaHeadBox">
+			<div class="slds-col slds-large-size_6-of-12">
+				<div class="evaHeading">Enrollment Services</div>
+			</div>
+		</div>
+		<div class="slds-grid slds-wrap">
+			<div class="slds-col slds-large-size_6-of-12">
+				<lightning-breadcrumbs>
+					<template for:each={breadcrumbPath} for:item="crumbs">
+						<lightning-breadcrumb key={crumbs.id} label={crumbs.label} name={crumbs.label}
+							onclick={handleCrumbClick} class="homeLabel">
+						</lightning-breadcrumb>
+					</template>
+				</lightning-breadcrumbs>
+			</div>
+		</div>
+		<template if:true={showButtons}>
+			<div class="tabsBoxMainButton">
+				<div class="slds-grid slds-gutters slds-m-top_small slds-m-bottom_small">
+					<div class="slds-col slds-size_3-of-12">
+						<button value={label.studentEnrollment} class="slds-button slds-button_brand eva_button"
+							onclick={handleStudentEnrollmentClick}>
+							{label.studentEnrollment}
+						</button>
+					</div>
+					<div class="slds-col slds-size_3-of-12">
+						<button value={label.facultyEnrollment} class="slds-button slds-button_brand eva_button"
+							onclick={handleFacultyEnrollmentClick}>
+							{label.facultyEnrollment}
+						</button>
+					</div>
+					<div class="slds-col slds-size_3-of-12">
+						<button value={label.termEnrollment} class="slds-button slds-button_brand eva_button"
+							onclick={handleTermEnrollmentClick}>
+							{label.termEnrollment}
+						</button>
+					</div>
+				</div>
+			</div>
+		</template>
+		<div class="slds-p-top_large">
+			<c-student-enrollment if:true={state.showStudentEnrollment}></c-student-enrollment>
+			<c-faculty-enrollment if:true={state.showFacultyEnrollment}></c-faculty-enrollment>
+			<c-term-enrollment if:true={state.showTermEnrollment}></c-term-enrollment>
+		</div>
+	</div>
+</template> -->
+
+<!-- enrollmentTabs.html -->
+<template>
+	<lightning-tabset variant="scoped">
+		<lightning-tab label="Student Enrollment">
+			<c-student-enrollment></c-student-enrollment>
+		</lightning-tab>
+		<lightning-tab label="Faculty Enrollment">
+			<c-faculty-enrollment></c-faculty-enrollment>
+		</lightning-tab>
+		<lightning-tab label="Semester Enrollment">
+			<c-term-enrollment></c-term-enrollment>
+		</lightning-tab>
+	</lightning-tabset>
+</template>

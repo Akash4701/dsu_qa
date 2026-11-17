@@ -1,0 +1,71 @@
+<template>
+    <div class="fh-toolbar">
+        <div class="fh-search">
+            <lightning-icon icon-name="utility:search" size="xx-small" alternative-text=""></lightning-icon>
+            <input type="search" class="fh-input" placeholder="Search parameters" aria-label="Search parameters" value={search} oninput={handleSearch} />
+        </div>
+        <select class="fh-select" aria-label="Parameter Section" onchange={handleSection}>
+            <template for:each={sectionSelectOptions} for:item="option">
+                <option key={option.value} value={option.value} selected={option.selected}>{option.label}</option>
+            </template>
+        </select>
+        <div class="fh-seg" role="group" aria-label="Filter by response type">
+            <template for:each={typeChips} for:item="chip">
+                <button key={chip.label} type="button" class="fh-seg__btn" aria-pressed={chip.pressed} data-label={chip.label} onclick={handleType}>{chip.label}</button>
+            </template>
+        </div>
+        <div class="fh-seg" role="group" aria-label="Mandatory">
+            <button type="button" class="fh-seg__btn" aria-pressed={mandatoryPressed} onclick={handleMandatory}>Mandatory only</button>
+        </div>
+        <div class="fh-toolbar__end">
+            <span class="fh-small fh-muted">{resultLabel}</span>
+            <button type="button" class="fh-btn fh-btn_icon" title="Refresh" aria-label="Refresh" onclick={handleRefresh}>
+                <lightning-icon icon-name="utility:refresh" size="x-small" alternative-text="Refresh"></lightning-icon>
+            </button>
+            <button type="button" class="fh-btn fh-btn_primary" onclick={handleNew}>
+                <lightning-icon icon-name="utility:add" size="x-small" variant="inverse" alternative-text=""></lightning-icon>
+                New Parameter
+            </button>
+        </div>
+    </div>
+
+    <template lwc:if={error}>
+        <c-feedback-message variant="error" title="We couldn't load the parameters" message={error} action-label="Try again" onaction={handleRefresh}></c-feedback-message>
+    </template>
+    <template lwc:elseif={showSkeleton}>
+        <c-feedback-skeleton variant="rows" count="6"></c-feedback-skeleton>
+    </template>
+    <template lwc:elseif={isEmpty}>
+        <c-feedback-message title="No parameters to show" message={emptyMessage} icon-name="utility:checklist" action-label="New Parameter" onaction={handleNew}></c-feedback-message>
+    </template>
+    <template lwc:elseif={hasRows}>
+        <div class="fh-stack fh-fade-in">
+            <template for:each={groups} for:item="group">
+                <section key={group.id} class="fh-card">
+                    <button type="button" class="group__head" aria-expanded={group.expanded} data-id={group.id} onclick={handleToggleGroup}>
+                        <lightning-icon icon-name={group.chevron} size="xx-small" alternative-text=""></lightning-icon>
+                        <span class="fh-subtitle group__name">{group.name}</span>
+                        <span class="fh-chip fh-chip_info">{group.countLabel}</span>
+                    </button>
+                    <ul lwc:if={group.open} class="params">
+                        <template for:each={group.items} for:item="item">
+                            <li key={item.id} class={item.rowClass}>
+                                <span class="param__pos" aria-hidden="true">{item.position}</span>
+                                <div class="param__body">
+                                    <button type="button" class="fh-link param__title" data-id={item.id} onclick={handleOpenRecord}>{item.title}</button>
+                                    <div class="param__meta">
+                                        <span lwc:if={item.questionType} class="fh-chip fh-chip_info">{item.questionType}</span>
+                                        <span lwc:if={item.maxGradeLabel} class="fh-chip">{item.maxGradeLabel}</span>
+                                        <span lwc:if={item.mandatory} class="fh-chip fh-chip_error">Mandatory</span>
+                                        <span lwc:if={item.active} class="fh-chip fh-chip_success">Active</span>
+                                        <span lwc:else class="fh-chip">Inactive</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </section>
+            </template>
+        </div>
+    </template>
+</template>

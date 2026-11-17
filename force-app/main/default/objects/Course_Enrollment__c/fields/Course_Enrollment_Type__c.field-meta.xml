@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Course_Enrollment_Type__c</fullName>
+    <label>Course Enrollment Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Mandatory</fullName>
+                <default>false</default>
+                <label>Mandatory</label>
+            </value>
+            <value>
+                <fullName>Non Mandatory</fullName>
+                <default>false</default>
+                <label>Non Mandatory</label>
+            </value>
+            <value>
+                <fullName>Zero Credit</fullName>
+                <default>false</default>
+                <label>Zero Credit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

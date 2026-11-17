@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RESAST_F_CODE__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE( RESAST__c , 
+	&quot;Not a research assistant&quot;, &apos;0&apos;,
+	&quot;Research assistant&quot;, &apos;1&apos;,
+null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>RESAST CODE</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

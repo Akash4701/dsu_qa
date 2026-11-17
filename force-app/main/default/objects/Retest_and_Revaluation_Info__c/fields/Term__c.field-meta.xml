@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Term</label>
+    <referenceTo>hed__Term__c</referenceTo>
+    <relationshipLabel>Retest and Revaluation Informations</relationshipLabel>
+    <relationshipName>Retest_and_Revaluation_Informations</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Misconduct_Type__c</fullName>
+    <label>Misconduct Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Plagiarism / Similarity</fullName>
+                <default>false</default>
+                <label>Plagiarism / Similarity</label>
+            </value>
+            <value>
+                <fullName>High AI Score</fullName>
+                <default>false</default>
+                <label>High AI Score</label>
+            </value>
+            <value>
+                <fullName>Use of Unauthorized Applications</fullName>
+                <default>false</default>
+                <label>Use of Unauthorized Applications</label>
+            </value>
+            <value>
+                <fullName>Use of Unauthorized Hardware</fullName>
+                <default>false</default>
+                <label>Use of Unauthorized Hardware</label>
+            </value>
+            <value>
+                <fullName>Non-Compliance with Exam Instructions</fullName>
+                <default>false</default>
+                <label>Non-Compliance with Exam Instructions</label>
+            </value>
+            <value>
+                <fullName>Unbecoming Behaviour During Exam</fullName>
+                <default>false</default>
+                <label>Unbecoming Behaviour During Exam</label>
+            </value>
+            <value>
+                <fullName>Contract Cheating</fullName>
+                <default>false</default>
+                <label>Contract Cheating</label>
+            </value>
+            <value>
+                <fullName>Approaching Faculty for Extra Marks</fullName>
+                <default>false</default>
+                <label>Approaching Faculty for Extra Marks</label>
+            </value>
+            <value>
+                <fullName>Assisting Others During Exam</fullName>
+                <default>false</default>
+                <label>Assisting Others During Exam</label>
+            </value>
+            <value>
+                <fullName>Attempting Quizzes from Unauthorized Locations</fullName>
+                <default>false</default>
+                <label>Attempting Quizzes from Unauthorized Locations</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

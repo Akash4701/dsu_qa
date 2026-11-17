@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Grading_status__c</fullName>
+    <label>Grading status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
+            <value>
+                <fullName>In Campus Course Office</fullName>
+                <default>false</default>
+                <label>In Campus Course Office</label>
+            </value>
+            <value>
+                <fullName>Director - Examinations Office</fullName>
+                <default>false</default>
+                <label>Director - Examinations Office</label>
+            </value>
+            <value>
+                <fullName>Examination Board</fullName>
+                <default>false</default>
+                <label>Examination Board</label>
+            </value>
+            <value>
+                <fullName>PeopleSoft/ BlackBoard</fullName>
+                <default>false</default>
+                <label>PeopleSoft/ BlackBoard</label>
+            </value>
+            <value>
+                <fullName>Submitted</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Submitted</label>
+            </value>
+            <value>
+                <fullName>Under process</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Under process</label>
+            </value>
+            <value>
+                <fullName>Under review</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Under review</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,51 @@
+<apex:page standardController="hed__Affiliation__c"
+           recordSetVar="affils"
+           extensions="SendEmailsFromAffiliationsCtrl"
+           lightningStylesheets="true">
+  <apex:form enctype="multipart/form-data">
+    <apex:pageBlock title="Send Email to Affiliation DSU Emails and Contacts">
+
+      <!-- Subject + Body -->
+      <apex:pageBlockSection columns="1">
+        <apex:inputText value="{!subject}" label="Subject"/>
+        <apex:inputTextarea value="{!body}" label="Body" rows="10" cols="80"/>
+      </apex:pageBlockSection>
+
+      <!-- Attachments -->
+      <apex:pageBlockSection title="Attachments" columns="1" collapsible="true">
+
+        <!-- Single file input -->
+        <apex:inputFile value="{!currentFile.Body}"
+                        filename="{!currentFile.Name}"
+                        contentType="{!currentFile.ContentType}"/>
+
+        <!-- Buttons -->
+        <apex:commandButton value="Add Attachment" action="{!addCurrentFile}"/>
+        <apex:commandButton value="Clear All" action="{!clearFiles}"/>
+
+        <!-- Show selected attachments -->
+        <apex:pageBlockTable value="{!savedFileNames}" var="fname" rendered="{!hasFiles}">
+          <apex:column headerValue="Selected Attachments">
+            {!fname}
+          </apex:column>
+        </apex:pageBlockTable>
+
+      </apex:pageBlockSection>
+
+      <!-- Buttons -->
+      <apex:pageBlockButtons >
+        <apex:commandButton action="{!sendNow}" value="Send" disabled="{!NOT(hasRecipients)}"/>
+        <apex:commandButton value="Cancel"
+          onclick="window.top.location.href='/lightning/o/hed__Affiliation__c/list'; return false;"/>
+      </apex:pageBlockButtons>
+
+      <apex:pageMessages />
+
+      <!-- Recipients Preview -->
+      <apex:pageBlockSection title="Recipients Preview" columns="1" collapsible="true" id="prevSec">
+        <apex:outputText value="{!previewRecipientsString}"/>
+      </apex:pageBlockSection>
+
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

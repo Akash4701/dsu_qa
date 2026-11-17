@@ -1,0 +1,186 @@
+.panelHead {
+    height: 45px;
+}
+.panelHead h3 {
+    background: #d7dee9;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #000;
+    height: 45px;
+    line-height: 45px;
+}
+.eva_editable {
+    border: 1px solid #c4c4c4;
+    margin-top: 0;
+    border-top: 0px;
+    padding-top: 6px;
+}
+.fixTableHead {
+    position: relative;
+    top: -2px;
+    background-color: #fff;
+}
+.eva_table .slds-table {
+    border-top: none;
+    border-color: #d7dee9;
+    color: #00218d;
+    border-collapse: separate;
+    border-spacing: 0px;
+    border-top: 1px solid #d7dee9;
+}
+.eva_table .slds-table thead th {
+    text-transform: uppercase;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    color: #505f79;
+    background: none;
+    padding: 12px 8px;
+}
+.eva_table .slds-table tbody td {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 2;
+    border-width: 0.5px;
+    border-color: #d7dee9;
+}
+.eva_editable {
+    padding-left: 22px;
+    padding-right: 22px;
+}
+.eva_table.eva_editable tbody tr.parent {
+    /*background-color: #D9E1FF;*/
+    border-bottom: 1px solid #d7dee9;
+}
+.eva_table.eva_editable tbody tr.parent td {
+    border-bottom: 1px solid #d7dee9;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+.eva_table.eva_editable tbody tr.parent td .slds-button {
+    background: #f4f7ff;
+    border: 0.5px solid #505f79;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: #505f79;
+    font-weight: 600;
+}
+.eva_table.eva_editable tbody tr.parent td input,
+.eva_table.eva_editable tbody tr.parent td .slds-combobox__input {
+    background: #fafbfc;
+    border: 1px dashed #e3e3e3;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+.eva_table.eva_editable tbody tr.child {
+    background-color: #f4f7ff;
+}
+.eva_table.eva_editable tbody tr.child td.eva_inner {
+    border: none;
+}
+.eva_table.eva_editable tbody tr.child:hover td.eva_inner {
+    background: none;
+}
+.eva_table.eva_editable tbody tr.child td .slds-card {
+    background: #f4f7ff;
+}
+.eva_table.eva_editable tbody tr.child td .slds-card h2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+}
+.eva_table.eva_editable tbody tr.child .slds-card .slds-card__body .slds-box {
+    background: #fff;
+    border-radius: 5px;
+    border: none;
+}
+.eva_table.eva_editable tbody tr.child table.inner_table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.eva_table.eva_editable tbody tr.child .slds-card table.inner_table tr {
+    background: #fff;
+}
+.eva_table.eva_editable tbody tr.child .slds-card table.inner_table tr th {
+    border-bottom: 1px solid #b3bac5;
+    border-top: none;
+    line-height: initial;
+    padding-top: 18px;
+    padding-bottom: 6px;
+}
+.eva_table.eva_editable tbody tr.child .slds-card table.inner_table tr td {
+    border-bottom: 0.5px solid #d7dee9;
+}
+.eva_table.eva_editable tbody tr.child .slds-card table.inner_table tr td input {
+    background: #ffffff;
+    border: 1px dashed #e3e3e3;
+    border-radius: 3px;
+}
+.eva_button {
+    background: #d7dee9;
+    border-radius: 3px;
+    color: #505f79;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+}
+.eva_blue {
+    background-color: #00218d;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 8px 12px;
+    border: none;
+    color: #fff;
+}
+.evaTRHead th {
+    border-bottom: 1px solid #d7dee9;
+}
+.eva_table.eva_editable tbody tr.parent td input,
+.eva_table.eva_editable tbody tr.parent td .slds-combobox__input {
+    border-style: solid;
+}
+.slds-table--header-fixed_container {
+    padding-top: 0px;
+}
+.panTitle {
+    padding-left: 20px;
+}
+.evaHeading {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: #00218d;
+}
+.roles {
+    width: 29px;
+    height: 29px;
+    border-radius: 29px;
+    background: #00218d;
+    line-height: 29px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    color: #fff;
+    display: inline-block;
+}
+.yellowRoles {
+    background: #fbab10;
+}
+.panDetails {
+    font-weight: 400;
+    font-size: 12px;
+    color: #00218d;
+}
+.panDetails a {
+    cursor: pointer;
+    text-decoration: none;
+}
+.numMembers {
+    padding-left: 0px;
+    width: 200px;
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Name_of_Professional_Course__c</fullName>
+    <label>Name of Professional Course</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CA</fullName>
+                <default>false</default>
+                <label>CA</label>
+            </value>
+            <value>
+                <fullName>CS</fullName>
+                <default>false</default>
+                <label>CS</label>
+            </value>
+            <value>
+                <fullName>MBA</fullName>
+                <default>false</default>
+                <label>MBA</label>
+            </value>
+            <value>
+                <fullName>MBBS</fullName>
+                <default>false</default>
+                <label>MBBS</label>
+            </value>
+            <value>
+                <fullName>LLB</fullName>
+                <default>false</default>
+                <label>LLB</label>
+            </value>
+            <value>
+                <fullName>Fashion Designing</fullName>
+                <default>false</default>
+                <label>Fashion Designing</label>
+            </value>
+            <value>
+                <fullName>Hotel Management</fullName>
+                <default>false</default>
+                <label>Hotel Management</label>
+            </value>
+            <value>
+                <fullName>Pharmacy</fullName>
+                <default>false</default>
+                <label>Pharmacy</label>
+            </value>
+            <value>
+                <fullName>Animation and VFX</fullName>
+                <default>false</default>
+                <label>Animation and VFX</label>
+            </value>
+            <value>
+                <fullName>Interior Designing</fullName>
+                <default>false</default>
+                <label>Interior Designing</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

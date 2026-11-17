@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Manual_Closing_of_Cases</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Status, &quot;Closed&quot;),
+    NOT(ISPICKVAL(PRIORVALUE(Status), &quot;Closed&quot;)),
+    NOT($Permission.Allow_Case_Closure_By_Automation)
+)</errorConditionFormula>
+    <errorMessage>You cannot manually set the status to Closed. Cases will be closed automatically after 5 business days in Resolved.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Need_Credits_equivalent</fullName>
+    <active>false</active>
+    <description>Requires the user to populate Credits equivalent per Course if using Courses Required.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(Courses_Required__c)), ISBLANK(Credits_equivalent_per_Course__c))</errorConditionFormula>
+    <errorDisplayField>Credits_equivalent_per_Course__c</errorDisplayField>
+    <errorMessage>You must enter Credits equivalent per Course when using Courses Required.</errorMessage>
+</ValidationRule>

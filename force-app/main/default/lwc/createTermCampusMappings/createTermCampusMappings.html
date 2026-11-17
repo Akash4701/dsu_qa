@@ -1,0 +1,138 @@
+<template>
+	<div role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open">
+		<div class="slds-modal__container">
+			<div class="slds-modal__header">
+				<h2 class="slds-text-heading--medium">Create Program Campus Combinations</h2>
+			</div>
+			<div class="slds-modal__content slds-p-around--large">
+				<lightning-spinner if:true={isLoading} size="medium"></lightning-spinner>
+				<div class="slds-grid slds-gutters">
+					<div class="slds-col slds-size_5-of-12">
+						<span class="evaLable"><abbr class="slds-required" title="required">* </abbr>Combination Name</span>
+						<lightning-input
+							type="text"
+							name="combinationName"
+							variant="label-hidden"
+							value={combinationName}
+							placeholder="Enter Combination Name"
+							onchange={handleChange}
+							required
+						> </lightning-input>
+					</div>
+					<div class="slds-col slds-size_5-of-12">
+						<span class="evaLable"><abbr class="slds-required" title="required">* </abbr>Program</span>
+						<lightning-combobox
+							name="program"
+							variant="label-hidden"
+							value={programId}
+							placeholder="Select Program"
+							options={programOptions}
+							onchange={handleChange}
+							required
+							dropdown-alignment="auto"
+						></lightning-combobox>
+					</div>
+				</div>
+				<template if:true={showProgramDependentFields}>
+					<div class="slds-grid slds-gutters slds-m-top_medium">
+						<div class="slds-col slds-size_5-of-12">
+							<span class="evaLable"><abbr class="slds-required" title="required">* </abbr>Master Program Campus Combination</span>
+							<lightning-combobox
+								name="masterCombinaton"
+								variant="label-hidden"
+								value={masterCombinationId}
+								placeholder="Select Master Program Campus Combination"
+								options={masterCombinationOptions}
+								onchange={handleChange}
+								required
+								dropdown-alignment="auto"
+							></lightning-combobox>
+						</div>
+						<div class="slds-col slds-size_5-of-12">
+							<span class="evaLable"><abbr class="slds-required" title="required">* </abbr>Program Plan</span>
+							<lightning-combobox
+								name="programPlan"
+								variant="label-hidden"
+								value={programPlanId}
+								placeholder="Select Program Plan"
+								options={programPlanOptions}
+								onchange={handleChange}
+								required
+								dropdown-alignment="auto"
+							></lightning-combobox>
+						</div>
+					</div>
+				</template>
+				<template if:true={showMapping}>
+					<div class="addRowBtnBox">
+						<div>
+							<span class="InstructionText">Campus-Term Combinations for selected program</span>
+						</div>
+					</div>
+					<div class="eva_table">
+						<table class="slds-table slds-table_cell-buffer">
+							<thead>
+								<tr class="slds-line-height_reset">
+									<th style="width: 10%" scope="col">
+										<div class="slds-truncate" title="Sequence Number">Sequence</div>
+									</th>
+									<th scope="col" style="width: 50%">
+										<div class="slds-truncate" title="Term">Term</div>
+									</th>
+									<th scope="col" style="width: 30%">
+										<div class="slds-truncate" title="Campus">Campus</div>
+									</th>
+									<th scope="col" style="width: 30%">
+										<div class="slds-truncate" title="Currency">Currency</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<template for:each={termCampusRelationshipList} for:item="rec" for:index="index">
+									<tr key={rec.termId} class="slds-hint-parent evaTableRow">
+										<td style="width: 100px" data-label="Sequence Number">
+											<div class="slds-truncate" title={rec.sequenceNumber}>
+												{rec.sequenceNumber}
+											</div>
+										</td>
+										<td data-label="Term">
+											<lightning-input name="term" variant="label-hidden" value={rec.term} disabled></lightning-input>
+										</td>
+										<td data-label="Campus">
+											<lightning-input name="campus" variant="label-hidden" value={rec.campus} disabled></lightning-input>
+										</td>
+										<td class="slds-p-right_none" data-label="Currency">
+											<lightning-input name="currencyValue" variant="label-hidden" value={rec.currencyValue} disabled></lightning-input>
+										</td>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+					</div>
+				</template>
+			</div>
+
+			<footer class="slds-modal__footer margin-top">
+				<lightning-button
+					class="slds-p-right--small"
+					variant="brand"
+					name="save"
+					label="Save"
+					onclick={handleSave}
+					disabled={disableSave}
+				>
+				</lightning-button>
+				<lightning-button
+					class="slds-p-right--small"
+					variant="brand"
+					name="saveandnew"
+					label="Save & New"
+					onclick={handleSaveAndNew}
+					disabled={disableSave}
+				>
+				</lightning-button>
+				<lightning-button name="cancel" label="Cancel" onclick={handleCancel}> </lightning-button>
+			</footer>
+		</div>
+	</div>
+</template>

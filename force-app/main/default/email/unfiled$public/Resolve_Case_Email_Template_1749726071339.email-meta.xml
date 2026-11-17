@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>When case status is Resolve</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Resolve Case Email Template</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Update on Your Helpdesk Ticket {{{Case.CaseNumber}}} [{{{Case.Thread_Token}}}] – Response Provided</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

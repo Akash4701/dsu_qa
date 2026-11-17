@@ -1,0 +1,38 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 09-05-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+  <template if:false={isPrint}>
+    <lightning-datatable
+      key-field="id"
+      data={table1Data}
+      hide-checkbox-column
+      columns={table1Columns}>
+    </lightning-datatable>
+  </template>
+
+  <template if:true={isPrint}>
+    <table class="print-table">
+      <thead>
+        <tr>
+          <th>Grades</th>
+          <th>Count</th>
+          <th>Percentage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template for:each={table1Data} for:item="row">
+          <tr key={row.id}>
+            <td>{row.Letter_Grade__c}</td>
+            <td>{row.countStudent}</td>
+            <td>{row.percentage}</td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </template>
+</template>

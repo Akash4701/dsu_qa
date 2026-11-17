@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RESAST__c</fullName>
+    <description>This field records whether or not the member of staff is a research assistant</description>
+    <label>RESAST</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not a research assistant</fullName>
+                <default>false</default>
+                <label>Not a research assistant</label>
+            </value>
+            <value>
+                <fullName>Research assistant</fullName>
+                <default>false</default>
+                <label>Research assistant</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MOEMP__c</fullName>
+    <description>This field records the mode of employment detailed in the contract</description>
+    <label>MOEMP</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Full-time</fullName>
+                <default>false</default>
+                <label>Full-time</label>
+            </value>
+            <value>
+                <fullName>Full-time, term-time only</fullName>
+                <default>false</default>
+                <label>Full-time, term-time only</label>
+            </value>
+            <value>
+                <fullName>Part-time</fullName>
+                <default>false</default>
+                <label>Part-time</label>
+            </value>
+            <value>
+                <fullName>Part-time, term-time only</fullName>
+                <default>false</default>
+                <label>Part-time, term-time only</label>
+            </value>
+            <value>
+                <fullName>Atypical</fullName>
+                <default>false</default>
+                <label>Atypical</label>
+            </value>
+            <value>
+                <fullName>Dormant</fullName>
+                <default>false</default>
+                <label>Dormant</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

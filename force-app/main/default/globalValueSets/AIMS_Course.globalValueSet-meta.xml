@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Master in Business Administration (MBA)</fullName>
+        <default>false</default>
+        <label>Master in Business Administration (MBA)</label>
+    </customValue>
+    <customValue>
+        <fullName>Post Graduate Diploma in Management (PGDM)</fullName>
+        <default>false</default>
+        <label>Post Graduate Diploma in Management (PGDM)</label>
+    </customValue>
+    <customValue>
+        <fullName>Master of Commerce (MCOM)</fullName>
+        <default>false</default>
+        <label>Master of Commerce (MCOM)</label>
+    </customValue>
+    <customValue>
+        <fullName>Bachelor of Business Administration (BBA)</fullName>
+        <default>false</default>
+        <label>Bachelor of Business Administration (BBA)</label>
+    </customValue>
+    <customValue>
+        <fullName>Bachelor of Commerce (BCOM)</fullName>
+        <default>false</default>
+        <label>Bachelor of Commerce (BCOM)</label>
+    </customValue>
+    <customValue>
+        <fullName>Bachelor of Hotel Management (BHM)</fullName>
+        <default>false</default>
+        <label>Bachelor of Hotel Management (BHM)</label>
+    </customValue>
+    <customValue>
+        <fullName>Bachelor of Computer Application (BCA)</fullName>
+        <default>false</default>
+        <label>Bachelor of Computer Application (BCA)</label>
+    </customValue>
+    <customValue>
+        <fullName>CEBA</fullName>
+        <default>false</default>
+        <label>CEBA</label>
+    </customValue>
+    <customValue>
+        <fullName>PCMB</fullName>
+        <default>false</default>
+        <label>PCMB</label>
+    </customValue>
+    <customValue>
+        <fullName>PCMC</fullName>
+        <default>false</default>
+        <label>PCMC</label>
+    </customValue>
+    <customValue>
+        <fullName>Bachelor of Business Administration in Aviation Management (BBA Aviation)</fullName>
+        <default>false</default>
+        <label>Bachelor of Business Administration in Aviation Management (BBA Aviation)</label>
+    </customValue>
+    <customValue>
+        <fullName>Master of Computer Applications (MCA)</fullName>
+        <default>false</default>
+        <label>Master of Computer Applications (MCA)</label>
+    </customValue>
+    <customValue>
+        <fullName>Bachelor of Business Administration in Aviation Management (BBA)</fullName>
+        <default>false</default>
+        <label>Bachelor of Business Administration in Aviation Management (BBA)</label>
+    </customValue>
+    <customValue>
+        <fullName>Bachelor of Business Administration in Hotel Management</fullName>
+        <default>false</default>
+        <label>Bachelor of Business Administration in Hotel Management</label>
+    </customValue>
+    <customValue>
+        <fullName>Master of Commerce in financial accounting (MFA)</fullName>
+        <default>false</default>
+        <label>Master of Commerce in financial accounting (MFA)</label>
+    </customValue>
+    <customValue>
+        <fullName>Bachelor of Business Administration in Hotel Management (BBA Hotel)</fullName>
+        <default>false</default>
+        <label>Bachelor of Business Administration in Hotel Management (BBA Hotel)</label>
+    </customValue>
+    <customValue>
+        <fullName>Master of Social Work (MSW)</fullName>
+        <default>false</default>
+        <label>Master of Social Work (MSW)</label>
+    </customValue>
+    <customValue>
+        <fullName>Swiss International Culinary Professional Diploma (CII-VET by EHL) (DIPCUL)</fullName>
+        <default>false</default>
+        <label>Swiss International Culinary Professional Diploma (CII-VET by EHL) (DIPCUL)</label>
+    </customValue>
+    <customValue>
+        <fullName>Swiss International Food &amp; Beverage Service Professional Diploma (CII-VET by EHL) (PHDFB)</fullName>
+        <default>false</default>
+        <label>Swiss International Food &amp; Beverage Service Professional Diploma (CII-VET by EHL) (PHDFB)</label>
+    </customValue>
+    <customValue>
+        <fullName>Swiss International Rooms Professional Diploma (CII-VET by EHL) (PHDRP)</fullName>
+        <default>false</default>
+        <label>Swiss International Rooms Professional Diploma (CII-VET by EHL) (PHDRP)</label>
+    </customValue>
+    <customValue>
+        <fullName>Phd in Management (PHDMGT)</fullName>
+        <default>false</default>
+        <label>Phd in Management (PHDMGT)</label>
+    </customValue>
+    <customValue>
+        <fullName>PhD in Computer Applications (PHDCA)</fullName>
+        <default>false</default>
+        <label>PhD in Computer Applications (PHDCA)</label>
+    </customValue>
+    <customValue>
+        <fullName>Phd in Commerce (PHDCOM)</fullName>
+        <default>false</default>
+        <label>Phd in Commerce (PHDCOM)</label>
+    </customValue>
+    <customValue>
+        <fullName>CHAI POINT</fullName>
+        <default>false</default>
+        <label>CHAI POINT</label>
+    </customValue>
+    <customValue>
+        <fullName>Phd in Commerce</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Phd in Commerce</label>
+    </customValue>
+    <customValue>
+        <fullName>PhD in Computer Applications</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>PhD in Computer Applications</label>
+    </customValue>
+    <customValue>
+        <fullName>Phd in Management</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Phd in Management</label>
+    </customValue>
+    <customValue>
+        <fullName>Swiss International Rooms Professional Diploma (CII-VET by EHL)</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Swiss International Rooms Professional Diploma (CII-VET by EHL)</label>
+    </customValue>
+    <customValue>
+        <fullName>Swiss International Food &amp; Beverage Service Professional Diploma (CII-VET by EHL)</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Swiss International Food &amp; Beverage Service Professional Diploma (CII-VET by EHL)</label>
+    </customValue>
+    <customValue>
+        <fullName>Swiss International Culinary Professional Diploma (CII-VET by EHL)</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Swiss International Culinary Professional Diploma (CII-VET by EHL)</label>
+    </customValue>
+    <customValue>
+        <fullName>Master of Computer Applications</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Master of Computer Applications</label>
+    </customValue>
+    <masterLabel>AIMS Course</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

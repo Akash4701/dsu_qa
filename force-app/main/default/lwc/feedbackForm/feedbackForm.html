@@ -1,0 +1,46 @@
+<template>
+    <lightning-card title="Questionnaire Form" icon-name="custom:custom63" class="centered-form">
+        <div class="slds-p-horizontal_small">
+            <lightning-input label="Title" value={questionnaire.title} onchange={handleInputChange} data-id="title">
+            </lightning-input>
+            <lightning-input label="Description" value={questionnaire.description} onchange={handleInputChange}
+                data-id="description"></lightning-input>
+            <!-- <lightning-input label="Target Audience" value={questionnaire.targetAudience} onchange={handleInputChange}
+                data-id="targetAudience"></lightning-input> -->
+            <c-event-multi-select-combobox label="Target Audience" showpills="true" onselected={handleSelection}
+                placeholder="Select Target Audience" value={questionnaire.targetAudience} options={parentOptions}
+                data-id="targetAudience">
+            </c-event-multi-select-combobox>
+
+            <template if:true={questions.length}>
+                <template for:each={questions} for:item="question" for:index="index">
+                    <div key={question.id} class="slds-m-top_medium slds-box slds-box_x-small">
+                        <lightning-input label="Question Label" value={question.label} onchange={handleQuestionChange}
+                            data-index={index} data-name="label"></lightning-input>
+                        <lightning-combobox label="Question Type" value={question.type} options={questionTypeOptions}
+                            onchange={handleQuestionChange} data-index={index} data-name="type"></lightning-combobox>
+                        <lightning-input label="Required" type="checkbox" checked={question.isRequired}
+                            onchange={handleQuestionChange} data-index={index} data-name="isRequired"></lightning-input>
+
+                        <template if:true={question.isMCQ}>
+                            <lightning-textarea label="Options (comma separated)" value={question.options}
+                                onchange={handleQuestionChange} data-index={index} data-name="options">
+                            </lightning-textarea>
+                        </template>
+
+                        <lightning-button-icon icon-name="utility:delete" alternative-text="Remove"
+                            onclick={removeQuestion} data-index={index}></lightning-button-icon>
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={questions.length}>
+                <p>No questions added yet. Click "Add Question" to get started.</p>
+            </template>
+
+            <lightning-button label="Add Question" onclick={addQuestion} class="slds-m-top_medium"></lightning-button>
+            <lightning-button label="Save Questionnaire" onclick={saveQuestionnaire} variant="brand"
+                class="slds-m-top_medium"></lightning-button>
+        </div>
+    </lightning-card>
+</template>

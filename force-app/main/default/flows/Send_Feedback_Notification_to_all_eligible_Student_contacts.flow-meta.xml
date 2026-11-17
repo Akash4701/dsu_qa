@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Feedback_Status_Pending_for_2_days_Action_1</name>
+        <label>Feedback Status Pending for 2 days Action 1</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>FeedbackItemEmailActivityAction</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Email_is_Send_Update_Notification_Count</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>feedbackItemId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>isReminder</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>FeedbackItemEmailActivityAction</nameSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_email_to_all_eligible_Student_contactes</name>
+        <label>Send email to all eligible Student contactes</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>FeedbackItemEmailActivityAction</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Update_Notification_Count</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>feedbackItemId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>isReminder</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>FeedbackItemEmailActivityAction</nameSegment>
+    </actionCalls>
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Send_1st_Feedback_Notification_Email</name>
+        <label>Send 1st Feedback Notification Email</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Notification_Count_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Notification_Counter__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Feedback_Scheduler__r.Feedback_Master__r.Feedback_Type__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Faculty Feedback</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_email_to_all_eligible_Student_contactes</targetReference>
+            </connector>
+            <label>Notification Count == 0</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Still_Status_is_pending</name>
+        <label>Still Status is pending ?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Status_is_pending</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Feedback_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Pending</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Feedback_Scheduler__r.Feedback_Master__r.Feedback_Type__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Faculty Feedback</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Feedback_Status_Pending_for_2_days_Action_1</targetReference>
+            </connector>
+            <label>Yes- Status is pending</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>Count</name>
+        <dataType>Number</dataType>
+        <expression>{!$Record.Notification_Counter__c} +1</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>Send_Email_formula</name>
+        <dataType>DateTime</dataType>
+        <expression>IF(
+  /* Stop if past End Date */
+  CASE(
+    BLANKVALUE({!$Record.Notification_Counter__c}, 0),
+    0, {!$Record.Start_Date__c},
+    1,  {!$Record.Start_Date__c}+ 1,
+     {!$Record.Start_Date__c} + ((BLANKVALUE({!$Record.Notification_Counter__c}, 0) - 1) * 2)
+  ) &gt; {!$Record.End_Date__c},
+  NULL,
+  
+  /* Calculate Target DateTime in UTC */
+  DATETIMEVALUE(
+    CASE(
+      BLANKVALUE({!$Record.Notification_Counter__c}, 0),
+      0, {!$Record.Start_Date__c},
+      1, {!$Record.Start_Date__c} + 1,
+      {!$Record.Start_Date__c} + ((BLANKVALUE({!$Record.Notification_Counter__c}, 0) - 1) * 2)
+    )
+  )
+  +
+  /* IST Time to UTC Conversion: (IST Hour - 5.5) / 24 */
+  CASE(
+    IF(BLANKVALUE({!$Record.Notification_Counter__c}, 0) = 1, &quot;Morning&quot;, &quot;Evening&quot;),
+    
+    &quot;Evening&quot;,
+    CASE(
+      TRIM(BLANKVALUE({!$Record.Course_Offering__r.Campus__r.Name}, &quot;Mumbai&quot;)),
+      &quot;Mumbai&quot;, (21 - 5.5) / 24,
+      &quot;Singapore&quot;, (23.5 - 5.5) / 24,
+      &quot;Sydney&quot;, (14.5 - 5.5) / 24,
+      &quot;Dubai&quot;, (19.5 - 5.5) / 24,
+      (21 - 5.5) / 24
+    ),
+    
+    &quot;Morning&quot;,
+    CASE(
+      TRIM(BLANKVALUE({!$Record.Course_Offering__r.Campus__r.Name}, &quot;Mumbai&quot;)),
+      &quot;Mumbai&quot;, (9 - 5.5) / 24,
+      &quot;Singapore&quot;, (11.5 - 5.5) / 24,
+      &quot;Sydney&quot;, (2.5 - 5.5) / 24,
+      &quot;Dubai&quot;, (7.5 - 5.5) / 24,
+      (9 - 5.5) / 24
+    ),
+    0
+  )
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Sender_Address</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_Org_Wide_Address.Address}), {!Get_Any_Org_Wide_Address.Address}, {!Get_Org_Wide_Address.Address})</expression>
+    </formulas>
+    <formulas>
+        <name>TODAY</name>
+        <dataType>Date</dataType>
+        <expression>TODAY()</expression>
+    </formulas>
+    <interviewLabel>Send Feedback Notification to all eligible Student contacts {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Send Feedback Notification to all eligible Student contacts</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Copy_2_of_Feedback_Notification_Email_Sent</name>
+        <label>Copy 2 of Feedback Notification Email Sent</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Email_is_Send_Update_Notification_Count</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>FromAddress</field>
+            <value>
+                <elementReference>Sender_Address</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Incoming</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RelatedToId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>3</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Reminder : Your feedback is pending!</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>TextBody</field>
+            <value>
+                <stringValue>Dear All,
+
+This is to notify you that the {!$Record.Feedback_Scheduler__r.Feedback_Master__r.Feedback_Type__c}link for the {!$Record.Course_Offering__c} has been made available in the DSU Student Portal
+
+Kindly complete the feedback without fail.
+
+We look forward to your cooperation. Your feedback is important to us.
+
+Best Regards,
+Program Office Team</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ToAddress</field>
+            <value>
+                <elementReference>$Record.Assignee__r.Email</elementReference>
+            </value>
+        </inputAssignments>
+        <object>EmailMessage</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Feedback_Notification_Email_Sent</name>
+        <label>Feedback Notification Email Sent</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Notification_Count</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>FromAddress</field>
+            <value>
+                <elementReference>Sender_Address</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Incoming</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RelatedToId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>3</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Reminder : Your feedback is pending!</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>TextBody</field>
+            <value>
+                <stringValue>Dear All,
+
+This is to notify you that the {!$Record.Feedback_Scheduler__r.Feedback_Master__r.Feedback_Type__c}link for the {!$Record.Course_Offering__c} has been made available in the DSU Student Portal
+
+Kindly complete the feedback without fail.
+
+We look forward to your cooperation. Your feedback is important to us.
+
+Best Regards,
+Program Office Team</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ToAddress</field>
+            <value>
+                <elementReference>$Record.Assignee__r.Email</elementReference>
+            </value>
+        </inputAssignments>
+        <object>EmailMessage</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>Get_Any_Org_Wide_Address</name>
+        <label>Get Any Org-Wide Address (fallback)</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Send_1st_Feedback_Notification_Email</targetReference>
+        </connector>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrgWideEmailAddress</object>
+        <queriedFields>Address</queriedFields>
+        <sortField>Address</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Feedback_Email_Setting</name>
+        <label>Get Feedback Email Setting</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Org_Wide_Address</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Default</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Feedback_Email_Setting__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Org_Wide_Address</name>
+        <label>Get Org-Wide Address</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Any_Org_Wide_Address</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DisplayName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Feedback_Email_Setting.Org_Wide_Email_Display_Name__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrgWideEmailAddress</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Email_is_Send_Update_Notification_Count</name>
+        <label>Email is Send Update Notification Count</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Notification_Counter__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Notification_Counter__c</field>
+            <value>
+                <elementReference>Count</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Remainder_Email__c</field>
+            <value>
+                <elementReference>Send_Email_formula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Notification_Count</name>
+        <label>Update Notification Count</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Notification_Counter__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Notification_Counter__c</field>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Remainder_Email__c</field>
+            <value>
+                <elementReference>Send_Email_formula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Feedback_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Pending</stringValue>
+            </value>
+        </filters>
+        <object>Feedback_Item__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <scheduledPaths>
+            <name>Send_Feedback_Email_On_Start_Date</name>
+            <connector>
+                <targetReference>Get_Feedback_Email_Setting</targetReference>
+            </connector>
+            <label>Send Feedback Email On Start Date</label>
+            <offsetNumber>0</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
+            <recordField>Start_Date__c</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <scheduledPaths>
+            <name>Send_Feedback_Remainder_Email</name>
+            <connector>
+                <targetReference>Still_Status_is_pending</targetReference>
+            </connector>
+            <label>Send Feedback Remainder Email</label>
+            <offsetNumber>1</offsetNumber>
+            <offsetUnit>Minutes</offsetUnit>
+            <recordField>Remainder_Email__c</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>

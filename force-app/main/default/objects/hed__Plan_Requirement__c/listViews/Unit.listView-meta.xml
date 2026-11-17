@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unit</fullName>
+    <columns>NAME</columns>
+    <columns>hed__Program_Plan__c</columns>
+    <columns>Term__c</columns>
+    <columns>hed__Course__c</columns>
+    <columns>hed__Category__c</columns>
+    <columns>RECORDTYPE</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>hed__Plan_Requirement__c.Unit</value>
+    </filters>
+    <label>Unit</label>
+</ListView>

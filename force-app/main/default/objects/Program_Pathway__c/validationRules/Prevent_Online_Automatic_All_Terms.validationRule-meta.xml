@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Online_Automatic_All_Terms</fullName>
+    <active>true</active>
+    <description>This is to prevent online program from using &quot;Automatic all terms&quot; enrollment method.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Enrollment_Method__c, &quot;Automatic all terms&quot;),  ISPICKVAL( Program_Plan__r.Next_Starting_Term__r.Term_Label__c, &quot;Online&quot;))</errorConditionFormula>
+    <errorDisplayField>Enrollment_Method__c</errorDisplayField>
+    <errorMessage>Online Terms cannot be used for enrolling in all future terms</errorMessage>
+</ValidationRule>

@@ -1,0 +1,282 @@
+<apex:page controller="StudentIdCardController"
+           renderAs="pdf"
+           applyHtmlTag="false"
+           applyBodyTag="false"
+           showHeader="false"
+           sidebar="false"
+           standardStylesheets="false">
+
+<html>
+<head>
+<style type="text/css">
+
+@page {
+    size: 9cm 13.2cm;
+    margin: 0;
+}
+
+</style>
+</head>
+
+<body style="margin:0; padding:2px 0 0 0;
+             background:#ececec;
+             font-family:Arial, Helvetica, sans-serif;">
+
+<!-- OUTER CARD -->
+<table width="334" cellpadding="0" cellspacing="0" align="center"
+       style="border:2px solid #0b82c9; background:#ececec;">
+<tbody>
+
+    <!-- TOP GAP -->
+    <tr>
+        <td height="8"
+            style="font-size:1px; line-height:1px; background:#ececec;">
+            &nbsp;
+        </td>
+    </tr>
+
+    <!-- YELLOW HEADER -->
+    <tr>
+        <td style="background:#ffeb00; height:76px; padding:4px 0 4px 0;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <!-- Logo -->
+                    <td width="72" align="center" valign="middle"
+                        style="padding-left:6px;">
+                        <apex:image url="{!URLFOR($Resource.DSU_Id_card_Logo)}"
+                            width="62" height="62"/>
+                    </td>
+                    <!-- University Name -->
+                    <td valign="middle" style="padding-left:4px;">
+                        <div style="color:#0b82c9;
+                                    font-family:'Times New Roman',serif;
+                                    font-size:15pt;
+                                    font-weight:bold;
+                                    line-height:17pt;">
+                            DAYANANDA SAGAR
+                        </div>
+                        <div style="color:#0b82c9;
+                                    font-family:'Times New Roman',serif;
+                                    font-size:24pt;
+                                    font-weight:bold;
+                                    line-height:26pt;">
+                            UNIVERSITY
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- BLUE BANNER -->
+    <tr>
+        <td align="center"
+            style="background:#0b82c9;
+                   color:#ffffff;
+                   padding-top:5px;
+                   padding-bottom:5px;">
+            <div style="font-size:9pt; font-weight:bold;">
+                Centre for Distance and Online Education (CDOE)
+            </div>
+            <div style="font-size:6pt; font-weight:bold; margin-top:2px;">
+                Kudlu Gate, Hosur Main Road, Bengaluru 560068.
+                Phone : +91 9880147004
+            </div>
+            <div style="font-size:7pt; font-weight:bold; margin-top:2px;">
+                www.dsuonline.com
+            </div>
+        </td>
+    </tr>
+
+    <!-- CARD TITLE -->
+    <tr>
+        <td align="center"
+            style="color:#0b82c9;
+                   font-size:11pt;
+                   font-weight:bold;
+                   padding-top:10px;
+                   padding-bottom:6px;">
+            STUDENT E-ID CARD
+        </td>
+    </tr>
+
+    <!-- PHOTO ROW -->
+    <tr>
+        <td align="center"
+            style="padding-top:4px; padding-bottom:4px;">
+            <table cellpadding="0" cellspacing="0" align="center"
+                   style="border:1px solid #444444; background:#ffffff;"
+                   width="110" height="135">
+                <tr>
+                    <td width="110" height="135"
+                        align="center" valign="middle">
+
+                        <!-- Case 1: Raw HTML / base64 photo -->
+                        <apex:outputPanel rendered="{!hasPhotoHtml}">
+                            <apex:outputText value="{!photoHtml}"
+                                escape="false"/>
+                        </apex:outputPanel>
+
+                        <!-- Case 2: URL photo -->
+                        <apex:outputPanel rendered="{!AND(NOT(hasPhotoHtml),
+                            NOT(ISBLANK(studentPhotoUrl)))}">
+                            <img src="{!studentPhotoUrl}"
+                                 width="110" height="135"
+                                 style="display:block;"/>
+                        </apex:outputPanel>
+
+                        <!-- Case 3: No photo — table height holds the box -->
+                        <apex:outputPanel rendered="{!AND(NOT(hasPhotoHtml),
+                            ISBLANK(studentPhotoUrl))}">
+                            &nbsp;
+                        </apex:outputPanel>
+
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- NAME -->
+    <tr>
+        <td align="center"
+            style="font-size:10pt;
+                   font-weight:bold;
+                   padding-top:8px;
+                   padding-bottom:8px;">
+            <span style="color:#0b82c9;">NAME :</span>
+            <span style="color:#000000;">&nbsp;{!studentName}</span>
+        </td>
+    </tr>
+
+    <!-- DETAILS -->
+    <tr>
+        <td style="padding:0 8px 0 8px;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+
+                <!-- Row 1: USN | ACD YR -->
+                <tr>
+                    <td width="50%"
+                        style="padding:4px 4px 4px 6px; vertical-align:top;">
+                        <span style="color:#0b82c9; font-size:7.5pt;
+                            font-weight:bold;">USN :</span>
+                        <span style="color:#000000; font-size:7.5pt;
+                            font-weight:bold;">&nbsp;{!usn}</span>
+                    </td>
+                    <td width="50%"
+                        style="padding:4px 4px 4px 6px; vertical-align:top;">
+                        <span style="color:#0b82c9; font-size:7.5pt;
+                            font-weight:bold;">ACD YR :</span>
+                        <span style="color:#000000; font-size:7.5pt;
+                            font-weight:bold;">&nbsp;{!acadYear}</span>
+                    </td>
+                </tr>
+
+                <!-- Row 2: PROGRAM | DOB -->
+                <tr>
+                    <td width="50%"
+                        style="padding:4px 4px 4px 6px; vertical-align:top;">
+                        <span style="color:#0b82c9; font-size:7.5pt;
+                            font-weight:bold;">PROGRAM :</span>
+                        <span style="color:#000000; font-size:7.5pt;
+                            font-weight:bold;">&nbsp;{!program}</span>
+                    </td>
+                    <td width="50%"
+                        style="padding:4px 4px 4px 6px; vertical-align:top;">
+                        <span style="color:#0b82c9; font-size:7.5pt;
+                            font-weight:bold;">DOB :</span>
+                        <span style="color:#000000; font-size:7.5pt;
+                            font-weight:bold;">&nbsp;{!dob}</span>
+                    </td>
+                </tr>
+
+                <!-- Row 3: PHONE | BLOOD GP -->
+                <tr>
+                    <td width="50%"
+                        style="padding:4px 4px 4px 6px; vertical-align:top;">
+                        <span style="color:#0b82c9; font-size:7.5pt;
+                            font-weight:bold;">PHONE :</span>
+                        <span style="color:#000000; font-size:7.5pt;
+                            font-weight:bold;">&nbsp;{!phone}</span>
+                    </td>
+                    <td width="50%"
+                        style="padding:4px 4px 4px 6px; vertical-align:top;">
+                        <span style="color:#0b82c9; font-size:7.5pt;
+                            font-weight:bold;">BLOOD GP :</span>
+                        <span style="color:#000000; font-size:7.5pt;
+                            font-weight:bold;">&nbsp;{!bloodGroup}</span>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+
+    <!-- SIGNATURE IMAGES (same 30px slot the spacer used, so card height is unchanged) -->
+    <tr>
+        <td height="30">
+            <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <!-- Student: Document_Checklist__c 'Signature' synced from Meritto -->
+                    <td height="30" align="left" valign="bottom"
+                        style="font-size:1px; line-height:1px; padding-left:14px;">
+                        <apex:outputPanel rendered="{!hasSignature}">
+                            <img src="{!signatureUrl}"
+                                 width="90" height="28"
+                                 style="display:block; width:90px; height:28px; mix-blend-mode:multiply;"/>
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!NOT(hasSignature)}">
+                            &nbsp;
+                        </apex:outputPanel>
+                    </td>
+                    <!-- Registrar: uploaded on the Registrar Signature tab -->
+                    <td width="110" height="30" align="center" valign="bottom"
+                        style="font-size:1px; line-height:1px; padding-right:14px;">
+                        <apex:outputPanel rendered="{!hasRegistrarSignature}">
+                            <img src="{!registrarSignatureUrl}"
+                                 width="90" height="28"
+                                 style="display:block; width:90px; height:28px; margin:0 auto;"/>
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!NOT(hasRegistrarSignature)}">
+                            &nbsp;
+                        </apex:outputPanel>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- SIGNATURES -->
+    <tr>
+        <td>
+            <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td align="left"
+                        style="font-size:8pt; font-weight:bold;
+                               padding-left:14px;">
+                        Student Signature
+                    </td>
+                    <td width="110" align="center"
+                        style="font-size:8pt; font-weight:bold;
+                               padding-right:14px;">
+                        Registrar
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- BOTTOM GAP -->
+    <tr>
+        <td height="20"
+            style="font-size:1px; line-height:1px; background:#ececec;">
+            &nbsp;
+        </td>
+    </tr>
+
+</tbody>
+</table>
+
+</body>
+</html>
+</apex:page>

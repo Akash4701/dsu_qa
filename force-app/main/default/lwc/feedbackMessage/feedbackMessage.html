@@ -1,0 +1,10 @@
+<template>
+    <div class="fh-card fh-empty fh-fade-in" role={role}>
+        <span class={iconWrapClass}>
+            <lightning-icon icon-name={resolvedIcon} size="small" alternative-text=""></lightning-icon>
+        </span>
+        <h3 class="fh-subtitle title">{resolvedTitle}</h3>
+        <p class="fh-body fh-muted text">{message}</p>
+        <button lwc:if={hasAction} type="button" class="fh-btn fh-btn_primary" onclick={handleAction}>{actionLabel}</button>
+    </div>
+</template>

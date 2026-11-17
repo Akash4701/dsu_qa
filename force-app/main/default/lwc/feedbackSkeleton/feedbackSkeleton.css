@@ -1,0 +1,7 @@
+@import 'c/feedbackHomeStyles';
+
+.line_sm { height: 0.75rem; width: 35%; margin-bottom: 0.75rem; }
+.line_md { height: 0.75rem; width: 70%; margin-bottom: 0.75rem; }
+.line_lg { height: 1.75rem; width: 50%; margin-bottom: 0.75rem; }
+.row { height: 2.5rem; margin-bottom: 0.75rem; }
+.row:last-child { margin-bottom: 0; }

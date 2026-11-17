@@ -1,0 +1,57 @@
+<template>
+    <div style="min-height: 350px; display: block;">
+    <lightning-card title="Update Feedback Dates" icon-name="standard:event">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading feedback dates" size="medium"></lightning-spinner>
+        </template>
+
+        <div class="slds-p-around_medium">
+            <template if:true={isStepOne}>
+                <p class="slds-m-bottom_small">
+                    Step 1: Select one or more Feedback Schedulers.
+                </p>
+                <lightning-datatable
+                    key-field="Id"
+                    data={schedulers}
+                    columns={schedulerColumns}
+                    onrowselection={handleSchedulerSelection}
+                ></lightning-datatable>
+
+                <div class="slds-m-top_medium slds-grid slds-grid_align-end">
+                    <lightning-button
+                        variant="brand"
+                        label="Next"
+                        onclick={handleNext}
+                        disabled={isNextDisabled}
+                    ></lightning-button>
+                </div>
+            </template>
+
+            <template if:true={isStepTwo}>
+                <p class="slds-m-bottom_small">
+                    Edit the Feedback Start Date and End Date for each Course Offering.
+                </p>
+                <lightning-datatable
+                    key-field="courseOfferingId"
+                    data={courseOfferings}
+                    columns={courseOfferingColumns}
+                    draft-values={draftValues}
+                    oncellchange={handleCellChange}
+                    onsave={handleSave}
+                    oncancel={handleCancelEdit}
+                ></lightning-datatable>
+
+                <template if:false={isSingleSchedulerMode}>
+                    <div class="slds-m-top_medium slds-grid slds-grid_align-end">
+                        <lightning-button
+                            variant="neutral"
+                            label="Back"
+                            onclick={handleBack}
+                        ></lightning-button>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+    </div>
+</template>

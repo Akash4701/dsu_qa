@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>RegistrarSignatureController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Manage_ID_Card_Settings</name>
+    </customPermissions>
+    <description>Admins who manage the Registrar signature on Student E-ID Cards.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>ID Card Settings Admin</label>
+    <tabSettings>
+        <tab>Registrar_Signature</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

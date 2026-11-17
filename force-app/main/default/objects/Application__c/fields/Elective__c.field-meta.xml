@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Elective__c</fullName>
+    <label>Elective</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cloud Computing Technologies</fullName>
+                <default>false</default>
+                <label>Cloud Computing Technologies</label>
+            </value>
+            <value>
+                <fullName>Data Science</fullName>
+                <default>false</default>
+                <label>Data Science</label>
+            </value>
+            <value>
+                <fullName>Blockchain Technologies</fullName>
+                <default>false</default>
+                <label>Blockchain Technologies</label>
+            </value>
+            <value>
+                <fullName>Quantum Computing</fullName>
+                <default>false</default>
+                <label>Quantum Computing</label>
+            </value>
+            <value>
+                <fullName>Artificial Intelligence</fullName>
+                <default>false</default>
+                <label>Artificial Intelligence</label>
+            </value>
+            <value>
+                <fullName>Deep Learning</fullName>
+                <default>false</default>
+                <label>Deep Learning</label>
+            </value>
+            <value>
+                <fullName>Big Data Analytics</fullName>
+                <default>false</default>
+                <label>Big Data Analytics</label>
+            </value>
+            <value>
+                <fullName>IoT</fullName>
+                <default>false</default>
+                <label>IoT</label>
+            </value>
+            <value>
+                <fullName>Natural Language Processing</fullName>
+                <default>false</default>
+                <label>Natural Language Processing</label>
+            </value>
+            <value>
+                <fullName>DevOps</fullName>
+                <default>false</default>
+                <label>DevOps</label>
+            </value>
+            <value>
+                <fullName>Mobile Programming</fullName>
+                <default>false</default>
+                <label>Mobile Programming</label>
+            </value>
+            <value>
+                <fullName>Blockchain Technology</fullName>
+                <default>false</default>
+                <label>Blockchain Technology</label>
+            </value>
+            <value>
+                <fullName>Database Administration</fullName>
+                <default>false</default>
+                <label>Database Administration</label>
+            </value>
+            <value>
+                <fullName>Full Stack Development</fullName>
+                <default>false</default>
+                <label>Full Stack Development</label>
+            </value>
+            <value>
+                <fullName>Machine Learning</fullName>
+                <default>false</default>
+                <label>Machine Learning</label>
+            </value>
+            <value>
+                <fullName>Game Programming</fullName>
+                <default>false</default>
+                <label>Game Programming</label>
+            </value>
+            <value>
+                <fullName>Ethical Hacking</fullName>
+                <default>false</default>
+                <label>Ethical Hacking</label>
+            </value>
+            <value>
+                <fullName>Advance Database(Nosql)</fullName>
+                <default>false</default>
+                <label>Advance Database(Nosql)</label>
+            </value>
+            <value>
+                <fullName>Financial Management</fullName>
+                <default>false</default>
+                <label>Financial Management</label>
+            </value>
+            <value>
+                <fullName>Human Resource</fullName>
+                <default>false</default>
+                <label>Human Resource</label>
+            </value>
+            <value>
+                <fullName>Marketing Management</fullName>
+                <default>false</default>
+                <label>Marketing Management</label>
+            </value>
+            <value>
+                <fullName>IT &amp; Systems Management</fullName>
+                <default>false</default>
+                <label>IT &amp; Systems Management</label>
+            </value>
+            <value>
+                <fullName>Supply Chain Management</fullName>
+                <default>false</default>
+                <label>Supply Chain Management</label>
+            </value>
+            <value>
+                <fullName>Entrepreneurship Management</fullName>
+                <default>false</default>
+                <label>Entrepreneurship Management</label>
+            </value>
+            <value>
+                <fullName>Business Analytics</fullName>
+                <default>false</default>
+                <label>Business Analytics</label>
+            </value>
+            <value>
+                <fullName>Digital Marketing</fullName>
+                <default>false</default>
+                <label>Digital Marketing</label>
+            </value>
+            <value>
+                <fullName>FinTech</fullName>
+                <default>false</default>
+                <label>FinTech</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

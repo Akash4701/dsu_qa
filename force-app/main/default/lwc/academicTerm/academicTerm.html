@@ -1,0 +1,293 @@
+<template>
+    <lightning-card title="Academic Term Management">
+        <div class="slds-m-around_medium">
+
+            <!-- Loading Spinner -->
+            <div if:true={isLoading} class="slds-is-relative">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+
+            <!-- Academic Program Dropdown -->
+            <div class="slds-grid slds-gutters slds-wrap slds-var-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                    <lightning-combobox label="Academic Program" placeholder="Select Academic Program"
+                        value={selectedAcademicProgram} options={academicProgramOptions}
+                        onchange={handleAcademicProgramChange} required disabled={isLoading}>
+                    </lightning-combobox>
+                </div>
+            </div>
+
+            <!-- Program Plan Dropdown -->
+            <div class="slds-grid slds-gutters slds-wrap slds-var-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                    <lightning-combobox label="Program Plan" placeholder="Select Program Plan"
+                        value={selectedProgramPlan} options={programPlanOptions} onchange={handleProgramPlanChange}
+                        required disabled={isProgramPlanDisabled}>
+                    </lightning-combobox>
+                </div>
+            </div>
+
+            <!-- Terms Section -->
+            <template if:true={isTermSectionVisible}>
+                <div class="slds-var-m-top_large">
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate slds-p-horizontal_small">Terms & Academic Term Mapping</span>
+                        </h3>
+                        <div class="slds-section__content slds-p-around_medium">
+
+                            <!-- Terms List -->
+                            <template for:each={termOptions} for:item="term">
+                                <div key={term.value} class="slds-box slds-theme_default slds-var-m-bottom_medium">
+
+                                    <!-- Term Header -->
+                                    <div class="slds-grid slds-gutters slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1">
+                                            <h4 class="slds-text-heading_small slds-var-m-bottom_small">
+                                                <lightning-icon size="small"
+                                                    class="slds-m-right_x-small"></lightning-icon>
+                                                {term.label}
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                    <!-- Current Academic Term Mapping Display 
+                                    <template if:true={term.hasAcademicTerm}>
+                                        <div
+                                            class="slds-notify slds-notify_alert slds-alert_success slds-var-m-bottom_small">
+                                            <span class="slds-assistive-text">Success</span>
+                                            <lightning-icon icon-name="utility:success" size="small"
+                                                class="slds-m-right_x-small"></lightning-icon>
+                                            <h2>
+                                                <strong>Mapped Academic Term:</strong> {term.academicTermLabel}
+                                                <br />
+                                                <small>Academic Year: {term.academicYear} | Season:
+                                                    {term.season}</small>
+                                            </h2>
+                                        </div>
+                                    </template>-->
+
+                                    <!--<template if:false={term.hasAcademicTerm}>
+                                        <div
+                                            class="slds-notify slds-notify_alert slds-alert_warning slds-var-m-bottom_small">
+                                            <span class="slds-assistive-text">Warning</span>
+                                            <lightning-icon icon-name="utility:warning" size="small"
+                                                class="slds-m-right_x-small"></lightning-icon>
+                                            <h2>No Academic Term mapped to this term</h2>
+                                        </div>
+                                    </template> -->
+
+                                    <!-- Academic Term Selection and Actions -->
+                                    <div class="slds-grid slds-gutters slds-wrap slds-var-m-bottom_small">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
+                                            <lightning-combobox name="academicTerm" label="Select Academic Term"
+                                                value={term.selectedAcademicTermId} options={academicTermOptions}
+                                                onchange={handleAcademicTermChange} data-term-id={term.value}
+                                                placeholder="Choose an Academic Term">
+                                            </lightning-combobox>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3"
+                                            style="margin-top: 25px;">
+                                            <lightning-button label="Map Selected Term" variant="brand-outline"
+                                                onclick={handleMapAcademicTerm} data-term-id={term.value}
+                                                disabled={term.isMapDisabled} class="slds-var-m-left_x-small">
+                                            </lightning-button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="slds-grid slds-gutters slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                            <lightning-button label="Create New Academic Term" variant="brand"
+                                                onclick={handleCreateAcademicTermForTerm} data-term-id={term.value}
+                                                data-term-label={term.label}>
+                                            </lightning-button>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                            <lightning-button label="Update Academic Term" variant="success"
+                                                onclick={handleUpdateAcademicTermForTerm} data-term-id={term.value}
+                                                data-term-label={term.label} disabled={term.isUpdateDisabled}>
+                                            </lightning-button>
+                                        </div>
+                                        <!--  <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                            <lightning-button label="Remove Mapping" variant="destructive-text"
+                                                onclick={handleRemoveMapping} data-term-id={term.value}
+                                                disabled={term.isRemoveDisabled}>
+                                            </lightning-button>
+                                        </div> -->
+                                    </div>
+
+                                    <!-- Term Details 
+                                    <template if:true={term.hasAcademicTerm}>
+                                        <div class="slds-var-m-top_small slds-p-top_small slds-border_top">
+                                            <dl class="slds-list_horizontal slds-wrap">
+                                                <dt class="slds-item_label slds-text-color_weak slds-truncate">Start
+                                                    Date:</dt>
+                                                <dd class="slds-item_detail slds-truncate">{term.startDate}</dd>
+                                                <dt class="slds-item_label slds-text-color_weak slds-truncate">End Date:
+                                                </dt>
+                                                <dd class="slds-item_detail slds-truncate">{term.endDate}</dd>
+                                                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                                                    Registration Open:</dt>
+                                                <dd class="slds-item_detail slds-truncate">{term.registrationOpenDate}
+                                                </dd>
+                                                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                                                    Registration Close:</dt>
+                                                <dd class="slds-item_detail slds-truncate">{term.registrationCloseDate}
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </template>-->
+                                </div>
+                            </template>
+
+                            <!-- Global Academic Term Management 
+                            <div class="slds-box slds-theme_inverse slds-var-m-top_large">
+                                <h3 class="slds-text-heading_small slds-var-m-bottom_small slds-text-color_inverse">
+                                    <lightning-icon icon-name="utility:settings" size="small"
+                                        class="slds-m-right_x-small"></lightning-icon>
+                                    Global Academic Term Management
+                                </h3>
+
+                                <div class="slds-grid slds-gutters slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
+                                        <lightning-combobox label="Select Academic Term to Edit"
+                                            placeholder="Choose an Academic Term" value={selectedAcademicTermForEdit}
+                                            options={academicTermOptions} onchange={handleAcademicTermSelection}
+                                            variant="label-hidden">
+                                        </lightning-combobox>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                        <div class="slds-grid slds-gutters">
+                                            <div class="slds-col">
+                                                <lightning-button label="Create Global Term"
+                                                    onclick={handleCreateGlobalAcademicTerm} variant="brand">
+                                                </lightning-button>
+                                            </div>
+                                            <div class="slds-col">
+                                                <lightning-button label="Edit Selected"
+                                                    onclick={handleUpdateGlobalAcademicTerm} variant="success"
+                                                    disabled={isGlobalUpdateDisabled}>
+                                                </lightning-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+
+    <!-- Create/Update Academic Term Modal -->
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Header -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleModalClose}>
+                        <lightning-icon icon-name="utility:close" alternative-text="Close"
+                            size="small"></lightning-icon>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium">{modalTitle}</h2>
+                </header>
+
+                <!-- Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <!-- Information Section -->
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade slds-text-title_caps">Academic Term Information
+                        </h3>
+                        <div class="slds-section__content">
+                            <!-- Two-Column Layout -->
+                            <div class="slds-grid slds-gutters_medium">
+                                <!-- Column 1 -->
+                                <div class="slds-col slds-size_6-of-12">
+                                    <!-- Academic Term Name -->
+                                    <div class="slds-form-element slds-m-bottom_small">
+                                        <lightning-input name="Name" label="Academic Term Name*"
+                                            value={newAcademicTerm.Name} onchange={handleInputChange} required>
+                                        </lightning-input>
+                                    </div>
+
+                                    <!-- Active Checkbox -->
+                                    <div class="slds-form-element slds-m-bottom_small">
+                                        <lightning-input type="checkbox" name="IsActive__c" label="Active"
+                                            checked={newAcademicTerm.IsActive__c} onchange={handleInputChange}>
+                                        </lightning-input>
+                                    </div>
+
+                                    <!-- Season Combobox -->
+                                    <div class="slds-form-element slds-m-bottom_small">
+                                        <lightning-combobox name="Season__c" label="Season*"
+                                            value={newAcademicTerm.Season__c} options={seasonOptions}
+                                            onchange={handleInputChange} required>
+                                        </lightning-combobox>
+                                    </div>
+
+                                    <!-- Academic Year -->
+                                    <div class="slds-form-element slds-m-bottom_small">
+                                        <lightning-input name="Academic_Year__c" label="Academic Year*"
+                                            value={newAcademicTerm.Academic_Year__c} onchange={handleInputChange}
+                                            required>
+                                        </lightning-input>
+                                    </div>
+
+                                    <!-- External Id -->
+                                    <div class="slds-form-element slds-m-bottom_small">
+                                        <lightning-input name="External_Id__c" label="External Id"
+                                            value={newAcademicTerm.External_Id__c} onchange={handleInputChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+
+                                <!-- Column 2 -->
+                                <div class="slds-col slds-size_6-of-12">
+                                    <!-- Start Date -->
+                                    <div class="slds-form-element slds-m-bottom_small">
+                                        <lightning-input type="date" name="Start_Date__c" label="Start Date*"
+                                            value={newAcademicTerm.Start_Date__c} onchange={handleInputChange} required>
+                                        </lightning-input>
+                                    </div>
+
+                                    <!-- End Date -->
+                                    <div class="slds-form-element slds-m-bottom_small">
+                                        <lightning-input type="date" name="End_Date__c" label="End Date*"
+                                            value={newAcademicTerm.End_Date__c} onchange={handleInputChange} required>
+                                        </lightning-input>
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+
+                            <!-- Description - Full Width -->
+                            <div class="slds-form-element slds-m-bottom_small">
+                                <lightning-textarea name="Description__c" label="Description"
+                                    value={newAcademicTerm.Description__c} onchange={handleInputChange}>
+                                </lightning-textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="slds-modal__footer">
+                    <div class="slds-grid slds-grid_align-end slds-gutters">
+                        <div class="slds-col">
+                            <lightning-button label="Cancel" onclick={handleModalClose} class="slds-var-m-right_small">
+                            </lightning-button>
+                            <lightning-button label={saveButtonLabel} variant="brand" onclick={handleSaveAcademicTerm}
+                                disabled={isSaveDisabled}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

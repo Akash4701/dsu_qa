@@ -1,0 +1,98 @@
+<template>
+	<div>
+		<div class="slds-modal__header">
+			<h2 class="slds-text-heading--medium">Create Program Campus Combinations</h2>
+		</div>
+		<div class="slds-modal__content slds-p-around--large slds-m-bottom_large">
+			<lightning-spinner if:true={isLoading} size="medium"></lightning-spinner>
+			<div class="slds-grid slds-gutters">
+				<div class="slds-col slds-size_5-of-12">
+					<span class="evaLable"><abbr class="slds-required" title="required">* </abbr>Combination Name</span>
+					<lightning-input type="text" name="combinationName" variant="label-hidden" value={combinationName}
+						placeholder="Enter Combination Name" onchange={handleChange} required> </lightning-input>
+				</div>
+				<div class="slds-col slds-size_5-of-12">
+					<span class="evaLable">Program</span>
+					<lightning-input name="program" variant="label-hidden" value={program} disabled></lightning-input>
+				</div>
+			</div>
+			<template if:true={showMapping}>
+				<div class="addRowBtnBox">
+					<div>
+						<span class="InstructionText">Add Campus-Term Combinations for selected program</span>
+					</div>
+					<div>
+						<!--<lightning-button variant="neutral" label="Add Row" onclick={addRow}> </lightning-button>-->
+						<button class="slds-button slds-button_brand AddRowBtn" onclick={addRow}>Add Row</button>
+					</div>
+				</div>
+				<div class="eva_table">
+					<table class="slds-table slds-table_cell-buffer">
+						<thead>
+							<tr class="slds-line-height_reset">
+								<th style="width: 10%" scope="col">
+									<div class="slds-truncate" title="Sequence Number">Sequence</div>
+								</th>
+								<th scope="col" style="width: 50%">
+									<div class="slds-truncate" title="Term">Term</div>
+								</th>
+								<th scope="col" style="width: 30%">
+									<div class="slds-truncate" title="Campus">Campus</div>
+								</th>
+								<th scope="col" style="width: 30%">
+									<div class="slds-truncate" title="Currency">Currency</div>
+								</th>
+								<th style="width: 10%" scope="col">
+									<div class="slds-truncate" title="deleteIcon"></div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<template for:each={termCampusRelationshipList} for:item="rec" for:index="index">
+								<tr key={rec.sequenceNumber} class="slds-hint-parent evaTableRow">
+									<td style="width: 100px" data-label="Sequence Number">
+										<div class="slds-truncate" title={rec.sequenceNumber}>
+											{rec.sequenceNumber}
+										</div>
+									</td>
+									<td data-label="Term">
+										<lightning-combobox name="term" value={rec.term} placeholder="Select Term"
+											options={termOptions} onchange={handleChange} data-index={index}
+											variant="label-hidden" dropdown-alignment="auto"></lightning-combobox>
+									</td>
+									<td data-label="Campus">
+										<lightning-combobox name="campus" value={rec.campus} placeholder="Select Campus"
+											options={campusOptions} onchange={handleChange} data-index={index}
+											variant="label-hidden" dropdown-alignment="auto"></lightning-combobox>
+									</td>
+									<td data-label="Currency">
+										<lightning-combobox name="currencyValue" value={rec.currencyValue}
+											placeholder="Select Currency" options={currencyOptions}
+											onchange={handleChange} data-index={index} variant="label-hidden"
+											dropdown-alignment="auto"></lightning-combobox>
+									</td>
+									<td style="width: 50px" data-label="deleteIcon">
+										<lightning-button-icon icon-name="utility:delete" size="medium"
+											class="btnDelete red-icon" variant="border-filled" data-index={index}
+											alternative-text="Delete Row" onclick={deleteRow}>
+										</lightning-button-icon>
+									</td>
+								</tr>
+							</template>
+						</tbody>
+					</table>
+				</div>
+			</template>
+		</div>
+
+		<footer class="slds-modal__footer margin-top">
+			<lightning-button class="slds-p-right--small" variant="brand" name="save" label="Save" onclick={handleSave}
+				disabled={disableSave}>
+			</lightning-button>
+			<lightning-button class="slds-p-right--small" variant="brand" name="saveandnew" label="Save & New"
+				onclick={handleSaveAndNew} disabled={disableSave}>
+			</lightning-button>
+			<lightning-button name="cancel" label="Cancel" onclick={handleCancel}> </lightning-button>
+		</footer>
+	</div>
+</template>

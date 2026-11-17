@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VF_Page_URL__c</fullName>
+    <externalId>false</externalId>
+    <formula>&quot;https://ken426--staging.sandbox.my.salesforce-sites.com/QuestionPaperApprovalPage?core.apexpages.request.devconsole=1&amp;qpId=&quot;+Id+&quot;&amp;&quot;+&quot;contactId=&quot;+Submitted_By__c</formula>
+    <label>VF Page URL</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

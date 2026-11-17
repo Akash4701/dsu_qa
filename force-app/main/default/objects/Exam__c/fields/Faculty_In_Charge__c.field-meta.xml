@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Faculty_In_Charge__c</fullName>
+    <label>Faculty-In-Charge</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Ganesh</fullName>
+                <default>false</default>
+                <label>Ganesh</label>
+            </value>
+            <value>
+                <fullName>Ramesh</fullName>
+                <default>false</default>
+                <label>Ramesh</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mode_Of_Payment__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    INCLUDES(Fee_Type__r.Accepted_Payment_Modes__c, &quot;Online&quot;),
+    &quot;Online, &quot;,
+    &quot;&quot;
+) &amp;
+IF(
+    INCLUDES(Fee_Type__r.Accepted_Payment_Modes__c, &quot;Bank transfer&quot;),
+    &quot;Bank transfer, &quot;,
+    &quot;&quot;
+) &amp;
+IF(
+    INCLUDES(Fee_Type__r.Accepted_Payment_Modes__c, &quot;FlyWire&quot;),
+    &quot;FlyWire, &quot;,
+    &quot;&quot;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Mode Of Payment</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

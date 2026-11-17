@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Portal_Login_URL__c</fullName>
+    <description>Student portal login URL for this org (DEV, QA, UAT or Production). Feedback emails link to this value, so each environment sets its own record and no template edit is needed.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Full login URL of the student portal for this environment, e.g. https://dsu-portal-pfs-dev.ken42.com/login</inlineHelpText>
+    <label>Portal Login URL</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

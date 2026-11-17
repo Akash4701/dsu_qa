@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CLINICAL_F_CODE__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE( CLINICAL__c , 
+	&quot;Not clinical academic&quot;, &apos;0&apos;,
+	&quot;Clinical academic doctors and dentists&quot;, &apos;1&apos;,
+	&quot;Clinical academic nurses and midwives&quot;, &apos;2&apos;,
+	&quot;Clinical academic health professions&quot;, &apos;3&apos;,
+	&quot;Other clinical academic staff&quot;, &apos;4&apos;,
+null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>CLINICAL CODE</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

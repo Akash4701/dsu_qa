@@ -1,0 +1,12 @@
+<template>
+    <article class={cardClass}>
+        <div class="fh-spread">
+            <span class="fh-eyebrow">{label}</span>
+            <span class={iconClass}>
+                <lightning-icon icon-name={iconName} size="x-small" alternative-text={label} variant="inverse"></lightning-icon>
+            </span>
+        </div>
+        <div class="value">{value}</div>
+        <div class="fh-small fh-muted">{sub}</div>
+    </article>
+</template>

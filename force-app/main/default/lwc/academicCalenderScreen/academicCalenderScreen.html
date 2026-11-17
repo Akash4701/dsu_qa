@@ -1,0 +1,502 @@
+<!-- academicProgramPlan.html -->
+<template>
+    <lightning-card>
+        <!-- NEW: Configuration Status Banner -->
+        <template if:true={showConfigurationBanner}>
+            <div class="slds-notify slds-notify_alert slds-alert_info slds-var-m-bottom_medium" role="alert">
+                <span class="slds-assistive-text">Configuration Info</span>
+                <lightning-icon icon-name="utility:settings" size="small" class="slds-m-right_x-small"
+                    alternative-text="Configuration"></lightning-icon>
+                <h2>
+                    <strong>Active Configuration:</strong> {configurationLabel}
+                    <br />
+                    <small>Mode: {configurationModeText}</small>
+                </h2>
+            </div>
+        </template>
+
+        <div class="slds-grid slds-gutters slds-p-horizontal_medium">
+            <!-- Academic Program dropdown -->
+            <div class="slds-col slds-size_1-of-4">
+                <lightning-combobox label="Academic program" value={selectedAcademicProgram} options={academicPrograms}
+                    onchange={handleAcademicProgramChange} class="slds-p-bottom_small">
+                </lightning-combobox>
+            </div>
+            <!-- Program Plan dropdown -->
+            <div class="slds-col slds-size_1-of-4">
+                <lightning-combobox label="Program plan" value={selectedProgramPlan} options={programPlans}
+                    onchange={handleProgramPlanChange} class="slds-p-bottom_small">
+                </lightning-combobox>
+            </div>
+            <!-- Working Days -->
+            <div class="slds-col slds-size_1-of-4">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">Working Days:</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-text-body_regular">{workingDays}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Action Buttons removed from here -->
+        </div>
+
+        <!-- Terms Section with single-line accordion layout -->
+        <div class="slds-p-horizontal_medium slds-p-top_medium">
+
+            <!-- NEW: Mode indicator section -->
+            <template if:true={effectiveRequirementMode}>
+                <div class="slds-var-m-bottom_medium">
+                    <div class="slds-text-body_small slds-text-color_weak">
+                        <lightning-icon icon-name="utility:lock" size="xx-small"
+                            class="slds-m-right_xx-small"></lightning-icon>
+                        <strong>Strict Mode:</strong> Semester durations are auto-calculated and read-only
+                    </div>
+                </div>
+            </template>
+
+            <template if:false={effectiveRequirementMode}>
+                <div class="slds-var-m-bottom_medium">
+                    <div class="slds-text-body_small slds-text-color_weak">
+                        <lightning-icon icon-name="utility:edit" size="xx-small"
+                            class="slds-m-right_xx-small"></lightning-icon>
+                        <strong>Flexible Mode:</strong> Semester durations can be manually edited
+                    </div>
+                </div>
+            </template>
+
+            <!-- UPDATED: Strict Mode Template with required field indicators -->
+            <template if:true={isStrictMode}>
+                <template for:each={terms} for:item="term">
+                    <div key={term.id} class="slds-box slds-box_xx-small slds-m-bottom_small">
+                        <div class="slds-grid slds-grid_align-spread slds-p-around_xx-small">
+                            <!-- Term name with toggle button -->
+                            <div class="slds-col" style="width: 20%;">
+                                <lightning-button-icon icon-name={term.expandIconName}
+                                    alternative-text={term.expandAltText} class="slds-m-right_x-small"
+                                    onclick={toggleTermExpansion} data-term-id={term.id}>
+                                </lightning-button-icon>
+                                <span class="slds-text-heading_small">{term.name}</span>
+                            </div>
+
+                            <!-- Term Duration (Disabled in Strict Mode but required) -->
+                            <div class="slds-col slds-m-right_medium" style="width: 20%;">
+                                <div class="slds-form-element" class:slds-has-error={term.hasDurationError}>
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr>
+                                        Semester duration (in weeks):
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input type="number" value={term.termDuration} data-term-id={term.id}
+                                            data-field="termDuration" onchange={handleDateChange} min="1"
+                                            variant="label-hidden" disabled
+                                            class:slds-has-error={term.hasDurationError}>
+                                        </lightning-input>
+                                    </div>
+                                    <!-- Error message for duration -->
+                                    <template if:true={term.hasDurationError}>
+                                        <div class="slds-form-element__help slds-text-color_error">
+                                            Semester duration is required
+                                        </div>
+                                    </template>
+                                </div>
+                                <!-- Strict mode indicator -->
+                                <div class="slds-text-body_small slds-text-color_weak slds-var-m-top_xx-small">
+                                    <lightning-icon icon-name="utility:info" size="xx-small"
+                                        class="slds-m-right_xx-small"></lightning-icon>
+                                    Auto-calculated
+                                </div>
+                            </div>
+
+                            <!-- Start Date -->
+                            <div class="slds-col slds-m-right_medium" style="width: 20%;">
+                                <div class="slds-form-element" class:slds-has-error={term.hasStartDateError}>
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr>
+                                        Start date:
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input type="date" value={term.startDate} data-field="startDate"
+                                            data-term-id={term.id} onchange={handleDateChange} variant="label-hidden"
+                                            class="slds-inline" class:slds-has-error={term.hasStartDateError}>
+                                        </lightning-input>
+                                    </div>
+                                    <!-- Error message for start date -->
+                                    <template if:true={term.hasStartDateError}>
+                                        <div class="slds-form-element__help slds-text-color_error">
+                                            Start date is required
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- End Date with Add Activity button positioned next to it -->
+                            <div class="slds-col" style="width: 40%;">
+                                <div class="slds-grid">
+                                    <div class="slds-col" style="width: 50%;">
+                                        <div class="slds-form-element" class:slds-has-error={term.hasEndDateError}>
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr>
+                                                End date:
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input type="date" value={term.endDate} data-field="endDate"
+                                                    data-term-id={term.id} onchange={handleDateChange}
+                                                    variant="label-hidden" class="slds-inline"
+                                                    class:slds-has-error={term.hasEndDateError}>
+                                                </lightning-input>
+                                            </div>
+                                            <!-- Error message for end date -->
+                                            <template if:true={term.hasEndDateError}>
+                                                <div class="slds-form-element__help slds-text-color_error">
+                                                    End date is required
+                                                </div>
+                                            </template>
+                                            <!-- NEW: Auto-calculation indicator -->
+                                            <template if:true={term.startDate}>
+                                                <template if:true={term.termDuration}>
+                                                    <div
+                                                        class="slds-text-body_small slds-text-color_weak slds-var-m-top_xx-small">
+                                                        <lightning-icon icon-name="utility:automate" size="xx-small"
+                                                            class="slds-m-right_xx-small"></lightning-icon>
+                                                        Auto-calculated from start date + duration
+                                                    </div>
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <!-- Add activity button moved here -->
+                                    <div class="slds-col slds-p-left_small" style="width: 50%; align-self: flex-end;">
+                                        <lightning-button label="Add activity" variant="brand"
+                                            onclick={openAddActivityModal} data-term-id={term.id}>
+                                        </lightning-button>
+
+                                        <!-- Save button only shows when dirty -->
+                                        <template if:true={term.isDirty}>
+                                            <lightning-button label="Save" variant="brand" onclick={saveTermChanges}
+                                                data-term-id={term.id} class="slds-m-right_x-medium">
+                                            </lightning-button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activities Table (shown when expanded) -->
+                        <div class="slds-p-around_small" if:true={term.isExpanded}>
+                            <lightning-datatable key-field="id" data={term.activitiesFormatted} columns={columns}
+                                hide-checkbox-column max-row-selection="1" onrowaction={handleRowAction}
+                                show-row-number-column>
+                            </lightning-datatable>
+                        </div>
+                    </div>
+                </template>
+            </template>
+
+            <!-- UPDATED: Flexible Mode Template with required field indicators -->
+            <template if:true={isFlexibleMode}>
+                <template for:each={terms} for:item="term">
+                    <div key={term.id} class="slds-box slds-box_xx-small slds-m-bottom_small">
+                        <div class="slds-grid slds-grid_align-spread slds-p-around_xx-small">
+                            <!-- Term name with toggle button -->
+                            <div class="slds-col" style="width: 20%;">
+                                <lightning-button-icon icon-name={term.expandIconName}
+                                    alternative-text={term.expandAltText} class="slds-m-right_x-small"
+                                    onclick={toggleTermExpansion} data-term-id={term.id}>
+                                </lightning-button-icon>
+                                <span class="slds-text-heading_small">{term.name}</span>
+                            </div>
+
+                            <!-- Term Duration (Editable in Flexible Mode and required) -->
+                            <div class="slds-col slds-m-right_medium" style="width: 20%;">
+                                <div class="slds-form-element" class:slds-has-error={term.hasDurationError}>
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr>
+                                        Semester duration (in weeks):
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input type="number" value={term.termDuration} data-term-id={term.id}
+                                            data-field="termDuration" onchange={handleDateChange} min="1"
+                                            variant="label-hidden" class:slds-has-error={term.hasDurationError}>
+                                        </lightning-input>
+                                    </div>
+                                    <!-- Error message for duration -->
+                                    <template if:true={term.hasDurationError}>
+                                        <div class="slds-form-element__help slds-text-color_error">
+                                            Semester duration is required
+                                        </div>
+                                    </template>
+                                </div>
+                                <!-- Flexible mode indicator -->
+                                <div class="slds-text-body_small slds-text-color_weak slds-var-m-top_xx-small">
+                                    <lightning-icon icon-name="utility:edit" size="xx-small"
+                                        class="slds-m-right_xx-small"></lightning-icon>
+                                    Manual entry
+                                </div>
+                            </div>
+
+                            <!-- Start Date -->
+                            <div class="slds-col slds-m-right_medium" style="width: 20%;">
+                                <div class="slds-form-element" class:slds-has-error={term.hasStartDateError}>
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr>
+                                        Start date:
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input type="date" value={term.startDate} data-field="startDate"
+                                            data-term-id={term.id} onchange={handleDateChange} variant="label-hidden"
+                                            class="slds-inline" class:slds-has-error={term.hasStartDateError}>
+                                        </lightning-input>
+                                    </div>
+                                    <!-- Error message for start date -->
+                                    <template if:true={term.hasStartDateError}>
+                                        <div class="slds-form-element__help slds-text-color_error">
+                                            Start date is required
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- End Date with Add Activity button positioned next to it -->
+                            <div class="slds-col" style="width: 40%;">
+                                <div class="slds-grid">
+                                    <div class="slds-col" style="width: 50%;">
+                                        <div class="slds-form-element" class:slds-has-error={term.hasEndDateError}>
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr>
+                                                End date:
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input type="date" value={term.endDate} data-field="endDate"
+                                                    data-term-id={term.id} onchange={handleDateChange}
+                                                    variant="label-hidden" class="slds-inline"
+                                                    class:slds-has-error={term.hasEndDateError}>
+                                                </lightning-input>
+                                            </div>
+                                            <!-- Error message for end date -->
+                                            <template if:true={term.hasEndDateError}>
+                                                <div class="slds-form-element__help slds-text-color_error">
+                                                    End date is required
+                                                </div>
+                                            </template>
+                                            <!-- NEW: Auto-calculation indicator -->
+                                            <template if:true={term.startDate}>
+                                                <template if:true={term.termDuration}>
+                                                    <div
+                                                        class="slds-text-body_small slds-text-color_weak slds-var-m-top_xx-small">
+                                                        <lightning-icon icon-name="utility:automate" size="xx-small"
+                                                            class="slds-m-right_xx-small"></lightning-icon>
+                                                        Auto-calculated from start date + duration
+                                                    </div>
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <!-- Add activity button moved here -->
+                                    <div class="slds-col slds-p-left_small" style="width: 50%; align-self: flex-end;">
+                                        <lightning-button label="Add activity" variant="brand"
+                                            onclick={openAddActivityModal} data-term-id={term.id}
+                                            class="slds-m-right_small">
+                                        </lightning-button>
+
+                                        <!-- Save button only shows when dirty -->
+                                        <template if:true={term.isDirty}>
+                                            <lightning-button label="Save" variant="brand" onclick={saveTermChanges}
+                                                data-term-id={term.id} class="slds-m-right_x-medium">
+                                            </lightning-button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activities Table (shown when expanded) -->
+                        <div class="slds-p-around_small" if:true={term.isExpanded}>
+                            <lightning-datatable key-field="id" data={term.activitiesFormatted} columns={columns}
+                                hide-checkbox-column max-row-selection="1" onrowaction={handleRowAction}
+                                show-row-number-column>
+                            </lightning-datatable>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </div>
+
+        <!-- Loading spinner -->
+        <template if:true={isLoading}>
+            <div class="slds-is-relative">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Saving spinner -->
+        <template if:true={isSaving}>
+            <div class="slds-is-relative">
+                <lightning-spinner alternative-text="Saving" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- UPDATED: Modal Popup for Adding/Editing Activity with configuration hints -->
+        <!-- UPDATED: Modal Popup for Adding/Editing Activity with term boundary information -->
+        <c-modal-popup-utility-component modal-size="medium" if:true={isModalOpen} onclosepopup={handleCloseModal}>
+            <div slot="header">
+                <h2>{modalTitle}</h2>
+                <!-- NEW: Configuration context in modal -->
+                <template if:true={showConfigurationBanner}>
+                    <div class="slds-var-m-top_x-small">
+                        <span class="slds-text-body_small slds-text-color_weak">
+                            Configuration: {configurationModeText}
+                        </span>
+                    </div>
+                </template>
+            </div>
+
+            <div>
+                <!-- NEW: Term Boundary Information -->
+                <template if:true={selectedTermForActivity}>
+                    <div class="slds-box slds-box_xx-small slds-theme_info slds-var-m-bottom_medium">
+                        <div class="slds-text-heading_small slds-var-m-bottom_x-small">
+                            <lightning-icon icon-name="utility:info" size="xx-small"
+                                class="slds-m-right_xx-small"></lightning-icon>
+                            Term Boundaries: {selectedTermForActivity.name}
+                        </div>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-text-body_small">
+                                    <strong>Duration:</strong> {selectedTermForActivity.termDuration} weeks
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-text-body_small">
+                                    <strong>Start:</strong> {selectedTermForActivity.startDateFormatted}
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-text-body_small">
+                                    <strong>End:</strong> {selectedTermForActivity.endDateFormatted}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-text-body_small slds-text-color_weak slds-var-m-top_x-small">
+                            Activity dates must fall within these term boundaries
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Type of Activity (Picklist) -->
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox label="Type of Activity" value={newActivity.typeOfActivity}
+                            options={typeOfActivityOptions} onchange={handleInputChange} data-field="typeOfActivity"
+                            required>
+                        </lightning-combobox>
+                    </div>
+                </div>
+
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox label="Duration Type" value={newActivity.durationType}
+                            options={durationTypeOptions} onchange={handleInputChange} data-field="durationType">
+                        </lightning-combobox>
+                    </div>
+
+                    <!-- Duration -->
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input label="Duration" type="number" value={newActivity.numberOfWeeks}
+                            onchange={handleInputChange} min="0" data-field="numberOfWeeks">
+                        </lightning-input>
+                        <!-- NEW: Duration validation hint -->
+                        <template if:true={selectedTermForActivity.termDuration}>
+                            <div class="slds-text-body_small slds-text-color_weak slds-var-m-top_xx-small">
+                                <lightning-icon icon-name="utility:warning" size="xx-small"
+                                    class="slds-m-right_xx-small"></lightning-icon>
+                                Maximum: {selectedTermForActivity.termDuration} weeks (term duration)
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="slds-grid slds-gutters">
+                    <!-- Start Date -->
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input label="Start Date" type="date" value={newActivity.startDate}
+                            onchange={handleInputChange} data-field="startDate" required
+                            min={selectedTermForActivity.startDate} max={selectedTermForActivity.endDate}>
+                        </lightning-input>
+                        <!-- NEW: Start date validation hint -->
+                        <template if:true={selectedTermForActivity.startDate}>
+                            <div class="slds-text-body_small slds-text-color_weak slds-var-m-top_xx-small">
+                                <lightning-icon icon-name="utility:date_input" size="xx-small"
+                                    class="slds-m-right_xx-small"></lightning-icon>
+                                Earliest: {selectedTermForActivity.startDateFormatted}
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- End Date -->
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input label="End Date" type="date" value={newActivity.endDate}
+                            onchange={handleInputChange} data-field="endDate" required
+                            min={selectedTermForActivity.startDate} max={selectedTermForActivity.endDate}>
+                        </lightning-input>
+                        <!-- NEW: End date validation hint -->
+                        <template if:true={selectedTermForActivity.endDate}>
+                            <div class="slds-text-body_small slds-text-color_weak slds-var-m-top_xx-small">
+                                <lightning-icon icon-name="utility:date_input" size="xx-small"
+                                    class="slds-m-right_xx-small"></lightning-icon>
+                                Latest: {selectedTermForActivity.endDateFormatted}
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- NEW: Real-time validation feedback -->
+                <template if:true={activityValidationMessage}>
+                    <div class="slds-notify slds-notify_alert slds-alert_warning slds-var-m-top_small" role="alert">
+                        <span class="slds-assistive-text">Warning</span>
+                        <lightning-icon icon-name="utility:warning" size="small" class="slds-m-right_x-small"
+                            alternative-text="Warning"></lightning-icon>
+                        <h2>{activityValidationMessage}</h2>
+                    </div>
+                </template>
+
+                <!-- NEW: Working days calculation hint -->
+                <template if:true={workingDays}>
+                    <div class="slds-var-m-top_small">
+                        <div class="slds-text-body_small slds-text-color_weak">
+                            <lightning-icon icon-name="utility:info" size="xx-small"
+                                class="slds-m-right_xx-small"></lightning-icon>
+                            <strong>Working Days:</strong> {workingDays}
+                            <br />
+                            <em>Date calculations are based on the configured working days</em>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Description -->
+                <lightning-textarea label="Description" value={newActivity.description} onchange={handleInputChange}
+                    data-field="description">
+                </lightning-textarea>
+            </div>
+
+            <div slot="footer">
+                <lightning-button label="Cancel" variant="neutral" class="slds-var-m-right_small"
+                    onclick={handleCloseModal}></lightning-button>
+                <lightning-button label="Save" variant="brand" onclick={saveNewActivity}
+                    disabled={isSaving}></lightning-button>
+            </div>
+        </c-modal-popup-utility-component>
+    </lightning-card>
+
+    <!-- Bottom Navigation -->
+    <div class="slds-grid slds-gutters slds-m-top_medium">
+        <div class="slds-col slds-size_1-of-4">
+            <button class="slds-button slds-button_neutral" onclick={handleCancel}>Cancel</button>
+        </div>
+        <div class="slds-col slds-size_3-of-4 slds-text-align_right">
+            <lightning-button label="Previous" onclick={goToPrevious}></lightning-button>
+            <lightning-button label="Next" onclick={goToNext}></lightning-button>
+        </div>
+    </div>
+</template>

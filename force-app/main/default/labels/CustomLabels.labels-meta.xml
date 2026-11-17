@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Admin_Email_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Admin Email Id</shortDescription>
+        <value>leoprabhu650@gmail.com</value>
+    </labels>
+    <labels>
+        <fullName>Area_Head_Email_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Area Head Email Id</shortDescription>
+        <value>shruthi.mg11@outlook.com</value>
+    </labels>
+    <labels>
+        <fullName>AttendanceModuleScope</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AttendanceModuleScope</shortDescription>
+        <value>api://dd91f360-1cc6-4ca5-9369-839697990742/.default</value>
+    </labels>
+    <labels>
+        <fullName>AttendanceModuleToken</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AttendanceModuleToken</shortDescription>
+        <value>https://login.microsoftonline.com/e90d3714-1808-4500-aed7-09b908b88bb1/oauth2/v2.0/token</value>
+    </labels>
+    <labels>
+        <fullName>AttendanceModuleclientID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AttendanceModuleclientID</shortDescription>
+        <value>dd91f360-1cc6-4ca5-9369-839697990742</value>
+    </labels>
+    <labels>
+        <fullName>AttendanceModuleclientKey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AttendanceModuleclientKey</shortDescription>
+        <value>F.sZoj~z-DqLcMxxNxVt~880MUg7Jo45lC</value>
+    </labels>
+    <labels>
+        <fullName>LMS_Sync_API_Url</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LMS_Sync_API_Url</shortDescription>
+        <value>http://20.204.149.244:4000/sf/produceEvent</value>
+    </labels>
+    <labels>
+        <fullName>LMS_Sync_Org_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LMS_Sync_Org_Id</shortDescription>
+        <value>aims-prod</value>
+    </labels>
+    <labels>
+        <fullName>Manager_Email_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manager Email Id</shortDescription>
+        <value>rajendra@ken42.com</value>
+    </labels>
+    <labels>
+        <fullName>Program_Office_Email_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Program Office Email Id</shortDescription>
+        <value>vamsi.krishna@ken42.com</value>
+    </labels>
+    <labels>
+        <fullName>SES_From_Address</fullName>
+        <categories>Amazon SES</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sender of student OTP emails sent via Amazon SES (must be verified in SES)</shortDescription>
+        <value>Dayananda Sagar University &lt;noreply@thekenverse.com&gt;</value>
+    </labels>
+    <labels>
+        <fullName>otpSmsTemplate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>otpSmsTemplate</shortDescription>
+        <value>{0} is your One Time Password(OTP) for application portal login. This OTP is valid till 10 minutes.</value>
+    </labels>
+</CustomLabels>

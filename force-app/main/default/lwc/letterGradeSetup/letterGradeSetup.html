@@ -1,0 +1,116 @@
+<template>
+	<lightning-card icon-name="custom:custom19" title="Letter Grade Setting" >
+		<div class="tooltip slds-text-align_right " display="flex">
+            <lightning-icon  size="x-small"></lightning-icon>
+            <span class="tooltiptext">Additional information about this component.</span>
+        </div>
+		<template if:true={isLoading}>
+			<lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+		</template>
+		
+		<div class="button " display="flex">
+			<div class="slds-col slds-size_1-of-6">
+				<lightning-input
+					label="Grade Setting Name"
+					value={letterGradeSetting.name}
+					onchange={handleSettingNameChange}
+					required
+					class="slds-p-right_small"
+					disabled={showEditButton}
+				></lightning-input>
+			</div>
+
+			<div class="slds-col slds-size_1-of-6">
+				<lightning-combobox
+					label="Grading Type"
+					value={letterGradeSetting.recordType}
+					options={gradingTypeOptions}
+					onchange={handleTypeChange}
+					required
+					class="slds-p-right_small"
+					disabled={showEditButton}
+				></lightning-combobox>
+			</div>
+
+			<div class="slds-col slds-size_1-of-6">
+				<lightning-combobox
+					label="Mechanism"
+					value={letterGradeSetting.mechanism}
+					options={mechanismOptions}
+					onchange={handleMechanismChange}
+					required
+					class="slds-p-right_small"
+					disabled={showEditButton}
+				></lightning-combobox>
+			</div>
+
+			<div class="slds-col slds-size_1-of-6 slds-text-align_center activeCheckbox">
+				<lightning-input
+					label="Active"
+					type="checkbox"
+					checked={letterGradeSetting.isActive}
+					onchange={handleActiveChange}
+					class="slds-p-right_small"
+					disabled={showEditButton}
+				></lightning-input>
+			</div>
+
+			<div class="slds-col slds-size_1-of-10 slds-text-align_right slds-m-top_medium">
+				<lightning-button
+					if:false={showEditButton}
+					variant="cancel"
+					label="Cancel"
+					icon-name="utility:close"
+					onclick={handleCancel}
+					class="slds-m-left_medium slds-button_icon slds-button_icon-container slds-button_icon_xx-small"
+					title="Cancel"
+				></lightning-button>
+				<lightning-button
+					if:true={showEditButton}
+					variant="brand"
+					label="Edit"
+					icon-name="utility:edit"
+					onclick={handleEditButton}
+					class="slds-m-left_medium"
+				></lightning-button>
+				<lightning-button
+					if:false={showEditButton}
+					variant="cancel"
+					label="Add Row"
+					icon-name="utility:add"
+					onclick={handleAddRow}
+					class="slds-m-left_medium slds-button_icon slds-button_icon-container slds-button_icon_xx-small"
+					title="Add row"
+				></lightning-button>
+				<lightning-button
+					if:false={showEditButton}
+					variant="brand"
+					label="Save"
+					icon-name="utility:save"
+					onclick={handleSaveData}
+					class="slds-m-left_medium"
+				></lightning-button>
+			</div>
+			
+		</div>
+		<div class="slds-p-around_medium slds-grid slds-wrap">
+			<div class="slds-col slds-size_1-of-1 slds-m-top_medium">
+				<c-custom-letter-grade-datatable
+				key-field="Id"
+				data={letterGradeSetting.gradeRanges}
+				columns={columns}
+				hide-checkbox-column="true"
+				suppress-bottom-bar="true"
+				onsort={handleSort}
+				sorted-by={sortedBy}
+				sorted-direction={sortedDirection}
+				onrowaction={handleRowAction}
+				oncellchange={handleCellChange}
+				errors={validationError}
+				class="slds-table_custom "
+				></c-custom-letter-grade-datatable>
+
+			</div>
+		</div>
+	</lightning-card>
+</template>

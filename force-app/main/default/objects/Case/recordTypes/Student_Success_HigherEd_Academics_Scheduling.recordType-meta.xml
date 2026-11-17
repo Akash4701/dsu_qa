@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Student_Success_HigherEd_Academics_Scheduling</fullName>
+    <active>true</active>
+    <businessProcess>Academic Advising</businessProcess>
+    <description>Case Record Type tied to the Academic Advisee and related records</description>
+    <label>Academics</label>
+    <picklistValues>
+        <picklist>Escalation_Level__c</picklist>
+        <values>
+            <fullName>Level_1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Level_2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Reassigned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resolved</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Origin</picklist>
+        <values>
+            <fullName>Academic Term Enrollment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Learner Program Enrollment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Priority</picklist>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reason</picklist>
+        <values>
+            <fullName>New Academic Term Enrollment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Program Enrollment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>Advisee Record</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Question</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>hed__Category__c</picklist>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>School Code of Conduct</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>School Violation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>State Offense</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>hed__Location__c</picklist>
+        <values>
+            <fullName>Off Campus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On Campus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

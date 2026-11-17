@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_Weekly_Workdays__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF ( INCLUDES ( Term_Weekly_BreakDays__c , &quot;Monday&quot; ), null,&quot;Monday; &quot;) &amp;
+IF ( INCLUDES ( Term_Weekly_BreakDays__c , &quot;Tuesday&quot; ), null,&quot;Tuesday; &quot;) &amp;
+IF ( INCLUDES ( Term_Weekly_BreakDays__c , &quot;Wednesday&quot; ), null,&quot;Wednesday; &quot;) &amp;
+IF ( INCLUDES ( Term_Weekly_BreakDays__c , &quot;Thursday&quot; ), null,&quot;Thursday; &quot;) &amp;
+IF ( INCLUDES ( Term_Weekly_BreakDays__c , &quot;Friday&quot; ), null,&quot;Friday; &quot;) &amp;
+IF ( INCLUDES ( Term_Weekly_BreakDays__c , &quot;Saturday&quot; ), null,&quot;Saturday; &quot;) &amp;
+IF ( INCLUDES ( Term_Weekly_BreakDays__c , &quot;Sunday&quot; ), null,&quot;Sunday; &quot;)</formula>
+    <label>Term Weekly Workdays</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

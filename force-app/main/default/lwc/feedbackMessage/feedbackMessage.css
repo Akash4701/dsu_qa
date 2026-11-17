@@ -1,0 +1,6 @@
+@import 'c/feedbackHomeStyles';
+
+.badge { display: inline-flex; align-items: center; justify-content: center; width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--fh-brand-soft); margin-bottom: 1rem; }
+.badge_error { background: var(--fh-error-soft); }
+.title { margin-bottom: 0.25rem; }
+.text { max-width: 28rem; margin: 0 auto 1rem; }

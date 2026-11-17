@@ -1,0 +1,237 @@
+<template>
+    <lightning-quick-action-panel header="Import Questions">
+
+        <!-- Holds the temporary link used to download CSV files -->
+        <div class="download-container"></div>
+
+        <!-- ===== Done ===== -->
+        <template lwc:if={isDoneStep}>
+            <div class="slds-text-align_center slds-p-vertical_x-large">
+                <lightning-icon icon-name="utility:success" variant="success" size="large" alternative-text="Success">
+                </lightning-icon>
+                <h2 class="slds-text-heading_medium slds-m-top_small">Import complete</h2>
+                <p class="slds-text-color_weak slds-m-top_x-small">{doneMessage}</p>
+            </div>
+        </template>
+
+        <template lwc:else>
+
+            <!-- ===== Intro ===== -->
+            <p class="slds-m-bottom_small">
+                Add many questions to this questionnaire at once from a CSV file.
+            </p>
+            <ol class="slds-list_ordered slds-m-left_large slds-m-bottom_medium">
+                <li>Download the template and fill in one question per row.</li>
+                <li>Choose your file.</li>
+                <li>Check the questions below, then import.</li>
+            </ol>
+
+            <div class="slds-grid slds-grid_vertical-align-center slds-wrap slds-m-bottom_medium">
+                <lightning-button label="Download template" icon-name="utility:download" onclick={downloadTemplate}>
+                </lightning-button>
+                <span class="slds-text-color_weak slds-m-left_small">
+                    Question Label and Question Type are required.
+                </span>
+            </div>
+
+            <!-- ===== Rules (collapsed) ===== -->
+            <div class="slds-m-bottom_medium slds-box slds-theme_default">
+                <div class="slds-text-heading_small slds-m-bottom_small">
+                    <strong>Before you import</strong>
+                </div>
+
+                <ul class="slds-list_dotted slds-m-left_large">
+                    <li class="slds-m-bottom_x-small">
+                        <strong>Allowed Question Types:</strong>
+                        Graded, Yes/No, Comment, Multiple Choice, Rating, Dropdown and Likert Scale. Multiple Choice, Dropdown and Likert Scale need their choices in Answers, separated by semicolons.
+                    </li>
+
+                    <li class="slds-m-bottom_x-small">
+                        <strong>Yes/No questions must use the "Comment" type.</strong>
+                        Other types may stop responses from showing or being recorded correctly.
+                    </li>
+
+                    <li class="slds-m-bottom_x-small">
+                        <strong>Data is imported as written.</strong>
+                        Your values are saved exactly as they appear in the file. Nothing is corrected for you.
+                    </li>
+
+                    <li class="slds-m-bottom_x-small">
+                        <strong>Check the questionnaire.</strong>
+                        Questions are added to the questionnaire you opened this from.
+                    </li>
+
+                    <li class="slds-m-bottom_x-small">
+                        <strong>Up to {maxRowsLabel} questions per file.</strong>
+                        Importing the same file twice creates duplicate questions.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- ===== Choose file ===== -->
+            <lightning-input data-id="file" type="file" label="CSV file" accept=".csv" onchange={handleFileChange}>
+            </lightning-input>
+
+            <template lwc:if={hasFile}>
+                <div class="slds-box slds-box_xx-small slds-m-top_small slds-grid slds-grid_vertical-align-center">
+                    <lightning-icon icon-name="doctype:csv" size="small" alternative-text="CSV file">
+                    </lightning-icon>
+                    <div class="slds-col slds-m-left_small slds-truncate">
+                        <span class="slds-text-title_bold">{fileName}</span>
+                        <span class="slds-text-color_weak slds-m-left_x-small">{fileSizeLabel}</span>
+                    </div>
+                    <lightning-button-icon icon-name="utility:close" variant="bare" alternative-text="Remove file"
+                        title="Remove file" onclick={removeFile}>
+                    </lightning-button-icon>
+                </div>
+            </template>
+
+            <!-- File-level problem -->
+            <template lwc:if={hasFileError}>
+                <div class="slds-notify slds-notify_alert slds-alert_error slds-m-top_small" role="alert">
+                    <lightning-icon icon-name="utility:error" variant="inverse" size="x-small" alternative-text="Error"
+                        class="slds-m-right_x-small">
+                    </lightning-icon>
+                    <span>{fileError}</span>
+                </div>
+            </template>
+
+            <!-- ===== Review ===== -->
+            <template lwc:if={isReviewStep}>
+                <div class="slds-m-top_medium">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-wrap">
+                        <h3 class="slds-text-heading_small slds-m-right_small">Review</h3>
+                        <template lwc:if={validCount}>
+                            <span class="slds-badge slds-theme_success slds-m-right_x-small">{readyLabel}</span>
+                        </template>
+                        <template lwc:if={hasErrorRows}>
+                            <span class="slds-badge slds-theme_error">{errorSummaryLabel}</span>
+                        </template>
+                    </div>
+
+                    <!-- Rows with problems: nothing is imported until these are fixed -->
+                    <template lwc:if={hasErrorRows}>
+                        <p class="slds-m-top_small slds-m-bottom_small">
+                            Nothing is imported until every row is valid. Fix these rows in your file and choose it
+                            again.
+                        </p>
+                        <div class="scroll-box slds-border_top slds-border_bottom">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                                <caption class="slds-assistive-text">Rows that need fixing</caption>
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col" class="row-col">
+                                            <div class="slds-truncate">Row</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate">Problem</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={errorRowsShown} for:item="row">
+                                        <tr key={row.key}>
+                                            <td class="row-col">{row.rowNumber}</td>
+                                            <td class="wrap-cell">{row.problems}</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                        <template lwc:if={hasHiddenErrors}>
+                            <p class="slds-text-color_weak slds-m-top_x-small">
+                                …and {hiddenErrorCount} more. Download the list to see them all.
+                            </p>
+                        </template>
+                        <lightning-button class="slds-m-top_small slds-show" label="Download rows to fix"
+                            icon-name="utility:download" onclick={downloadFailed}>
+                        </lightning-button>
+                    </template>
+
+                    <!-- All rows valid: preview -->
+                    <template lwc:else>
+                        <p class="slds-m-top_small slds-m-bottom_small">
+                            Everything looks good. These questions will be added to this questionnaire.
+                        </p>
+                        <div class="scroll-box slds-border_top slds-border_bottom">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                <caption class="slds-assistive-text">Questions to import</caption>
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col">
+                                            <div class="slds-truncate">Row</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate">Question</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate">Type</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate">Section</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate">Order</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate">Active</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate">Mandatory</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={previewRows} for:item="row">
+                                        <tr key={row.key}>
+                                            <td>{row.rowNumber}</td>
+                                            <td class="wrap-cell">{row.label}</td>
+                                            <td>{row.type}</td>
+                                            <td>{row.section}</td>
+                                            <td>{row.order}</td>
+                                            <td>{row.active}</td>
+                                            <td>{row.mandatory}</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                        <template lwc:if={previewNote}>
+                            <p class="slds-text-color_weak slds-m-top_x-small">{previewNote}</p>
+                        </template>
+                    </template>
+                </div>
+            </template>
+
+            <!-- Problem from the save itself -->
+            <template lwc:if={hasSaveError}>
+                <div class="slds-notify slds-notify_alert slds-alert_error slds-m-top_medium" role="alert">
+                    <lightning-icon icon-name="utility:error" variant="inverse" size="x-small" alternative-text="Error"
+                        class="slds-m-right_x-small">
+                    </lightning-icon>
+                    <span>{saveError}</span>
+                </div>
+            </template>
+
+        </template>
+
+        <template lwc:if={isLoading}>
+            <lightning-spinner alternative-text="Importing questions" size="medium"></lightning-spinner>
+        </template>
+
+        <!-- ===== Footer ===== -->
+        <div slot="footer">
+            <template lwc:if={isDoneStep}>
+                <lightning-button variant="brand" label="Done" onclick={closeAction}></lightning-button>
+            </template>
+            <template lwc:else>
+                <lightning-button label="Cancel" onclick={closeAction} class="slds-m-right_x-small"></lightning-button>
+                <lightning-button variant="brand" label={importLabel} icon-name="utility:upload" onclick={handleImport}
+                    disabled={importDisabled}>
+                </lightning-button>
+            </template>
+        </div>
+
+    </lightning-quick-action-panel>
+</template>

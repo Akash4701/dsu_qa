@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Notes__c</fullName>
+    <description>Used to hold notes for this pathway that can be displayed to the student at enrollment time</description>
+    <inlineHelpText>Used to hold notes for this pathway that can be displayed to the student at enrollment time</inlineHelpText>
+    <label>Notes</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

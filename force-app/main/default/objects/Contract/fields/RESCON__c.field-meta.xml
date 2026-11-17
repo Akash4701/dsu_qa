@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RESCON__c</fullName>
+    <description>This field records the reason for the end of the contract</description>
+    <label>RESCON</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Continued employment, new HESA contract record generated</fullName>
+                <default>false</default>
+                <label>Continued employment, new HESA contract record generated</label>
+            </value>
+            <value>
+                <fullName>Atypical contract issued</fullName>
+                <default>false</default>
+                <label>Atypical contract issued</label>
+            </value>
+            <value>
+                <fullName>End of fixed-term contract</fullName>
+                <default>false</default>
+                <label>End of fixed-term contract</label>
+            </value>
+            <value>
+                <fullName>Voluntary redundancy</fullName>
+                <default>false</default>
+                <label>Voluntary redundancy</label>
+            </value>
+            <value>
+                <fullName>Other redundancy</fullName>
+                <default>false</default>
+                <label>Other redundancy</label>
+            </value>
+            <value>
+                <fullName>Resignation</fullName>
+                <default>false</default>
+                <label>Resignation</label>
+            </value>
+            <value>
+                <fullName>Retirement (excluding ill-health)</fullName>
+                <default>false</default>
+                <label>Retirement (excluding ill-health)</label>
+            </value>
+            <value>
+                <fullName>Death</fullName>
+                <default>false</default>
+                <label>Death</label>
+            </value>
+            <value>
+                <fullName>Other (includes dismissal and ill-health)</fullName>
+                <default>false</default>
+                <label>Other (includes dismissal and ill-health)</label>
+            </value>
+            <value>
+                <fullName>Non Academic contract issued</fullName>
+                <default>false</default>
+                <label>Non Academic contract issued</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

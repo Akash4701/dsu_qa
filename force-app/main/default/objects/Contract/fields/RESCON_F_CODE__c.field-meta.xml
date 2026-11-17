@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RESCON_F_CODE__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE( RESCON__c , 
+	&quot;Continued employment, new HESA contract record generated&quot;, &apos;1&apos;,
+	&quot;Atypical contract issued&quot;, &apos;2&apos;,
+	&quot;End of fixed-term contract&quot;, &apos;3&apos;,
+	&quot;Voluntary redundancy&quot;, &apos;4&apos;,
+	&quot;Other redundancy&quot;, &apos;5&apos;,
+	&quot;Resignation&quot;, &apos;6&apos;,
+	&quot;Retirement (excluding ill-health)&quot;, &apos;7&apos;,
+	&quot;Death&quot;, &apos;8&apos;,
+	&quot;Other (includes dismissal and ill-health)&quot;, &apos;9&apos;,
+	&quot;Non Academic contract issued&quot;, &apos;10&apos;,
+null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>RESCON CODE</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

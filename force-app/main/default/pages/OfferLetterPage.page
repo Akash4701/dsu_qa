@@ -1,0 +1,250 @@
+<apex:page standardController="hed__Affiliation__c" extensions="OfferLetterController" renderAs="pdf" applyBodyTag="false" showHeader="false" sidebar="false" standardStylesheets="false" applyHtmlTag="false">
+    <html>
+        <head>
+            <style type="text/css">
+                @page {
+                    size: letter;
+                    margin: 1cm;
+                    margin-top: 3cm;  /* Increased for header */
+                    margin-bottom: 3cm;  /* Increased for footer */
+                    
+                    @top-center {
+                        content: element(header);
+                    }
+                    
+                    @bottom-center {
+                        content: element(footer);
+                    }
+                }
+                
+               body {
+                  font-family: "Times New Roman", Times, serif;
+                  font-size: 17px;
+                  line-height: 1.5;
+}
+
+                .header {
+                    position: running(header);
+                    width: 100%;
+                }
+                
+                .footer {
+                    position: running(footer);
+                    width: 100%;
+                }
+                
+                .page-number {
+                    text-align: center;
+                    font-size: 10px;
+                    margin-top: 5px;
+                }
+                
+                .app-details {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 20px;
+                }
+                
+                .section-title {
+                    font-size: 17px;
+                    font-weight: bold;
+                    text-decoration: underline;
+                    margin-top: 20px;
+                    margin-bottom: 10px;
+                }
+                
+                .address-block {
+                    margin-bottom: 20px;
+                }
+                
+                .subject-line {
+                    text-align: center;
+                    font-weight: bold;
+                    margin: 20px 0;
+                    text-decoration: underline;
+                }
+                  .subject-linne {
+                    text-align: center;
+                    font-weight: bold;
+                    margin: 20px 0;
+                   
+                }
+                
+                .details-list {
+                    list-style-type: none;
+                    padding-left: 20px;
+                }
+                
+                .details-list li {
+                    margin-bottom: 5px;
+                }
+                
+                .requirements-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 20px 0;
+                }
+                
+                .requirements-table td, .requirements-table th {
+                    border: 1px solid #000;
+                    padding: 8px;
+                }
+                
+                .signature-block {
+                    margin-top: 50px;
+                    margin-bottom: 30px;
+                }
+                
+                .bold {
+                    font-weight: bold;
+                }
+                
+                .content {
+                    margin-top: 10px;
+                }
+            </style>
+        </head>
+        <body>
+            <!-- Header with position:running -->
+           <div class="header" style="text-align: center;">
+    <apex:image url="{!$Resource.DSUOfferLetterHeader}" width="300%"/>
+</div>
+
+            
+            <!-- Footer with position:running -->
+            <div class="footer" style="text-align: center;">
+                <apex:image url="{!$Resource.DSUOfferLetterFooter}" width="320%"/>
+               <!-- <div class="page-number">Page <span class="pagenumber"/> of <span class="pagecount"/></div> -->
+            </div>
+            <br/><br/><br/><br/>
+            <!-- Main Content -->
+            <div class="content">
+                
+                <!-- Application Details -->
+               <table style="width: 100%; margin-bottom: 20px;">
+    <tr>
+        <td style="text-align: left; font-weight: bold;">
+            Application No: {!hed__Affiliation__c.Individual_Application__r.External_Application_Number__c}
+        </td>
+        <td style="text-align: right; font-weight: bold;">
+            Date:
+            <apex:outputText value="{0,date,dd/MM/yyyy}">
+                <apex:param value="{!TODAY()}" />
+            </apex:outputText>
+        </td>
+    </tr>
+</table>
+ 
+
+                
+
+                
+                <!-- Address Block -->
+                <div class="address-block">
+                    <div class="bold">To,</div>
+                    <div>{!hed__Affiliation__c.hed__Contact__r.Name}</div>
+                    <div>{!hed__Affiliation__c.hed__Contact__r.MailingCity}</div>
+                    <div>{!hed__Affiliation__c.hed__Contact__r.MailingState	}</div>
+                    <div>Email: {!hed__Affiliation__c.hed__Contact__r.Email}</div>
+                    <div>Mobile: {!hed__Affiliation__c.hed__Contact__r.Contact_Phone__c}</div>
+                </div>
+                
+                <!-- Subject Line -->
+                <div class="subject-line">Subject: Letter of Admission</div>
+                
+                <!-- Salutation -->
+                <div class="bold">Dear {!hed__Affiliation__c.hed__Contact__r.Name},</div>
+                
+                <!-- Congratulatory Message -->
+                <p>
+                    Congratulations! Your admission is approved for the Online <b>{!hed__Affiliation__c.hed__Account__r.Name}-{!hed__Affiliation__c.hed__Account__r.Course_duration__c}</b>
+                    Program offered by the Centre for Distance and Online Education (CDOE), Dayananda Sagar University for 
+                    the academic session {!formattedSession}.
+                </p>
+                
+                <!-- Admission Details -->
+                <div class="section-title">Your Admissions details:</div>
+                <ul class="details-list">
+                    <li>▪ USN: {!hed__Affiliation__c.Roll_Number__c}</li>
+                    <li>▪ Program: {!hed__Affiliation__c.hed__Account__r.Name}-{!hed__Affiliation__c.hed__Account__r.Course_duration__c}</li>
+                    <li>▪ Academic Session: {!formattedSession} </li>
+                    <li>▪ Semester 1</li>
+                    <li>▪ University Email Login URL:  https://outlook.office365.com/</li>
+                    <li>▪ University Email ID:{!hed__Affiliation__c.DSU_Email__c} </li>
+                    <li>▪ University Email ID Password: {!userCredentials}</li>
+                </ul>
+                  <br/><br/><br/><br/>
+                <!-- Student Portal Instructions -->
+                <p>
+                    To commence the learning activity, login to the University Student Portal with the credentials given by :
+                </p>
+               
+                
+                <ul class="details-list">
+                    <li>▪ Student Portal Url: https://student.dsuonline.com</li>
+                    <li>▪ Student Portal Login ID: {!hed__Affiliation__c.DSU_Email__c} </li>
+                    <li>▪ Student Portal Login password: Use the OTP sent to your University Email ID </li>
+                </ul>
+                
+                <p>
+                    Login to your student portal to access the following documents:
+                </p>
+                <ul class="details-list">
+                    <li>▪ Program Guideline</li>
+                    <li>▪ Online Program Code of Conduct</li>
+                </ul>
+                
+                <p>You can do your Learning 24X7 on Desktops/ Laptops/ Tablets/ Mobile.</p>
+                <p>The Semester End Examinations will be a Online Remote Proctored Examination.</p>
+                <p>For Examinations, it is mandatory to use Desktops/ Laptops only.
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                </p>
+                <br/><br/><br/><br/>  <br/><br/><br/><br/>  <br/><br/><br/><br/><br/><br/>
+                <!-- Hardware Requirements -->
+                <div class="section-title">Minimum Hardware &amp; Software requirements – for Online Learning</div>
+                <table class="requirements-table">
+                    <tr>
+                        <td>Device</td>
+                        <td>Desktop / Laptop / Smartphone/ Tablet<br/>Mandatory for Online Exams</td>
+                    </tr>
+                    <tr>
+                        <td>Internet Connection</td>
+                        <td>5 Mbps</td>
+                    </tr>
+                    <tr>
+                        <td>Operating System</td>
+                        <td>Windows 10 and 11<br/>Mac OS 11.0<br/>Android OS 10</td>
+                    </tr>
+                    <tr>
+                        <td>Storage</td>
+                        <td>8 GB RAM ; 500 GB Hard Disk</td>
+                    </tr>
+                    <tr>
+                        <td>Internet Browser</td>
+                        <td>Latest version of Chrome/ Firefox/ Safari</td>
+                    </tr>
+                </table>
+                
+                <!-- Support Information -->
+                <p>For any kind of support write to helpdesk@dsuonline.com, or call 9880148004.</p>
+                <p>Wish you all the best for your academic journey.</p>
+                
+                <!-- Signature Block -->
+                <div class="signature-block">
+                    <div>Regards,</div>
+                    <div>Dy.Registrar(Admissions)</div>
+                    <div>CDOE, Dayananda Sagar University</div>
+                    <div>Bangalore, Karnataka, India</div>
+                      <br/>
+                    <div class="subject-linne">**Computer-generated copy signature not required**</div>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

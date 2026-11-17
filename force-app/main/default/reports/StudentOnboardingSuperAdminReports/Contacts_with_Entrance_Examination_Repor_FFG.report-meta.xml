@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Contact.Entrance_Examinations__r$Name_of_Examination__c</field>
+    </columns>
+    <columns>
+        <field>Contact.Entrance_Examinations__r$Year_of_Passing__c</field>
+    </columns>
+    <columns>
+        <field>Contact.Entrance_Examinations__r$Percentile_Obtained__c</field>
+    </columns>
+    <columns>
+        <field>Contact.Entrance_Examinations__r$Rank_Obtained__c</field>
+    </columns>
+    <currency>INR</currency>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Contact$Name</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Entrance Examination Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Contacts_with_Entrance_Examination__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Contact$Birthdate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

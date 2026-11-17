@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mode_of_Study__c</fullName>
+    <label>Mode of Study</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Full-time Face-to-Face</fullName>
+                <default>false</default>
+                <label>Full-time Face-to-Face</label>
+            </value>
+            <value>
+                <fullName>Full-time Online</fullName>
+                <default>false</default>
+                <label>Full-time Online</label>
+            </value>
+            <value>
+                <fullName>Part-time Face-to-Face</fullName>
+                <default>false</default>
+                <label>Part-time Face-to-Face</label>
+            </value>
+            <value>
+                <fullName>Part-time Online</fullName>
+                <default>false</default>
+                <label>Part-time Online</label>
+            </value>
+            <value>
+                <fullName>Study on Campus</fullName>
+                <default>false</default>
+                <label>Study on Campus</label>
+            </value>
+            <value>
+                <fullName>offline</fullName>
+                <default>false</default>
+                <label>offline</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

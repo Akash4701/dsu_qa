@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ExamId__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>ExamId</label>
+    <referenceTo>Exam__c</referenceTo>
+    <relationshipLabel>Course Evaluation Components</relationshipLabel>
+    <relationshipName>Course_Evaluation_Components</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

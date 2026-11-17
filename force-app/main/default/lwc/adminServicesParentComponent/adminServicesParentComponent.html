@@ -1,0 +1,80 @@
+<template>
+    <!-- NEW: Configuration Status Banner -->
+    <template if:true={showConfigurationInfo}>
+        <div class="slds-notify slds-notify_alert slds-alert_info slds-var-m-bottom_medium" role="alert">
+            <span class="slds-assistive-text">Configuration Status</span>
+            <lightning-icon icon-name="utility:settings" size="small" class="slds-m-right_x-small"
+                alternative-text="Configuration"></lightning-icon>
+            <h2>
+                <strong>System Configuration:</strong> {configurationStatus}
+                <br />
+                <small>Institution Type: {institutionType}</small>
+            </h2>
+        </div>
+    </template>
+
+    <lightning-tabset variant="scoped" active-tab-value={activeTab} onactive={handleActiveTab}>
+
+        <!-- UPDATED: Intake Tab with Enhanced Configuration -->
+        <lightning-tab label="Intake" value="intake">
+            <c-intake-screen onnavigate={handleChildNavigation} local-requirement-mode={localRequirementMode}
+                master-requirement-mode={masterRequirementMode} institution-type={institutionType}
+                is-configuration-loaded={isConfigurationLoaded} configuration-label={configurationLabel}>
+            </c-intake-screen>
+        </lightning-tab>
+
+        <!-- UPDATED: Academic Calendar Tab with Enhanced Configuration -->
+        <lightning-tab label="Academic Calender" value="academic">
+            <c-academic-calender-screen onnavigate={handleChildNavigation} is-checkbox-checked={isCheckboxChecked}
+                master-requirement-mode={masterRequirementMode} local-requirement-mode={localRequirementMode}
+                institution-type={institutionType} is-configuration-loaded={isConfigurationLoaded}
+                configuration-label={configurationLabel}>
+            </c-academic-calender-screen>
+        </lightning-tab>
+
+        <!-- UPDATED: Planner Tab with Enhanced Configuration -->
+        <lightning-tab label="Planner" value="planner">
+            <c-academic-planner-screen onnavigate={handleChildNavigation}
+                selected-academic-program={selectedAcademicProgram} selected-program-plan={selectedProgramPlan}
+                working-days={workingDays} is-checkbox-checked={isCheckboxChecked}
+                master-requirement-mode={masterRequirementMode} local-requirement-mode={localRequirementMode}
+                institution-type={institutionType} is-configuration-loaded={isConfigurationLoaded}
+                configuration-label={configurationLabel}>
+            </c-academic-planner-screen>
+        </lightning-tab>
+
+        <!-- Future: TimeTable Tab (kept for reference) -->
+        <!-- <lightning-tab label="TimeTable" value="timetable">
+            <c-time-table-parent-component 
+                onnavigate={handleChildNavigation}
+                master-requirement-mode={masterRequirementMode}
+                local-requirement-mode={localRequirementMode}
+                institution-type={institutionType}
+                is-configuration-loaded={isConfigurationLoaded}>
+            </c-time-table-parent-component>
+        </lightning-tab> -->
+    </lightning-tabset>
+
+    <!-- NEW: Configuration Debug Panel (only shown in development) -->
+    <!-- Remove or comment out this section in production -->
+    <!--
+    <template if:true={showConfigurationInfo}>
+        <div class="slds-var-m-top_medium">
+            <div class="slds-box slds-theme_shade">
+                <h3 class="slds-text-heading_small slds-var-m-bottom_small">Configuration Debug Info</h3>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-3">
+                        <strong>Master Mode:</strong> {masterRequirementMode}
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <strong>Local Mode:</strong> {localRequirementMode}
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <strong>Checkbox:</strong> {isCheckboxChecked}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    -->
+</template>

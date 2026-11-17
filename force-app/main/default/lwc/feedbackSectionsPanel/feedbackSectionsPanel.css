@@ -1,0 +1,5 @@
+@import 'c/feedbackHomeStyles';
+
+.is-loading { opacity: 0.55; transition: opacity 120ms; pointer-events: none; }
+.row_off td { color: var(--fh-text-muted); }
+.warn { margin-left: 0.5rem; }

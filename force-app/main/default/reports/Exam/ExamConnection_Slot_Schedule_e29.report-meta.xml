@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Slot_scheduled__c.Student_ID__c</field>
+    </columns>
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Slot_scheduled__c.Exam_Connection__c</field>
+    </columns>
+    <columns>
+        <field>Slot_scheduled__c.Exam_Slot_Setup__c</field>
+    </columns>
+    <columns>
+        <field>Slot_scheduled__c.Start_Date_Time__c</field>
+    </columns>
+    <columns>
+        <field>Slot_scheduled__c.End_Date_Time__c</field>
+    </columns>
+    <currency>INR</currency>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>FK_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>FK_$Exam__c.Course_Offering__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>ExamConnection Slot Schedule</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Slot_scheduled__c@Slot_scheduled__c.Exam__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Slot_scheduled__c.End_Date_Time__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

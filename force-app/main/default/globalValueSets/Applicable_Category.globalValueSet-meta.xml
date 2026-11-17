@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>All</fullName>
+        <default>false</default>
+        <label>All</label>
+    </customValue>
+    <customValue>
+        <fullName>All - Special</fullName>
+        <default>false</default>
+        <label>All - Special</label>
+    </customValue>
+    <customValue>
+        <fullName>CIS</fullName>
+        <default>false</default>
+        <label>CIS</label>
+    </customValue>
+    <customValue>
+        <fullName>CIS - Special</fullName>
+        <default>false</default>
+        <label>CIS - Special</label>
+    </customValue>
+    <customValue>
+        <fullName>Domestic</fullName>
+        <default>false</default>
+        <label>Domestic</label>
+    </customValue>
+    <customValue>
+        <fullName>Domestic - Special</fullName>
+        <default>false</default>
+        <label>Domestic - Special</label>
+    </customValue>
+    <customValue>
+        <fullName>International</fullName>
+        <default>false</default>
+        <label>International</label>
+    </customValue>
+    <customValue>
+        <fullName>International - Special</fullName>
+        <default>false</default>
+        <label>International - Special</label>
+    </customValue>
+    <masterLabel>Applicable Category</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

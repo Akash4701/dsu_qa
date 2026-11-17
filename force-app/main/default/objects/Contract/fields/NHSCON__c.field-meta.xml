@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NHSCON__c</fullName>
+    <description>This field records the contractual arrangement for clinical staff with the higher education provider (HEP) and the NHS employing body</description>
+    <label>NHSCON</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Higher education provider contract and NHS honorary contract (excluding those with contracts in Nursing and Midwifery purely for the purpose of supervision of placements)</fullName>
+                <default>false</default>
+                <label>Higher education provider contract and NHS honorary contract (excluding those with contracts in Nursing and Midwifery purely for the purpose of supervision of placements)</label>
+            </value>
+            <value>
+                <fullName>Separate higher education provider and NHS contracts</fullName>
+                <default>false</default>
+                <label>Separate higher education provider and NHS contracts</label>
+            </value>
+            <value>
+                <fullName>Joint higher education provider/NHS or primary/community healthcare contracts</fullName>
+                <default>false</default>
+                <label>Joint higher education provider/NHS or primary/community healthcare contracts</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

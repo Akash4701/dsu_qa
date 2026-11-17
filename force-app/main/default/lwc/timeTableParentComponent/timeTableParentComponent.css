@@ -1,0 +1,330 @@
+/* Main container styles */
+.timetable-container {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    display: flex;
+    background-color: #ffffff;
+    height: 100%;
+}
+
+:host {
+    display: block;
+    height: 100vh;
+}
+
+/* Setup section (left column) */
+.setup-section {
+    width: 220px;
+    border-right: 1px solid #e0e0e0;
+    padding: 1rem;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: calc(100vh - 4rem); /* Adjust based on footer height */
+}
+
+.setup-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.setup-form {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+/* Calendar section (right column) */
+.calendar-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+/* Top header with month title and action buttons */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.month-title {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* Calendar navigation */
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.nav-button {
+    background: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+}
+
+/* Updated today button to match the brand/toggle button color */
+.today-button {
+    background-color: #006644; /* Changed from #0070d2 to #006644 to match other buttons */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.35rem 0.75rem;
+    margin: 0 0.25rem;
+    cursor: pointer;
+}
+
+.view-toggle-calendar {
+    display: flex;
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.view-toggle-calendar .day-button,
+.view-toggle-calendar .week-button,
+.view-toggle-calendar .month-button {
+    margin: 0;
+    border-radius: 0;
+}
+
+/* Calendar content */
+.calendar-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+/* Weekday header */
+.weekday-header {
+    display: grid;
+    grid-template-columns: 40px repeat(7, 1fr);
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.wk-label {
+    padding: 0.5rem;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-right: 1px solid #e0e0e0;
+}
+
+.weekday {
+    padding: 0.5rem;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-right: 1px solid #e0e0e0;
+}
+
+.weekday:last-child {
+    border-right: none;
+}
+
+/* Calendar grid */
+.calendar-grid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.week-row {
+    display: grid;
+    grid-template-columns: 40px repeat(7, 1fr);
+    border-bottom: 1px solid #e0e0e0;
+    min-height: 80px;
+}
+
+.week-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f2f2f2;
+    font-size: 0.8rem;
+    color: #666;
+    border-right: 1px solid #e0e0e0;
+}
+
+.day-cell {
+    border-right: 1px solid #e0e0e0;
+    padding: 0.5rem;
+    min-height: 80px;
+    position: relative;
+    cursor: pointer;
+}
+
+.day-cell:last-child {
+    border-right: none;
+}
+
+.day-cell:hover {
+    background-color: #f8f8f8;
+}
+
+.day-number {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.current-month {
+    background-color: #fff;
+}
+
+.other-month {
+    background-color: #f9f9f9;
+    color: #aaa;
+}
+
+.day-add-text {
+    color: #aaa;
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+/* Events */
+.event {
+    margin-top: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    color: white;
+}
+
+.event.default {
+    background-color: #56aadf;
+}
+
+.event.filled {
+    background-color: #4caf50;
+}
+
+.event.not-available {
+    background-color: #f44336;
+}
+
+/* View toggle buttons */
+.view-toggle-buttons {
+    display: flex;
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.view-toggle-buttons .day-button,
+.view-toggle-buttons .week-button,
+.view-toggle-buttons .month-button {
+    margin: 0;
+    border-radius: 0;
+}
+
+/* Form elements */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+}
+
+.checkbox-group {
+    margin-top: 0.5rem;
+}
+
+.subject-code {
+    font-size: 0.8rem;
+    color: #666;
+    margin-left: 1.75rem;
+    margin-bottom: 0.3rem;
+}
+
+.clear-filters-button {
+    margin-top: 0.5rem;
+}
+
+/* Footer buttons styling */
+.footer-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+    width: 100%;
+}
+
+.right-buttons {
+    display: flex;
+    gap: 0.5rem; /* Space between the two right buttons */
+}
+
+.save-button {
+    background-color: #006644;
+    border-color: #006644;
+}
+
+/* Button styling to match the screenshot */
+.faculty-button {
+    background-color: #006644;
+    border-color: #006644;
+}
+
+.download-button {
+    background-color: #006644;
+    border-color: #006644;
+}
+
+/* Loading spinner container */
+.spinner-container {
+    padding: 0.5rem;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .timetable-container {
+        flex-direction: column;
+    }
+    
+    .setup-section {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .header-actions {
+        flex-wrap: wrap;
+    }
+}

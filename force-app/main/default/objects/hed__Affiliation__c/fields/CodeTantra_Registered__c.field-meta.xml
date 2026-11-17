@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CodeTantra_Registered__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Set by the student portal integration once the student (by roll number) has been registered on CodeTantra. When unchecked, the next CodeTantra access from the portal registers the student first.</description>
+    <inlineHelpText>Checked when this student has been registered on CodeTantra.</inlineHelpText>
+    <label>CodeTantra Registered</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

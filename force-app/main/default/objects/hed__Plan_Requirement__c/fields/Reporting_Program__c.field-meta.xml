@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reporting_Program__c</fullName>
+    <description>For a dual qualification, either the &apos;Primary&apos;, &apos;Secondary&apos; or &apos;Both&apos; programs can be selected for reporting</description>
+    <inlineHelpText>For a dual qualification, indicates which Program this Course is incuded in for reporting purposes (i.e. Primary, Secondary or Both)</inlineHelpText>
+    <label>Reporting Program</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Dual_Qualification_Reporting_Program</valueSetName>
+    </valueSet>
+</CustomField>

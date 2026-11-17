@@ -1,0 +1,80 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-25-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+	<div class="slds-col slds-size_1-of-1 slds-text-align_right slds-m-around_small">
+		 <lightning-button
+            variant="brand"
+            label="Preview Chart"
+            icon-name="utility:chart"
+            onclick={handlePreviewChart}
+            class="slds-m-left_medium"
+        
+        ></lightning-button>
+		<lightning-button
+			variant="brand"
+			label="Save"
+			icon-name="utility:save"
+			onclick={handleSaveData}
+			class="slds-m-left_medium"
+		></lightning-button>
+		
+	</div>
+	
+
+	
+	<template if:true={isLoading}>
+		<div class="slds-spinner_container">
+			<div role="status" class="slds-spinner slds-spinner_medium slds-is-relative">
+				<lightning-spinner alternative-text="Loading"></lightning-spinner>
+			</div>
+		</div>
+	</template>
+
+	
+	<template if:false={isLoading}>
+		<div style="max-height: 300px; overflow-y: auto; width:100%">
+			<c-custom-letter-grade-datatable
+				key-field="Id"
+				data={tableData}
+				oncellchange={handleCellChange}
+				hide-checkbox-column
+				show-row-number-column
+				columns={table1Columns}
+				suppress-bottom-bar="true"
+				errors={validationError}
+				onsort={handleSort}
+    			sorted-by={sortedBy}
+    			sorted-direction={sortedDirection}
+			>
+			</c-custom-letter-grade-datatable>
+		</div>
+	</template>
+	<template if:true={showPreviewModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+            
+                    <h2 class="slds-text-heading_medium slds-hyphenate" id="modal-heading-01">Grade Distribution Preview</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+    
+                     <template if:true={previewChartData}>
+                        <c-grade-moderation child-property={previewChartData}></c-grade-moderation>
+                     </template>
+                     <template if:false={previewChartData}>
+                         <p>No valid data available for preview.</p>
+                     </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closePreviewModal}>Close</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
